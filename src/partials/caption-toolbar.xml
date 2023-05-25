@@ -1,4 +1,4 @@
-<ToolBar>
+<CaptionToolBar>
 	<Group width="69%">
 		<Options>
 			<Tool symbol="icon-chevron-left"/>
@@ -6,6 +6,6 @@
 		</Options>
 	</Group>
 	<Group width="31%">
-		<Tool symbol="icon-cogs"/>
+		<Tool symbol="icon-gear"/>
 	</Group>
-</ToolBar>
+</CaptionToolBar>

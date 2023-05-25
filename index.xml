@@ -5,10 +5,10 @@
 		<meta name="author" value="Hakan Bilgin" namespace="ant"/>
 		<meta name="license" value="AGPL-3.0"/>
 		<meta name="repository" value="https://github.com/Defiant-System/kalli"/>
-		<meta name="width" value="800"/>
-		<meta name="height" value="560"/>
+		<meta name="width" value="960"/>
+		<meta name="height" value="680"/>
 		<meta name="top" value="220"/>
-		<meta name="left" value="180"/>
+		<meta name="left" value="140"/>
 		<meta name="minimize"/>
 		<meta name="maximize"/>
 		<meta name="resize"/>
@@ -18,7 +18,7 @@
 		<meta name="content" value="src/partials/content.htm"/>
 		<meta name="xsl" value="src/partials/templates.xsl"/>
 
-		@import "src/partials/toolbar.xml"
+		@import "src/partials/caption-toolbar.xml"
 		@import "src/partials/menubar.xml"
 	</Head>
 </Application>
