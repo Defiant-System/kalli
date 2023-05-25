@@ -1,5 +1,8 @@
 
-background: #2c2c2c;
+@boxBg: #2c2c2c;
+@boxFace: #636363;
+
+background: @boxBg;
 
 
 content {
@@ -57,6 +60,17 @@ content {
 
 					.bg-scrollbar {
 						bottom: 19px;
+
+						&:after {
+							content: "";
+							background: url(~/icons/negative-corner.png) 50% 50%/contain no-repeat;
+							position: absolute;
+							left: 0;
+							bottom: -4px;
+							width: 4px;
+							height: 4px;
+							transform: rotate(180deg);
+						}
 					}
 				}
 			}
@@ -75,6 +89,10 @@ content {
 					top: 4px;
 					bottom: 4px;
 				}
+
+				.bg-scrollbar.right {
+					top: 29px;
+				}
 			}
 		}
 
@@ -88,7 +106,30 @@ content {
 			width: 19px;
 
 			&.right {
+				&:before {
+					content: "";
+					background: url(~/icons/negative-corner.png) 50% 50%/contain no-repeat;
+					position: absolute;
+					left: 0;
+					top: -4px;
+					width: 4px;
+					height: 4px;
+					transform: rotate(90deg);
+				}
 
+				.scroll-track {
+					top: 7px;
+					bottom: 7px;
+					left: 2px;
+					width: 11px;
+
+					.scroll-bar {
+						top: 31%;
+						left: 1px;
+						width: 9px;
+						height: 37%;
+					}
+				}
 			}
 
 			&.bottom {
@@ -99,6 +140,55 @@ content {
 				left: 200px;
 				right: 0;
 				height: 19px;
+
+				&:before {
+					content: "";
+					background: url(~/icons/negative-corner.png) 50% 50%/contain no-repeat;
+					position: absolute;
+					top: 0;
+					left: -4px;
+					width: 4px;
+					height: 4px;
+					transform: rotate(-90deg);
+				}
+
+				&:after {
+					content: "";
+					background: url(~/icons/negative-corner.png) 50% 50%/contain no-repeat;
+					position: absolute;
+					top: 0;
+					right: -4px;
+					width: 4px;
+					height: 4px;
+					transform: rotate(180deg);
+				}
+
+				.scroll-track {
+					left: 7px;
+					right: 7px;
+					top: 2px;
+					height: 11px;
+
+					.scroll-bar {
+						left: 1px;
+						top: 1px;
+						height: 9px;
+						width: 37%;
+					}
+				}
+			}
+
+			.scroll-track {
+				position: absolute;
+				border-radius: 13px;
+				background: rgba(0,0,0,.125);
+
+				.scroll-bar {
+					position: absolute;
+					border-radius: 13px;
+					background: darken(@boxFace, 3%);
+					cursor: ns-resize;
+				}
 			}
 		}
 
@@ -128,7 +218,7 @@ content {
 			}
 
 			.body {
-				background: #636363;
+				background: @boxFace;
 				position: absolute;
 				top: 21px;
 				left: 4px;
@@ -136,8 +226,8 @@ content {
 				bottom: 19px;
 				border-radius: 3px;
 				box-shadow: 0px 1px 1px rgba(0,0,0,.15),
-							inset 0 1px 0 #707070,
-							inset -1px -1px 0px #5b5b5b;
+							inset 0 1px 0 rgba(255,255,255,.1),
+							inset -1px -1px 0px rgba(0,0,0,.075);
 			}
 		}
 	}
