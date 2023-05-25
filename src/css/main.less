@@ -15,6 +15,28 @@ content {
 	font-size: 12px;
 	text-shadow: 0 1px 0 rgba(0,0,0,.1);
 
+	[class*="icon-"],
+	[class^="icon-"] {
+		position: relative;
+		display: inline-block;
+		vertical-align: middle;
+		width: 17px;
+		height: 17px;
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+		filter: drop-shadow(0 1px 0 rgba(0,0,0,.15));
+		
+		&.icon-new      { background-image: url(~/icons/icon-new.png); }
+		&.icon-trashcan { background-image: url(~/icons/icon-trashcan.png); }
+		&.icon-zoom     { background-image: url(~/icons/icon-zoom.png); }
+		&.icon-sort     { background-image: url(~/icons/icon-sort.png); }
+
+		&.icon-paint    { background-image: url(~/icons/icon-paint.png); }
+		&.icon-preview  { background-image: url(~/icons/icon-preview.png); }
+		&.icon-code     { background-image: url(~/icons/icon-code.png); }
+	}
+
 	.workarea {
 		position: absolute;
 		top: 5px;
@@ -35,7 +57,14 @@ content {
 					
 				.canvas {
 					.body {
-						bottom: 23px;
+						canvas {
+							position: absolute;
+							top: 0;
+							left: 0;
+							width: 100%;
+							height: 100%;
+							border-radius: inherit;
+						}
 					}
 				}
 			}
@@ -57,6 +86,10 @@ content {
 
 				.layers {
 					margin: 0 19px 0 0;
+
+					.foot {
+						text-align: right;
+					}
 
 					.bg-scrollbar {
 						bottom: 19px;
@@ -137,7 +170,7 @@ content {
 				width: auto;
 				top: auto;
 				bottom: -19px;
-				left: 200px;
+				left: 220px;
 				right: 0;
 				height: 19px;
 
@@ -223,11 +256,63 @@ content {
 				top: 21px;
 				left: 4px;
 				right: 4px;
-				bottom: 19px;
+				bottom: 23px;
 				border-radius: 3px;
 				box-shadow: 0px 1px 1px rgba(0,0,0,.15),
 							inset 0 1px 0 rgba(255,255,255,.1),
 							inset -1px -1px 0px rgba(0,0,0,.075);
+			}
+
+			.foot {
+				position: absolute;
+				bottom: 3px;
+				left: 5px;
+				right: 5px;
+				height: 17px;
+
+				.button {
+					display: inline-block;
+					padding: 1px 3px 0 0;
+					margin: 0 3px;
+					cursor: pointer;
+
+					&.zoom {
+						position: absolute;
+						top: 2px;
+						right: 0;
+						padding: 0;
+
+						span {
+							background: @boxBg;
+							padding: 2px 5px 1px;
+							margin: 0 2px;
+							border-radius: 2px;
+
+							&:after {
+								content: "%";
+								opacity: .5;
+								padding-left: 2px;
+							}
+						}
+					}
+
+					&:hover {
+						filter: brightness(1.25);
+					}
+
+					&:first-child {
+						margin-left: 0;
+					}
+
+					&:last-child {
+						margin-right: 0;
+					}
+
+					[class*="icon-"],
+					[class^="icon-"] {
+						top: -1px;
+					}
+				}
 			}
 		}
 	}
