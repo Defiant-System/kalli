@@ -2,9 +2,9 @@
 	<div class="workarea">
 		<div class="row-work">
 			<div class="column-canvas">
-				<div class="area canvas" data-area="canvas">
+				<div class="area canvas">
 					<div class="head">Canvas</div>
-					<div class="body">
+					<div class="body" data-area="canvas">
 						<canvas class="canvas"></canvas>
 					</div>
 					<div class="foot">
@@ -28,13 +28,23 @@
 			</div>
 			<div class="resize horizontal"><!-- area resize handle --></div>
 			<div class="column-sidebar">
-				<div class="area navigator" data-area="navigator">
+				<div class="area navigator">
 					<div class="head">Navigator</div>
-					<div class="body"></div>
+					<div class="body" data-area="navigator">
+						<div>
+							<canvas class="nav-cvs"></canvas>
+							<div class="view-rect"></div>
+						</div>
+					</div>
 				</div>
-				<div class="area layers" data-area="layers">
-					<div class="head">Layers</div>
-					<div class="body"></div>
+				<div class="area layers">
+					<div class="head">Assets</div>
+					<div class="body" data-area="layers">
+						<div class="asset">
+							<canvas></canvas>
+							<span>hb.png</span>
+						</div>
+					</div>
 					<div class="foot">
 						<span class="button"><i class="icon-new"></i></span>
 						<span class="button"><i class="icon-trashcan"></i></span>
@@ -51,7 +61,45 @@
 		<div class="resize vertical"><!-- area resize handle --></div>
 		<div class="row-reel">
 			<div class="area reel" data-area="reel">
-				<div class="body"></div>
+				<div class="body">
+					<div class="left">
+						<div class="tbl-head"></div>
+						<div class="tbl-body">
+							
+							<div class="tbl-row">
+								<i class="icon-eye-on"></i>
+								<span>hbi.png</span>
+							</div>
+							
+							<div class="tbl-row">
+								<i class="icon-eye-on"></i>
+								<span>Brush 1</span>
+							</div>
+							
+							<div class="tbl-row">
+								<i class="icon-eye-on"></i>
+								<span>Brush 2</span>
+							</div>
+
+						</div>
+					</div>
+					<div class="right">
+						<div class="tbl-head"></div>
+						<div class="tbl-body">
+							
+							<div class="tbl-row">
+								<span class="frame"></span>
+							</div>
+							<div class="tbl-row">
+								<span class="frame"></span>
+							</div>
+							<div class="tbl-row">
+								<span class="frame"></span>
+							</div>
+
+						</div>
+					</div>
+				</div>
 				<!-- custom scrollbars -->
 				<div class="bg-scrollbar right">
 					<div class="scroll-track">

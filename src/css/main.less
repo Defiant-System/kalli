@@ -35,6 +35,9 @@ content {
 		&.icon-paint    { background-image: url(~/icons/icon-paint.png); }
 		&.icon-preview  { background-image: url(~/icons/icon-preview.png); }
 		&.icon-code     { background-image: url(~/icons/icon-code.png); }
+		
+		&.icon-eye-on   { background-image: url(~/icons/icon-eye-on.png); }
+		&.icon-eye-off  { background-image: url(~/icons/icon-eye-off.png); }
 	}
 
 	.workarea {
@@ -69,6 +72,13 @@ content {
 
 					.foot {
 						.button {
+							opacity: .75;
+
+							&.active {
+								opacity: 1;
+								filter: brightness(1.35);
+							}
+
 							&:not(.zoom) {
 								[class*="icon-"],
 								[class^="icon-"] {
@@ -125,11 +135,61 @@ content {
 					
 					.body {
 						bottom: 4px;
+
+						> div {
+							background: rgba(200,200,200,.1);
+							position: absolute;
+							top: 7px;
+							left: 43px;
+							width: 153px;
+							height: 161px;
+							box-shadow: 0 0 0 1px darken(@boxFace, 11%);
+
+							canvas {
+								width: 100%;
+								height: 100%;
+								background: url(~/samples/img/hb.png) 50% 50%/contain no-repeat;
+							}
+
+							.view-rect {
+								position: absolute;
+								top: 17px;
+								left: 53px;
+								width: 100px;
+								height: 80px;
+								cursor: move;
+								box-shadow: inset 0 0 0 1px #f90,
+											0 0 0 1px #f90;
+							}
+						}
 					}
 				}
 
 				.layers {
 					margin: 0 19px 0 0;
+
+					.body {
+						.asset {
+							position: relative;
+							padding: 5px;
+							display: flex;
+							border-bottom: 1px solid rgba(0,0,0,.1);
+
+							canvas {
+								background: url(~/samples/img/hb.png) 50% 50%/contain no-repeat;
+								background-color: rgba(200,200,200,.1);
+								display: inline-block;
+								width: 31px;
+								height: 31px;
+								box-shadow: 0 0 0 1px darken(@boxFace, 11%);
+							}
+
+							span {
+								flex: 1;
+								padding: 9px 7px;
+							}
+						}
+					}
 
 					.foot {
 						text-align: right;
@@ -155,8 +215,8 @@ content {
 		}
 
 		.row-reel {
-			height: 150px;
 			display: flex;
+			height: 170px;
 
 			.area {
 				margin: 0 19px 19px 0;
@@ -165,6 +225,91 @@ content {
 				.body {
 					top: 4px;
 					bottom: 4px;
+					display: flex;
+
+					.left {
+						// background: rgba(0,0,0,.1);
+						width: 196px;
+						display: flex;
+						flex-direction: column;
+						border-right: 1px solid #555;
+
+						.tbl-body {
+							.tbl-row {
+								padding: 2px 3px 2px 5px;
+
+								[class*="icon-"],
+								[class^="icon-"] {
+									filter: brightness(1.25);
+								}
+								
+								span {
+									display: inline-block;
+									padding: 2px 3px;
+								}
+							}
+						}
+					}
+
+					.right {
+						flex: 1;
+						display: flex;
+						flex-direction: column;
+						// border-left: 1px solid rgba(200,200,200,.1);
+
+						.tbl-head {
+							&:before {
+								content: "";
+								position: absolute;
+								left: 0;
+								right: 0;
+								bottom: 0;
+								height: 13px;
+								border-top: 1px solid #555;
+								background-image: repeating-linear-gradient(90deg,
+									transparent 0px, transparent 134px,
+									#555 134px, #555 135px,
+									#55555570 135px, #55555570 149px,
+									#555 149px, #555 150px
+								);
+							}
+						}
+
+						.tbl-body {
+							.tbl-row {
+								background-image: repeating-linear-gradient(90deg,
+										transparent 0px, transparent 14px,
+										#555 14px, #555 15px
+									),
+									repeating-linear-gradient(90deg,
+										transparent 0px, transparent 135px,
+										#55555570 135px, #55555570 150px
+									);
+							}
+						}
+					}
+
+					.tbl-head {
+						position: relative;
+						height: 37px;
+						// background: rgba(0,0,0,.1);
+						border-bottom: 1px solid #555;
+					}
+
+					.tbl-body {
+						position: relative;
+						flex: 1;
+						// border-top: 1px solid rgba(200,200,200,.1);
+					}
+
+					.tbl-row {
+						width: 100%;
+						height: 23px;
+					}
+
+					.tbl-row {
+						border-bottom: 1px solid #555;
+					}
 				}
 
 				.bg-scrollbar.right {
@@ -214,7 +359,7 @@ content {
 				width: auto;
 				top: auto;
 				bottom: -19px;
-				left: 220px;
+				left: 200px;
 				right: 0;
 				height: 19px;
 
@@ -261,6 +406,7 @@ content {
 				background: rgba(0,0,0,.125);
 
 				.scroll-bar {
+					opacity: 0;
 					position: absolute;
 					border-radius: 13px;
 					background: darken(@boxFace, 3%);
@@ -320,8 +466,7 @@ content {
 					margin: 0 3px;
 					cursor: pointer;
 
-					&:hover,
-					&.active {
+					&:hover {
 						filter: brightness(1.35);
 					}
 
