@@ -217,6 +217,9 @@ content {
 		.row-reel {
 			display: flex;
 			height: 170px;
+			--barW: 14px;
+			--chanH: 23px;
+			--c: #d60;
 
 			.area {
 				margin: 0 19px 19px 0;
@@ -258,6 +261,8 @@ content {
 						// border-left: 1px solid rgba(200,200,200,.1);
 
 						.tbl-head {
+							position: relative;
+
 							&:before {
 								content: "";
 								position: absolute;
@@ -267,32 +272,87 @@ content {
 								height: 13px;
 								border-top: 1px solid #555;
 								background-image: repeating-linear-gradient(90deg,
-									transparent 0px, transparent 134px,
-									#555 134px, #555 135px,
-									#55555570 135px, #55555570 149px,
-									#555 149px, #555 150px
+									transparent 0px, transparent calc( calc( var( --barW ) * 9 ) - 1px ),
+									#555 calc( calc( var( --barW ) * 9 ) - 1px ), #555 calc( var( --barW ) * 9 ),
+									#55555570 calc( var( --barW ) * 9 ), #55555570 calc( calc( var( --barW ) * 10 ) - 1px ),
+									#555 calc( calc( var( --barW ) * 10 ) - 1px ), #555 calc( var( --barW ) * 10 )
 								);
+							}
+
+							&:after {
+								content: "";
+								position: absolute;
+								left: 0;
+								right: 0;
+								bottom: 0;
+								height: 3px;
+								border-top: 1px solid rgba(200,200,200,.1);
+							}
+
+							> div {
+								position: absolute;
+								top: 0;
+								left: 0;
+								right: 0;
+								bottom: 0;
+								overflow: hidden;
+
+								ul {
+									list-style: none;
+									white-space: nowrap;
+									font-size: 0;
+									counter-reset: frame-counter;
+
+									li {
+										text-align: right;
+										width: calc( var( --barW ) * 10 );
+										padding: 3px 2px;
+										display: inline-block;
+										font-size: 11px;
+										counter-increment: track-counter;
+
+										&:before {
+											content: counter(track-counter);
+										}
+
+										&:after {
+											content: "0";
+										}
+									}
+								}
 							}
 						}
 
 						.tbl-body {
 							.tbl-row {
 								background-image: repeating-linear-gradient(90deg,
-										transparent 0px, transparent 14px,
-										#555 14px, #555 15px
+										transparent 0px, transparent calc( var( --barW ) - 1px ),
+										#555 calc( var( --barW ) - 1px ), #555 var( --barW )
 									),
 									repeating-linear-gradient(90deg,
-										transparent 0px, transparent 135px,
-										#55555570 135px, #55555570 150px
+										transparent 0px, transparent calc( var( --barW ) * 9 ),
+										#55555570 calc( var( --barW ) * 9 ), #55555570 calc( var( --barW ) * 10 )
 									);
+							}
+
+							.frames {
+								position: absolute;
+								top: 3px;
+								left: calc( var( --l ) * var( --barW ) );
+								width: calc( calc( var( --w ) * var( --barW ) ) - 1px );
+								height: calc( var( --chanH ) - 7px );
+								background-color: var( --c );
+								background-image: linear-gradient(0deg, rgba(0,0,0,.2) 0%, transparent 100%);
+								box-shadow: inset 0 1px 0 rgba(255,255,255,.075),
+											0 1px 2px rgba(0,0,0,.2);
+								border-radius: 3px;
 							}
 						}
 					}
 
 					.tbl-head {
 						position: relative;
-						height: 37px;
-						// background: rgba(0,0,0,.1);
+						height: 31px;
 						border-bottom: 1px solid #555;
 					}
 
@@ -303,11 +363,9 @@ content {
 					}
 
 					.tbl-row {
+						position: relative;
 						width: 100%;
-						height: 23px;
-					}
-
-					.tbl-row {
+						height: var( --chanH );
 						border-bottom: 1px solid #555;
 					}
 				}
