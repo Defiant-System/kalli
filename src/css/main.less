@@ -15,6 +15,18 @@ content {
 	font-size: 12px;
 	text-shadow: 0 1px 0 rgba(0,0,0,.1);
 
+	&.cover:after,
+	&.no-cursor:before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 999;
+		background: transparent;
+	}
+
 	[class*="icon-"],
 	[class^="icon-"] {
 		position: relative;
@@ -158,8 +170,7 @@ content {
 								width: 100px;
 								height: 80px;
 								cursor: move;
-								box-shadow: inset 0 0 0 1px #f90,
-											0 0 0 1px #f90;
+								box-shadow: 0 0 0 2px #f90;
 							}
 						}
 					}
@@ -333,6 +344,16 @@ content {
 										transparent 0px, transparent calc( var( --barW ) * 9 ),
 										#55555570 calc( var( --barW ) * 9 ), #55555570 calc( var( --barW ) * 10 )
 									);
+
+								&.parent-row {
+									.frames {
+										background: rgba(255,255,255,.125);
+										box-shadow: inset 0 0 0 1px rgba(255,255,255,.15);
+										border-radius: 2px;
+										top: 3px;
+										height: calc( var( --chanH ) - 7px );
+									}
+								}
 							}
 
 							.frames {
