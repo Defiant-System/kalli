@@ -10,6 +10,16 @@ const Projector = {
 
 		switch (event.type) {
 			// native events
+			case "custome-event":
+				break;
+		}
+	},
+	pan(event) {
+		let APP = kalli,
+			Self = APP.navigator,
+			Drag = Self.drag;
+		// console.log(event);
+		switch (event.type) {
 			case "mousedown":
 				break;
 			case "mousemove":
@@ -17,7 +27,7 @@ const Projector = {
 			case "mouseup":
 				break;
 		}
-	}
+	},
 	render(opt) {
 		
 	}

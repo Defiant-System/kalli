@@ -1,6 +1,8 @@
 
 @import "./classes/file.js"
 
+@import "./modules/projector.js"
+
 
 const kalli = {
 	init() {
