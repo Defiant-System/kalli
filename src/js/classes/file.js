@@ -70,6 +70,7 @@ class File {
 		let index = 55,
 			pi2 = Math.PI * 2;
 		this.ctx.save();
+		// this.ctx.globalCompositeOperation = "source-atop";
 		this.brushes.map(brush => {
 			this.ctx.fillStyle = brush.color +"70";
 			[...brush.frames.slice(0, index)].map(f => {
