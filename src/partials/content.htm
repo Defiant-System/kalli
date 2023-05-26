@@ -2,19 +2,31 @@
 	<div class="workarea">
 		<div class="row-work">
 			<div class="column-canvas">
-				<div class="area canvas">
-					<div class="head">Canvas</div>
-					<div class="body" data-area="canvas">
-						<canvas class="canvas"></canvas>
+				<div class="area show-canvas" data-area="work">
+					<div class="head canvas">Design Canvas</div>
+					<div class="head preview">Preview Player</div>
+					<div class="head code">Embed Code</div>
+					<!-- canvas view -->
+					<div class="body canvas" data-area="canvas">
+						<canvas class="design"></canvas>
 					</div>
+					<!-- preview view -->
+					<div class="body preview" data-area="preview">
+						<canvas class="player"></canvas>
+					</div>
+					<!-- code view -->
+					<div class="body code" data-area="code">
+						Here will be code
+					</div>
+
 					<div class="foot">
-						<span class="button active">
+						<span class="button active" data-click="switch-view" data-arg="canvas">
 							<i class="icon-paint"></i> Design view
 						</span>
-						<span class="button">
+						<span class="button" data-click="switch-view" data-arg="preview">
 							<i class="icon-preview"></i> Preview
 						</span>
-						<span class="button">
+						<span class="button" data-click="switch-view" data-arg="code">
 							<i class="icon-code"></i> Code view
 						</span>
 
@@ -39,7 +51,7 @@
 				</div>
 				<div class="area layers">
 					<div class="head">Assets</div>
-					<div class="body" data-area="layers">
+					<div class="body" data-area="assets">
 						<div class="asset">
 							<canvas></canvas>
 							<span>hb.png</span>

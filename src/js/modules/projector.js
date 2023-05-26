@@ -3,7 +3,7 @@ const Projector = {
 	init() {
 		// fast references
 		this.doc = $(document);
-		this.cvs = window.find(`.area.canvas .canvas`);
+		this.cvs = window.find(`.column-canvas .design`);
 		this.ctx = this.cvs[0].getContext("2d", { willReadFrequently: true });
 		// auto "resize" canvas
 		this.dispatch({ type: "window.resize" });

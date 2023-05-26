@@ -20,6 +20,8 @@ const kalli = {
 			.map(i => this[i].init(this));
 	},
 	dispatch(event) {
+		let Self = kalli,
+			el;
 		switch (event.type) {
 			case "window.init":
 				break;
@@ -40,6 +42,7 @@ const kalli = {
 				}
 		}
 	},
+	work: @import "./modules/work.js",
 	code: @import "./modules/code.js",
 	canvas: @import "./modules/canvas.js",
 	preview: @import "./modules/preview.js",

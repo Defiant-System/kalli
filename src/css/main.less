@@ -69,15 +69,60 @@ content {
 			.column-canvas {
 				flex: 1;
 				display: flex;
-					
-				.canvas {
-					.body {
-						canvas {
+				
+				.area {
+					&.show-canvas {
+						.head,
+						.body {
+							&.canvas { display: block; }
+							&.preview,
+							&.code { display: none; }
+						}
+
+						.foot {
+							.button.zoom {
+								display: block;
+							}
+						}
+					}
+
+					&.show-preview {
+						.head,
+						.body {
+							&.preview { display: block; }
+							&.canvas,
+							&.code { display: none; }
+						}
+
+						.foot {
+							.button.zoom {
+								display: none;
+							}
+						}
+					}
+
+					&.show-code {
+						.head,
+						.body {
+							&.code { display: block; }
+							&.preview,
+							&.canvas { display: none; }
+						}
+
+						.foot {
+							.button.zoom {
+								display: none;
+							}
+						}
+					}
+
+					.body.canvas {
+						canvas.design {
 							position: absolute;
 							top: 0;
 							left: 0;
-							// width: 100%;
-							// height: 100%;
+							width: 100%;
+							height: 100%;
 							border-radius: inherit;
 						}
 					}
