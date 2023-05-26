@@ -76,8 +76,8 @@ content {
 							position: absolute;
 							top: 0;
 							left: 0;
-							width: 100%;
-							height: 100%;
+							// width: 100%;
+							// height: 100%;
 							border-radius: inherit;
 						}
 					}
@@ -348,7 +348,8 @@ content {
 								&.parent-row {
 									.frames {
 										background: rgba(255,255,255,.125);
-										box-shadow: inset 0 0 0 1px rgba(255,255,255,.15);
+										box-shadow: inset 0 0 0 1px rgba(255,255,255,.15),
+													0 1px 2px rgba(0,0,0,.175);
 										border-radius: 2px;
 										top: 3px;
 										height: calc( var( --chanH ) - 7px );

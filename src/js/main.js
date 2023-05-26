@@ -23,9 +23,21 @@ const kalli = {
 		switch (event.type) {
 			case "window.init":
 				break;
+			case "window.resize":
+				// forward event
+				Projector.dispatch(event);
+				break;
 			case "open-help":
 				karaqu.shell("fs -u '~/help/index.md'");
 				break;
+			default:
+				if (event.el) {
+					let pEl = event.el.parents(`div[data-area]`);
+					if (pEl.length) {
+						let name = pEl.data("area");
+						Self[name].dispatch(event);
+					}
+				}
 		}
 	},
 	code: @import "./modules/code.js",
