@@ -1,0 +1,7 @@
+
+<Project>
+	<img bg="#777" src="img/hb.png"/>
+	<mask>
+		<brush name="Brush 1" color="#f90" frames="[[[10,10,3]]]"/>
+	</mask>
+</Project>

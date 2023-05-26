@@ -52,8 +52,8 @@ const Projector = {
 			},
 			lX = cfg.w % cfg.size,
 			lY = cfg.h % cfg.size,
-			il = (cfg.w-lX) / cfg.size,
-			jl = (cfg.h-lY) / cfg.size;
+			il = cfg.w / cfg.size,
+			jl = cfg.h / cfg.size;
 		ctx.save();
 		if (cfg.oX < 0) {
 			cfg.pX = cfg.oX % cfg.size;
@@ -120,7 +120,6 @@ const Projector = {
 		this.ctx.save();
 		// this.ctx.putImageData(this.frame, 0, 0);
 		this.ctx.translate(file.oX, file.oY);
-		console.log(file.oX, file.oY);
 		this.ctx.drawImage(file.cvs[0], 0, 0, file.width, file.height);
 		this.ctx.restore();
 	}

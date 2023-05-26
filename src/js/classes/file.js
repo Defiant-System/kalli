@@ -27,27 +27,38 @@ class File {
 		// set image dimensions
 		this.oW = this.width = width;
 		this.oH = this.height = height;
+		// save references for performance
+		this.xImg = xImg;
+		this.image = image;
+		// set file initial scale
+		this.dispatch({ ...event, type: "set-scale" });
+		// render image
+		this.render();
+	}
 
+	render(opt={}) {
+		let Proj = Projector,
+			bgColor = this.xImg.getAttribute("bg"),
+			width = this.width,
+			height = this.height;
 		// reset canvas
 		this.cvs.prop({ width, height });
 
-		// set file initial scale
-		this.dispatch({ ...event, type: "set-scale" });
-
-		// checkers
-		Projector.drawCheckers(this.ctx, {
-			w: this.oW,
-			h: this.oH,
-			size: 8
-		});
+		if (!bgColor || bgColor === "transparent") {
+			// layer: checkers
+			Proj.drawCheckers(this.ctx, { w: this.oW, h: this.oH });
+		} else {
+			// layer: checkers
+			this.ctx.fillStyle = bgColor;
+			this.ctx.fillRect(0, 0, width, height);
+		}
 
 		// apply image to canvas
-		this.ctx.drawImage(image, 0, 0);
-		this.img = image;
+		this.ctx.drawImage(this.image, 0, 0);
 
 		// render file / image
-		Projector.reset(this);
-		Projector.render();
+		Proj.reset(this);
+		Proj.render();
 	}
 
 	dispatch(event) {
