@@ -5,7 +5,7 @@ class File {
 		this._file = fsFile;
 		
 		// defaults
-		this.scale = .125;
+		this.scale = 1;
 		this.width = 0;
 		this.height = 0;
 
@@ -30,12 +30,20 @@ class File {
 
 		// reset canvas
 		this.cvs.prop({ width, height });
-		// apply image to canvas
-		this.ctx.drawImage(image, 0, 0);
-		this.img = image;
 
 		// set file initial scale
 		this.dispatch({ ...event, type: "set-scale" });
+
+		// checkers
+		Projector.drawCheckers(this.ctx, {
+			w: this.oW,
+			h: this.oH,
+			size: 8
+		});
+
+		// apply image to canvas
+		this.ctx.drawImage(image, 0, 0);
+		this.img = image;
 
 		// render file / image
 		Projector.reset(this);
@@ -58,7 +66,6 @@ class File {
 				// origo
 				this.oX = Math.round(Proj.cX - (this.width / 2));
 				this.oY = Math.round(Proj.cY - (this.height / 2));
-
 				break;
 		}
 	}
