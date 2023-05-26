@@ -9,6 +9,16 @@ class File {
 		this.width = 0;
 		this.height = 0;
 
+		// let xNode = this._file.data.selectSingleNode(`//Project/timeline/brush`);
+		// this.frames = JSON.parse(xNode.getAttribute("frames"));
+
+		this.brushes = this._file.data.selectNodes(`//Project/timeline/brush`).map(xBrush =>
+							({
+								color: xBrush.getAttribute("color"),
+								frames: JSON.parse(xBrush.getAttribute("frames")),
+							}));
+		// console.log( this.brushes );
+
 		// file canvas
 		let { cvs, ctx } = createCanvas(1, 1);
 		this.cvs = cvs;
@@ -19,7 +29,7 @@ class File {
 	}
 
 	async parseImage() {
-		let xImg = this._file.data.selectSingleNode(`//Project/img`),
+		let xImg = this._file.data.selectSingleNode(`//Project/assets/img`),
 			image = await loadImage("~/samples/"+ xImg.getAttribute("src")),
 			width = image.width,
 			height = image.height;
@@ -55,6 +65,22 @@ class File {
 
 		// apply image to canvas
 		this.ctx.drawImage(this.image, 0, 0);
+
+		// draw mask brushes
+		let index = 55,
+			pi2 = Math.PI * 2;
+		this.ctx.save();
+		this.brushes.map(brush => {
+			this.ctx.fillStyle = brush.color +"70";
+			[...brush.frames.slice(0, index)].map(f => {
+				if (f) {
+					this.ctx.beginPath();
+					this.ctx.arc(...f, 0, pi2);
+					this.ctx.fill();
+				}
+			});
+		});
+		this.ctx.restore();
 
 		// render file / image
 		Proj.reset(this);
