@@ -88,16 +88,20 @@ const UX = {
 					value,
 					eType,
 					eFunc,
-					sEl: el.parent().find("span"),
-					prefix: el.data("prefix") || "",
-					suffix: el.data("suffix") || "",
-					vMin: +el.data("min"),
-					vMax: +el.data("max"),
-					step: +el.data("step"),
+					sEl: Self.srcEl.find("span.value"),
+					prefix: Self.srcEl.data("prefix") || "",
+					suffix: Self.srcEl.data("suffix") || "",
+					vMin: +Self.srcEl.data("min"),
+					vMax: +Self.srcEl.data("max"),
+					step: +Self.srcEl.data("step"),
 					clientY: event.clientY,
 					clientX: event.clientX,
 					min: isPan ? -50 : 0,
 					max: isPan ? 50 : 100,
+					_max: Math.max,
+					_min: Math.min,
+					_lerp: Math.lerp,
+					_round: Math.round,
 				};
 				// bind event handlers
 				Self.content.addClass("no-cursor");
@@ -105,16 +109,17 @@ const UX = {
 				break;
 			case "mousemove":
 				value = (Drag.clientY - event.clientY) + Drag.value;
-				value = Math.min(Math.max(value, Drag.min), Drag.max);
+				value = Drag._min(Drag._max(value, Drag.min), Drag.max);
 				value -= value % 2;
 				Drag.el.data({ value });
 				// update span element
-				val = Math.round(((value / 100) * (Drag.vMax - Drag.vMin)) / Drag.step) * Drag.step;
-				Drag.sEl.html(`${Drag.prefix} ${val} ${Drag.suffix}`);
+				// val = Drag._round(((value / 100) * (Drag.vMax - Drag.vMin)) / Drag.step) * Drag.step;
+				val = Drag._round(Drag._lerp(Drag.vMin, Drag.vMax, value / 100));
+				Drag.sEl.html(`${Drag.prefix} ${val} ${Drag.suffix}`.trim());
 				// prevents "too many" calls
 				if (Drag.v !== val) {
 					// call event handler
-					Drag.eFunc({ type: Drag.eType, value: val });
+					// Drag.eFunc({ type: Drag.eType, value: val });
 					// save value
 					Drag.v = val;
 				}
