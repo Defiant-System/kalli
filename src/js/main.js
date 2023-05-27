@@ -1,6 +1,7 @@
 
 @import "./classes/file.js"
 
+@import "./modules/ux.js";
 @import "./modules/misc.js"
 @import "./modules/projector.js"
 
@@ -14,6 +15,7 @@ const kalli = {
 		};
 
 		// init objects
+		UX.init();
 		Projector.init();
 
 		// init all sub-objects

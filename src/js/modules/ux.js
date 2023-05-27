@@ -3,10 +3,49 @@ const UX = {
 	init() {
 		// fast references
 		this.doc = $(document);
-		this.workarea = window.find(".workarea");
+		this.content = window.find("content");
 
 		// bind event handlers
-		this.workarea.on("mousedown change", ".knob", this.doKnob);
+		this.content.on("mousedown", ".knob", this.doKnob);
+		this.content.on("click", "[data-options]", this.dispatch);
+	},
+	dispatch(event) {
+		let APP = kalli,
+			Self = UX,
+			rect,
+			top,
+			left,
+			name,
+			value,
+			el;
+		// console.log(event);
+		switch (event.type) {
+			case "click":
+				el = $(this);
+				value = el.data("options");
+
+				// save reference to source element
+				Self.srcEl = el.addClass("opened");
+				// render menubox
+				Self.menu = window.render({
+						template: value,
+						append: Self.content,
+						match: el.data("match") || false,
+					});
+
+				// position menubox
+				rect = this.getBoundingClientRect();
+				top = rect.top - window.top - Self.menu[0].offsetHeight - 49;
+				left = rect.left - window.left + (rect.width >> 1) - (Self.menu[0].offsetWidth >> 1);
+				Self.menu.css({ top, left });
+
+				// set inital value - by associated event handler
+				// Self[Self.menu.data("ui")]({ type: "set-initial-value", el });
+
+				// prevent mouse from triggering mouseover
+				Self.content.addClass("cover");
+				break;
+		}
 	},
 	doKnob(event) {
 		let Self = UX,
@@ -15,19 +54,6 @@ const UX = {
 			val,
 			el;
 		switch (event.type) {
-			case "change":
-				el = $(event.target);
-				value = +el.data("value");
-				// calculations
-				let prefix = el.data("prefix") || "",
-					suffix = el.data("suffix") || "",
-					min = +el.data("min"),
-					max = +el.data("max"),
-					step = +el.data("step");
-				// update sibling span value
-				val = Math.round(((value / 100) * (max - min)) / step) * step;
-				el.parent().find("span").html(`${prefix} ${val} ${suffix}`);
-				break;
 			case "mousedown":
 				// prevent default behaviour
 				event.preventDefault();
@@ -62,7 +88,7 @@ const UX = {
 					max: isPan ? 50 : 100,
 				};
 				// bind event handlers
-				Self.workarea.addClass("no-cursor");
+				Self.content.addClass("no-cursor");
 				Self.doc.on("mousemove mouseup", Self.doKnob);
 				break;
 			case "mousemove":
@@ -83,7 +109,7 @@ const UX = {
 				break;
 			case "mouseup":
 				// unbind event handlers
-				Self.workarea.removeClass("no-cursor");
+				Self.content.removeClass("no-cursor");
 				Self.doc.off("mousemove mouseup", Self.doKnob);
 				break;
 		}
