@@ -41,7 +41,7 @@ class File {
 		this.xImg = xImg;
 		this.image = image;
 		// set file initial scale
-		this.dispatch({ ...event, type: "set-scale", scale: 1 });
+		this.dispatch({ ...event, type: "set-scale", scale: 3 });
 		// render image
 		this.render();
 	}
@@ -109,6 +109,17 @@ class File {
 					// render file
 					this.render();
 				}
+				break;
+			case "pan-canvas":
+				// console.log( event );
+				this.oX = (Number.isInteger(event.left)
+						? event.left
+						: this.width > Proj.aW ? Proj.cX - (this.width >> 1) + event.x : false) || this.oX;
+				this.oY = (Number.isInteger(event.top)
+						? event.top
+						: this.height > Proj.aH ? Proj.cY - (this.height >> 1) + event.y : false) || this.oY;
+				// render projector canvas
+				Proj.render({ noEmit: event.noEmit });
 				break;
 		}
 	}

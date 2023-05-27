@@ -111,7 +111,7 @@ const Projector = {
 		// pre-render frame
 		if (this.file) this.renderFrame(this.file);
 	},
-	render(opt) {
+	render(opt={}) {
 		// reference to displayed file
 		let File = this.file,
 			w = File.width,
@@ -138,5 +138,10 @@ const Projector = {
 		this.ctx.imageSmoothingEnabled = false;
 		this.ctx.drawImage(File.cvs[0], 0, 0, w, h);
 		this.ctx.restore();
+
+		if (!opt.noEmit) {
+			// emit event
+			karaqu.emit("projector-update");
+		}
 	}
 };
