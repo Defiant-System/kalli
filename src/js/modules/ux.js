@@ -42,8 +42,19 @@ const UX = {
 				// set inital value - by associated event handler
 				// Self[Self.menu.data("ui")]({ type: "set-initial-value", el });
 
-				// prevent mouse from triggering mouseover
-				Self.content.addClass("cover");
+				// event handler checks for clicks outside inline-menubox
+				Self.doc.on("mousedown", Self.dispatch);
+				break;
+			case "mousedown":
+				el = $(event.target);
+				if (el.parents(".inline-menubox").length) {
+					
+				} else {
+					// clean up
+					Self.menu.remove();
+				}
+				// unbind event handler
+				Self.doc.off("mousedown", Self.dispatch);
 				break;
 		}
 	},
