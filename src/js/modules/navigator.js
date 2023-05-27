@@ -4,7 +4,6 @@
 {
 	init() {
 		// fast references
-		this.doc = $(document);
 		this.els = {
 			zoomRect: window.find(".area.navigator .body .view-rect"),
 		};
@@ -50,9 +49,9 @@
 					_min: Math.min,
 				};
 				// prevent mouse from triggering mouseover
-				APP.els.content.addClass("cover");
+				APP.els.content.addClass("no-cursor");
 				// bind event handlers
-				Self.doc.on("mousemove mouseup", Self.pan);
+				APP.els.doc.on("mousemove mouseup", Self.pan);
 				break;
 			case "mousemove":
 				let left = Drag._min(Drag._max(event.clientX + Drag.clickX, Drag.min.x), Drag.max.x),
@@ -62,9 +61,9 @@
 				break;
 			case "mouseup":
 				// remove class
-				APP.els.content.removeClass("cover");
+				APP.els.content.removeClass("no-cursor");
 				// unbind event handlers
-				Self.doc.off("mousemove mouseup", Self.pan);
+				APP.els.doc.off("mousemove mouseup", Self.pan);
 				break;
 		}
 	}

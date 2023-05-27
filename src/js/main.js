@@ -9,6 +9,7 @@ const kalli = {
 	init() {
 		// fast references
 		this.els = {
+			doc: $(document),
 			content: window.find("content"),
 		};
 
