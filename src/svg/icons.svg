@@ -139,7 +139,7 @@
 
 	<svg id="knob" viewBox="0 0 34 1734">
 		<filter id="DS_1" x="-40%" y="-40%" width="180%" height="180%">
-			<feDropShadow dx="0" dy="0" stdDeviation="1.5" flood-color="#7af" flood-opacity="1" />
+			<feDropShadow dx="0" dy="0" stdDeviation="1.5" flood-color="#f90" flood-opacity="1" />
 		</filter>
 		<style type="text/css">
 			.st0{fill:none;stroke:#f90;stroke-width:2.5;stroke-linecap:round;filter:url(#DS_1);}

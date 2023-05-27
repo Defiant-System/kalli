@@ -40,7 +40,7 @@ const UX = {
 				Self.menu.css({ top, left });
 
 				// set inital value - by associated event handler
-				// Self[Self.menu.data("ui")]({ type: "set-initial-value", el });
+				Self[Self.menu.data("ui")]({ type: "set-initial-value", el });
 
 				// event handler checks for clicks outside inline-menubox
 				Self.doc.on("mousedown", Self.dispatch);
@@ -48,7 +48,7 @@ const UX = {
 			case "mousedown":
 				el = $(event.target);
 				if (el.parents(".inline-menubox").length) {
-					
+
 				} else {
 					// clean up
 					Self.menu.remove();
@@ -61,6 +61,7 @@ const UX = {
 	doKnob(event) {
 		let Self = UX,
 			Drag = Self.drag,
+			limit,
 			value,
 			val,
 			el;
@@ -122,6 +123,17 @@ const UX = {
 				// unbind event handlers
 				Self.content.removeClass("no-cursor");
 				Self.doc.off("mousemove mouseup", Self.doKnob);
+				break;
+			// custom events
+			case "set-initial-value":
+				// initial value of knob
+				limit = {
+					min: +event.el.data("min"),
+					max: +event.el.data("max"),
+					v: +event.el.find(".value").text(),
+				};
+				value = Math.round(Math.invLerp(limit.min, limit.max, limit.v) * 100);
+				Self.menu.find(".knob").data({ value });
 				break;
 		}
 	}
