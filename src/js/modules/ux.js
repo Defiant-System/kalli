@@ -74,14 +74,13 @@ const UX = {
 				el = $(event.target);
 				value = +el.data("value");
 
-				let isPan = el.hasClass("pan-knob") || el.hasClass("pan2"),
-					rack = el.parents(`[data-rack]`),
-					section = rack.parents(`[data-section]`),
-					eType = el.data("change"),
-					eFunc = section.length && rack.length
-							? defjam[section.data("section")][rack.data("rack")].dispatch
+				let area = Self.srcEl.parents(`[data-area]`),
+					eType = Self.srcEl.data("change"),
+					eFunc = area.length
+							? kalli[area.data("area")].dispatch
 							: e => {};
-
+				// redirect to canvas object
+				if (eType === "change-zoom") eFunc = kalli.canvas.dispatch;
 				// prepare drag object
 				Self.drag = {
 					el,
@@ -96,8 +95,8 @@ const UX = {
 					step: +Self.srcEl.data("step"),
 					clientY: event.clientY,
 					clientX: event.clientX,
-					min: isPan ? -50 : 0,
-					max: isPan ? 50 : 100,
+					min: 0,
+					max: 100,
 					_max: Math.max,
 					_min: Math.min,
 					_lerp: Math.lerp,
@@ -119,7 +118,7 @@ const UX = {
 				// prevents "too many" calls
 				if (Drag.v !== val) {
 					// call event handler
-					// Drag.eFunc({ type: Drag.eType, value: val });
+					Drag.eFunc({ type: Drag.eType, value: val });
 					// save value
 					Drag.v = val;
 				}

@@ -113,14 +113,30 @@ const Projector = {
 	},
 	render(opt) {
 		// reference to displayed file
-		let file = this.file;
+		let File = this.file,
+			w = File.width,
+			h = File.height,
+			scale = File.scale,
+			oX = File.oX,
+			oY = File.oY;
 		// reset canvas
 		this.cvs.prop({ width: this.aW, height: this.aH });
 
 		this.ctx.save();
+		this.ctx.translate(oX, oY);
+
+		// drop shadow
+		this.ctx.save();
+		this.ctx.shadowOffsetX = 0;
+		this.ctx.shadowOffsetY = 1;
+		this.ctx.shadowBlur = 5;
+		this.ctx.shadowColor = "#555";
+		this.ctx.fillRect(0, 0, w, h);
+		this.ctx.restore();
+
 		// this.ctx.putImageData(this.frame, 0, 0);
-		this.ctx.translate(file.oX, file.oY);
-		this.ctx.drawImage(file.cvs[0], 0, 0, file.width, file.height);
+		this.ctx.imageSmoothingEnabled = false;
+		this.ctx.drawImage(File.cvs[0], 0, 0, w, h);
 		this.ctx.restore();
 	}
 };

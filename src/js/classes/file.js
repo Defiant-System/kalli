@@ -41,7 +41,7 @@ class File {
 		this.xImg = xImg;
 		this.image = image;
 		// set file initial scale
-		this.dispatch({ ...event, type: "set-scale" });
+		this.dispatch({ ...event, type: "set-scale", scale: 1 });
 		// render image
 		this.render();
 	}
@@ -64,7 +64,7 @@ class File {
 		}
 
 		// apply image to canvas
-		this.ctx.drawImage(this.image, 0, 0);
+		this.ctx.drawImage(this.image, 0, 0, width, height);
 
 		// draw mask brushes
 		let index = 55,
@@ -98,12 +98,17 @@ class File {
 			case "set-scale":
 				// scaled dimension
 				this.scale = event.scale || this.scale;
-				this.width = this.oW * this.scale;
-				this.height = this.oH * this.scale;
+				this.width = Math.round(this.oW * this.scale);
+				this.height = Math.round(this.oH * this.scale);
 
 				// origo
-				this.oX = Math.round(Proj.cX - (this.width / 2));
-				this.oY = Math.round(Proj.cY - (this.height / 2));
+				this.oX = Math.round(Proj.cX - (this.width >> 1));
+				this.oY = Math.round(Proj.cY - (this.height >> 1));
+
+				if (!event.noRender) {
+					// render file
+					this.render();
+				}
 				break;
 		}
 	}
