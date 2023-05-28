@@ -1,7 +1,7 @@
 
 let Test = {
 	init(APP) {
-		// return;
+		return;
 
 		return setTimeout(() => {
 			Projector.file.dispatch({ type: "set-scale", scale: 4, noRender: 1 });

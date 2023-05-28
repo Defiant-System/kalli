@@ -83,18 +83,15 @@ class File {
 		// render frames history
 		if (opt.frame) this.frameHistory(opt.frame-1);
 
-		this.ctx.save();
-
 		// apply image to canvas
-		this.ctx.globalCompositeOperation = "source-over";
 		this.ctx.drawImage(this.image, 0, 0, width, height);
 
+		this.ctx.save();
 		// frames history
 		this.ctx.globalCompositeOperation = "source-atop";
 		this.brushes.map(brush => {
 			this.ctx.drawImage(brush.cvs[0], 0, 0, width, height);
 		});
-
 		this.ctx.restore();
 
 		if (opt.frame) {

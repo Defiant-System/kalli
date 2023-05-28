@@ -305,8 +305,8 @@ content {
 		.row-timeline {
 			display: flex;
 			height: 170px;
-			--barW: 14px;
-			--chanH: 23px;
+			--frW: 14px;
+			--rowH: 23px;
 			--c: #d60;
 
 			.area {
@@ -360,10 +360,10 @@ content {
 								height: 13px;
 								border-top: 1px solid #555;
 								background-image: repeating-linear-gradient(90deg,
-									transparent 0px, transparent calc( calc( var( --barW ) * 9 ) - 1px ),
-									#555 calc( calc( var( --barW ) * 9 ) - 1px ), #555 calc( var( --barW ) * 9 ),
-									#55555570 calc( var( --barW ) * 9 ), #55555570 calc( calc( var( --barW ) * 10 ) - 1px ),
-									#555 calc( calc( var( --barW ) * 10 ) - 1px ), #555 calc( var( --barW ) * 10 )
+									transparent 0px, transparent calc( calc( var( --frW ) * 9 ) - 1px ),
+									#555 calc( calc( var( --frW ) * 9 ) - 1px ), #555 calc( var( --frW ) * 9 ),
+									#55555570 calc( var( --frW ) * 9 ), #55555570 calc( calc( var( --frW ) * 10 ) - 1px ),
+									#555 calc( calc( var( --frW ) * 10 ) - 1px ), #555 calc( var( --frW ) * 10 )
 								);
 							}
 
@@ -393,7 +393,7 @@ content {
 
 									li {
 										text-align: right;
-										width: calc( var( --barW ) * 10 );
+										width: calc( var( --frW ) * 10 );
 										padding: 3px 2px;
 										display: inline-block;
 										font-size: 11px;
@@ -450,12 +450,12 @@ content {
 						.tbl-body {
 							.tbl-row {
 								background-image: repeating-linear-gradient(90deg,
-										transparent 0px, transparent calc( var( --barW ) - 1px ),
-										#555 calc( var( --barW ) - 1px ), #555 var( --barW )
+										transparent 0px, transparent calc( var( --frW ) - 1px ),
+										#555 calc( var( --frW ) - 1px ), #555 var( --frW )
 									),
 									repeating-linear-gradient(90deg,
-										transparent 0px, transparent calc( var( --barW ) * 9 ),
-										#55555570 calc( var( --barW ) * 9 ), #55555570 calc( var( --barW ) * 10 )
+										transparent 0px, transparent calc( var( --frW ) * 9 ),
+										#55555570 calc( var( --frW ) * 9 ), #55555570 calc( var( --frW ) * 10 )
 									);
 
 								&.parent-row {
@@ -465,7 +465,7 @@ content {
 													0 1px 2px rgba(0,0,0,.175);
 										border-radius: 2px;
 										top: 3px;
-										height: calc( var( --chanH ) - 7px );
+										height: calc( var( --rowH ) - 7px );
 									}
 								}
 							}
@@ -473,9 +473,9 @@ content {
 							.frames {
 								position: absolute;
 								top: 5px;
-								left: calc( var( --l ) * var( --barW ) );
-								width: calc( calc( var( --w ) * var( --barW ) ) - 1px );
-								height: calc( var( --chanH ) - 11px );
+								left: calc( var( --l ) * var( --frW ) );
+								width: calc( calc( var( --w ) * var( --frW ) ) - 1px );
+								height: calc( var( --rowH ) - 11px );
 								background-color: var( --c );
 								background-image: linear-gradient(0deg, rgba(0,0,0,.2) 0%, transparent 100%);
 								box-shadow: inset 0 1px 0 rgba(255,255,255,.075),
@@ -500,7 +500,7 @@ content {
 					.tbl-row {
 						position: relative;
 						width: 100%;
-						height: var( --chanH );
+						height: var( --rowH );
 						border-bottom: 1px solid #555;
 					}
 				}
