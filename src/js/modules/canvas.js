@@ -24,6 +24,72 @@
 				break;
 		}
 	},
+	move(event) {
+		let APP = kalli,
+			Self = APP.canvas,
+			Drag = Self.drag;
+		// console.log(event);
+		switch (event.type) {
+			// native events
+			case "mousedown":
+				// prevent default behaviour
+				event.preventDefault();
+
+				let Proj = Projector,
+					File = Proj.file;
+					
+				Self.drag = {
+					proj: Proj,
+					file: File,
+				};
+				// prevent mouse from triggering mouseover
+				APP.els.content.addClass("no-cursor");
+				// bind event handlers
+				Proj.doc.on("mousemove mouseup", Self.move);
+				break;
+			case "mousemove":
+				break;
+			case "mouseup":
+				// remove class
+				APP.els.content.removeClass("no-cursor");
+				// unbind event handlers
+				Drag.proj.doc.off("mousemove mouseup", Self.move);
+				break;
+		}
+	},
+	resize(event) {
+		let APP = kalli,
+			Self = APP.canvas,
+			Drag = Self.drag;
+		// console.log(event);
+		switch (event.type) {
+			// native events
+			case "mousedown":
+				// prevent default behaviour
+				event.preventDefault();
+
+				let Proj = Projector,
+					File = Proj.file;
+					
+				Self.drag = {
+					proj: Proj,
+					file: File,
+				};
+				// prevent mouse from triggering mouseover
+				APP.els.content.addClass("no-cursor");
+				// bind event handlers
+				Proj.doc.on("mousemove mouseup", Self.move);
+				break;
+			case "mousemove":
+				break;
+			case "mouseup":
+				// remove class
+				APP.els.content.removeClass("no-cursor");
+				// unbind event handlers
+				Drag.proj.doc.off("mousemove mouseup", Self.move);
+				break;
+		}
+	},
 	pan(event) {
 		let APP = kalli,
 			Self = APP.canvas,

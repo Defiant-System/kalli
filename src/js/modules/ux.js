@@ -48,13 +48,13 @@ const UX = {
 			case "mousedown":
 				el = $(event.target);
 				if (el.parents(".inline-menubox").length) {
-
+					// allow UI inline box code to do what ever
 				} else {
 					// clean up
 					Self.menu.remove();
+					// unbind event handler
+					Self.doc.off("mousedown", Self.dispatch);
 				}
-				// unbind event handler
-				Self.doc.off("mousedown", Self.dispatch);
 				break;
 		}
 	},
