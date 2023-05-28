@@ -102,8 +102,11 @@ class File {
 			let pi2 = Math.PI * 2;
 			// update brush masks
 			this.brushes.map(brush => {
+				let color = Color.hexToRgb(brush.color);
+				// make color transparent
+				color[3] = .65;
 				// paint up until frame index
-				this.ctx.fillStyle = brush.color;
+				this.ctx.fillStyle = `rgba(${color.join(",")})`;
 
 				let f = brush.frames[opt.frame];
 				if (f) {
