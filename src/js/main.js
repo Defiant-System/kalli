@@ -3,6 +3,7 @@
 
 @import "./modules/ux.js";
 @import "./modules/misc.js"
+@import "./modules/color.js"
 @import "./modules/projector.js"
 @import "./modules/test.js"
 
@@ -77,14 +78,14 @@ const kalli = {
 				}
 		}
 	},
-	blankView: @import "./modules/blank-view.js",
-	work: @import "./modules/work.js",
-	code: @import "./modules/code.js",
-	canvas: @import "./modules/canvas.js",
-	preview: @import "./modules/preview.js",
-	navigator: @import "./modules/navigator.js",
-	timeline: @import "./modules/timeline.js",
-	assets: @import "./modules/assets.js",
+	blankView: @import "./areas/blank-view.js",
+	work: @import "./areas/work.js",
+	code: @import "./areas/code.js",
+	canvas: @import "./areas/canvas.js",
+	preview: @import "./areas/preview.js",
+	navigator: @import "./areas/navigator.js",
+	timeline: @import "./areas/timeline.js",
+	assets: @import "./areas/assets.js",
 };
 
 window.exports = kalli;

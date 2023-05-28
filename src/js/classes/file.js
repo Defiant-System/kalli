@@ -48,14 +48,11 @@ class File {
 		// set file initial scale
 		this.dispatch({ ...event, type: "set-scale", scale: 1 });
 
-		// temp
-		this.frameIndex(55);
-
 		// render image
-		this.render();
+		this.render({ frame: 21 });
 	}
 
-	frameIndex(index) {
+	frameHistory(index) {
 		let width = this.width,
 			height = this.height,
 			pi2 = Math.PI * 2;
@@ -83,13 +80,16 @@ class File {
 		// reset canvas
 		this.cvs.prop({ width, height });
 
+		// render frames history
+		if (opt.frame) this.frameHistory(opt.frame-1);
+
 		this.ctx.save();
 
 		// apply image to canvas
 		this.ctx.globalCompositeOperation = "source-over";
 		this.ctx.drawImage(this.image, 0, 0, width, height);
 
-		// previous frames
+		// frames history
 		this.ctx.globalCompositeOperation = "source-atop";
 		this.brushes.map(brush => {
 			this.ctx.drawImage(brush.cvs[0], 0, 0, width, height);
@@ -97,8 +97,22 @@ class File {
 
 		this.ctx.restore();
 
-		// current frame
-		// this.ctx.globalCompositeOperation = "source-over";
+		if (opt.frame) {
+			// current frame
+			let pi2 = Math.PI * 2;
+			// update brush masks
+			this.brushes.map(brush => {
+				// paint up until frame index
+				this.ctx.fillStyle = brush.color;
+
+				let f = brush.frames[opt.frame];
+				if (f) {
+					this.ctx.beginPath();
+					this.ctx.arc(...f, 0, pi2);
+					this.ctx.fill();
+				}
+			});
+		}
 
 		// render file / image
 		Proj.reset(this);
