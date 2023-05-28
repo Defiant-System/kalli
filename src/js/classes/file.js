@@ -73,7 +73,8 @@ class File {
 	}
 
 	render(opt={}) {
-		let Proj = Projector,
+		let APP = kalli,
+			Proj = Projector,
 			bgColor = this.xImg.getAttribute("bg"),
 			width = this.width,
 			height = this.height;
@@ -95,23 +96,7 @@ class File {
 		this.ctx.restore();
 
 		if (opt.frame) {
-			// current frame
-			let pi2 = Math.PI * 2;
-			// update brush masks
-			this.brushes.map(brush => {
-				let color = Color.hexToRgb(brush.color);
-				// make color transparent
-				color[3] = .65;
-				// paint up until frame index
-				this.ctx.fillStyle = `rgba(${color.join(",")})`;
-
-				let f = brush.frames[opt.frame];
-				if (f) {
-					this.ctx.beginPath();
-					this.ctx.arc(...f, 0, pi2);
-					this.ctx.fill();
-				}
-			});
+			APP.canvas.dispatch({ type: "edit-frame-index", index: opt.frame });
 		}
 
 		// render file / image

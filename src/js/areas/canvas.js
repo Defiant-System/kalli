@@ -5,6 +5,7 @@
 	init() {
 		// fast references
 		this.els = {
+			area: window.find(`.column-canvas .body[data-area="canvas"]`),
 			canvas: window.find(`.column-canvas .design`),
 		};
 
@@ -14,13 +15,35 @@
 	dispatch(event) {
 		let APP = kalli,
 			Self = APP.canvas,
-			el;
+			Proj = Projector,
+			File = Proj.file,
+			str;
 		// console.log(event);
 		switch (event.type) {
 			case "change-zoom":
 				// min: 25
 				// max: 800
 				Projector.file.dispatch({ type: "set-scale", scale: event.value / 100 });
+				break;
+			case "edit-frame-index":
+				// delete old brushes
+				Self.els.area.find(".brush").remove();
+
+				str = [];
+				// update brush masks
+				File.brushes.map(brush => {
+					let f = brush.frames[event.index];
+					if (f) {
+						let top = 100,
+							left = 100,
+							radius = 30;
+						str.push(`<div class="brush" style="--bg: ${brush.color}; --top: ${top}px; --left: ${left}px; --radius: ${radius}px;"></div>`);
+						console.log( brush );
+					}
+
+				});
+				// add new brushes
+				Self.els.area.append(str.join(""));
 				break;
 		}
 	},
