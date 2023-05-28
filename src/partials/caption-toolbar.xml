@@ -1,8 +1,8 @@
 <CaptionToolBar>
 	<Group width="69%">
 		<Options>
-			<Tool symbol="icon-chevron-left"/>
-			<Tool symbol="icon-chevron-right"/>
+			<Tool symbol="icon-chevron-left" state="disabled"/>
+			<Tool symbol="icon-chevron-right" state="disabled"/>
 		</Options>
 	</Group>
 	<Group width="31%">

@@ -4,6 +4,7 @@
 @import "./modules/ux.js";
 @import "./modules/misc.js"
 @import "./modules/projector.js"
+@import "./modules/test.js"
 
 
 const kalli = {
@@ -22,6 +23,10 @@ const kalli = {
 		Object.keys(this)
 			.filter(i => typeof this[i].init === "function")
 			.map(i => this[i].init(this));
+
+		// DEV-ONLY-START
+		Test.init(this);
+		// DEV-ONLY-END
 	},
 	dispatch(event) {
 		let Self = kalli,
