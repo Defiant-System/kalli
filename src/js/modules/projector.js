@@ -105,6 +105,8 @@ const Projector = {
 			w = File.width,
 			h = File.height,
 			scale = File.scale,
+			oW = File.oW,
+			oH = File.oX,
 			oX = File.oX,
 			oY = File.oY;
 		// reset canvas
@@ -121,6 +123,15 @@ const Projector = {
 		this.ctx.shadowColor = "#555";
 		this.ctx.fillRect(0, 0, w, h);
 		this.ctx.restore();
+
+		if (!File.bgColor || File.bgColor === "transparent") {
+			// layer: checkers
+			this.drawCheckers(this.ctx, { w: oW, h: oH });
+		} else {
+			// layer: checkers
+			this.ctx.fillStyle = File.bgColor;
+			this.ctx.fillRect(0, 0, w, h);
+		}
 
 		// this.ctx.putImageData(this.frame, 0, 0);
 		this.ctx.imageSmoothingEnabled = false;
