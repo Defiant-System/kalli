@@ -67,6 +67,15 @@
 				Self.els.wrapper.css({ width: Self.navWidth });
 				Self.cvs.prop({ width: Self.navWidth, height: Self.navHeight });
 
+				if (!File.bgColor || File.bgColor === "transparent") {
+					// checkers background
+					Proj.drawCheckers(Self.ctx, { w: Self.navWidth, h: Self.navHeight, size: 5 });
+				} else {
+					// layer: checkers
+					Self.ctx.fillStyle = File.bgColor;
+					Self.ctx.fillRect(0, 0, Self.navWidth, Self.navHeight);
+				}
+
 				// paint resized image
 				opt = { resizeWidth: Self.navWidth, resizeHeight: Self.navHeight, resizeQuality: "medium" };
 				createImageBitmap(File.cvs[0], opt)

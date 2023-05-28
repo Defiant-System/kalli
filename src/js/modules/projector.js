@@ -126,7 +126,7 @@ const Projector = {
 
 		if (!File.bgColor || File.bgColor === "transparent") {
 			// layer: checkers
-			this.drawCheckers(this.ctx, { w: oW, h: oH });
+			this.drawCheckers(this.ctx, { w, h });
 		} else {
 			// layer: checkers
 			this.ctx.fillStyle = File.bgColor;
