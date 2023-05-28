@@ -22,7 +22,8 @@ class File {
 	}
 
 	async parseImage() {
-		let xImg = this._file.data.selectSingleNode(`//Project/assets/img`),
+		let APP = kalli,
+			xImg = this._file.data.selectSingleNode(`//Project/assets/img`),
 			image = await loadImage("~/samples/"+ xImg.getAttribute("src")),
 			width = image.width,
 			height = image.height;
@@ -41,6 +42,8 @@ class File {
 				frames: JSON.parse(xBrush.getAttribute("frames")),
 			};
 		});
+		// update timeline
+		APP.timeline.dispatch({ type: "file-parsed", file: this });
 
 		// save references for performance
 		this.xImg = xImg;

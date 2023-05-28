@@ -18,7 +18,10 @@
 			el;
 		// console.log(event);
 		switch (event.type) {
-			case "custom-event":
+			case "file-parsed":
+				event.file.brushes.map(brush => {
+					console.log( brush.frames );
+				});
 				break;
 		}
 	},
