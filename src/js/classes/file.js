@@ -12,17 +12,22 @@ class File {
 		// let xNode = this._file.data.selectSingleNode(`//Project/timeline/brush`);
 		// this.frames = JSON.parse(xNode.getAttribute("frames"));
 
-		this.brushes = this._file.data.selectNodes(`//Project/timeline/brush`).map(xBrush =>
-							({
-								color: xBrush.getAttribute("color"),
-								frames: JSON.parse(xBrush.getAttribute("frames")),
-							}));
-		// console.log( this.brushes );
+		this.brushes = this._file.data.selectNodes(`//Project/timeline/brush`).map(xBrush => {
+			let canvas = createCanvas(1, 1);
+			return {
+				...canvas,
+				color: xBrush.getAttribute("color"),
+				frames: JSON.parse(xBrush.getAttribute("frames")),
+			};
+		});
 
 		// file canvas
 		let { cvs, ctx } = createCanvas(1, 1);
 		this.cvs = cvs;
 		this.ctx = ctx;
+
+		// temp
+		this.frameIndex(55);
 
 		// parse image content blob
 		this.parseImage();
@@ -37,6 +42,8 @@ class File {
 		// set image dimensions
 		this.oW = this.width = width;
 		this.oH = this.height = height;
+		// resize brush canvases
+		this.brushes.map(brush => brush.cvs.prop({ width, height }));
 		// save references for performance
 		this.xImg = xImg;
 		this.image = image;
@@ -44,6 +51,27 @@ class File {
 		this.dispatch({ ...event, type: "set-scale", scale: 1 });
 		// render image
 		this.render();
+	}
+
+	frameIndex(index) {
+		let width = this.width,
+			height = this.height,
+			pi2 = Math.PI * 2;
+		// update brush masks
+		this.brushes.map(brush => {
+			// reset canvas
+			brush.cvs.prop({ width, height });
+			// paint up until frame index
+			brush.ctx.fillStyle = brush.color;
+			[...brush.frames.slice(0, index)].map(f => {
+				if (f) {
+					console.log(f);
+					brush.ctx.beginPath();
+					brush.ctx.arc(...f, 0, pi2);
+					brush.ctx.fill();
+				}
+			});
+		});
 	}
 
 	render(opt={}) {
@@ -66,22 +94,10 @@ class File {
 		// apply image to canvas
 		this.ctx.drawImage(this.image, 0, 0, width, height);
 
-		// draw mask brushes
-		let index = 55,
-			pi2 = Math.PI * 2;
-		this.ctx.save();
 		// this.ctx.globalCompositeOperation = "source-atop";
 		this.brushes.map(brush => {
-			this.ctx.fillStyle = brush.color +"70";
-			[...brush.frames.slice(0, index)].map(f => {
-				if (f) {
-					this.ctx.beginPath();
-					this.ctx.arc(...f, 0, pi2);
-					this.ctx.fill();
-				}
-			});
+			this.ctx.drawImage(brush.cvs[0], 0, 0, width, height);
 		});
-		this.ctx.restore();
 
 		// render file / image
 		Proj.reset(this);
