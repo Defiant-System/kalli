@@ -11,7 +11,7 @@ const Projector = {
 		// calc available dimensions
 		this.reset();
 		// auto "resize" canvas
-		this.dispatch({ type: "window.resize" });
+		this.dispatch({ type: "window.resize", noRender: 1 });
 	},
 	dispatch(event) {
 		let APP = kalli,
@@ -21,23 +21,11 @@ const Projector = {
 		switch (event.type) {
 			// native events
 			case "window.resize":
-				this.aW = Self.pEl.prop("offsetWidth");
-				this.aH = Self.pEl.prop("offsetHeight");
-				Self.cvs.prop({ width: this.aW, height: this.aH });
-				break;
-		}
-	},
-	pan(event) {
-		let APP = kalli,
-			Self = APP.navigator,
-			Drag = Self.drag;
-		// console.log(event);
-		switch (event.type) {
-			case "mousedown":
-				break;
-			case "mousemove":
-				break;
-			case "mouseup":
+				Self.aW = Self.pEl.prop("offsetWidth");
+				Self.aH = Self.pEl.prop("offsetHeight");
+				Self.cvs.prop({ width: Self.aW, height: Self.aH });
+
+				if (!event.noRender) Self.render();
 				break;
 		}
 	},

@@ -41,7 +41,7 @@ class File {
 		this.xImg = xImg;
 		this.image = image;
 		// set file initial scale
-		this.dispatch({ ...event, type: "set-scale", scale: 3 });
+		this.dispatch({ ...event, type: "set-scale", scale: 1 });
 		// render image
 		this.render();
 	}
@@ -91,6 +91,7 @@ class File {
 	dispatch(event) {
 		let APP = kalli,
 			Proj = Projector,
+			oX, oY,
 			el;
 		//console.log(event);
 		switch (event.type) {
@@ -112,12 +113,14 @@ class File {
 				break;
 			case "pan-canvas":
 				// console.log( event );
-				this.oX = (Number.isInteger(event.left)
-						? event.left
-						: this.width > Proj.aW ? Proj.cX - (this.width >> 1) + event.x : false) || this.oX;
-				this.oY = (Number.isInteger(event.top)
-						? event.top
-						: this.height > Proj.aH ? Proj.cY - (this.height >> 1) + event.y : false) || this.oY;
+				oX = Number.isInteger(event.left)
+					? event.left
+					: this.width > Proj.aW ? Proj.cX - (this.width >> 1) + event.x : false;
+				oY = Number.isInteger(event.top)
+					? event.top
+					: this.height > Proj.aH ? Proj.cY - (this.height >> 1) + event.y : false;
+				if (Number.isInteger(oX)) this.oX = oX;
+				if (Number.isInteger(oY)) this.oY = oY;
 				// render projector canvas
 				Proj.render({ noEmit: event.noEmit });
 				break;
