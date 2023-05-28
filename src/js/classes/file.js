@@ -49,7 +49,7 @@ class File {
 		this.dispatch({ ...event, type: "set-scale", scale: 1 });
 
 		// render image
-		this.render({ frame: 21 });
+		this.render({ frame: 21, reset: true });
 	}
 
 	frameHistory(index) {
@@ -115,7 +115,7 @@ class File {
 		}
 
 		// render file / image
-		Proj.reset(this);
+		if (opt.reset) Proj.reset(this);
 		Proj.render();
 	}
 
@@ -139,7 +139,7 @@ class File {
 
 				if (!event.noRender) {
 					// render file
-					this.render();
+					this.render({ reset: true });
 				}
 				break;
 			case "pan-canvas":

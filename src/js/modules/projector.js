@@ -86,6 +86,7 @@ const Projector = {
 		this.frame = this.swap.ctx.getImageData(0, 0, this.aW, this.aH);
 	},
 	reset(file) {
+		// if (file === this.file || !file.image) return;
 		// reference to displayed file
 		this.file = file || this.file;
 		// available dimensions

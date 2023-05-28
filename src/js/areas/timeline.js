@@ -61,7 +61,7 @@
 					frame = parseInt( left / Self.drag.frW, 10 );
 				// moves navigator view rectangle
 				Drag.el.css({ left });
-
+				// update file 
 				Drag.file.render({ frame });
 				break;
 			case "mouseup":
