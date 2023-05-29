@@ -100,6 +100,8 @@ class File {
 
 		if (opt.frame) {
 			APP.canvas.dispatch({ type: "edit-frame-index", index: opt.frame });
+			// save refererce to frame index
+			this.frameIndex = opt.frame;
 		}
 
 		// render file / image
@@ -142,6 +144,8 @@ class File {
 				if (Number.isInteger(oY)) this.oY = oY;
 				// render projector canvas
 				Proj.render({ noEmit: event.noEmit });
+				// update "edit bubble"
+				APP.canvas.dispatch({ type: "edit-frame-index", index: this.frameIndex });
 				break;
 		}
 	}

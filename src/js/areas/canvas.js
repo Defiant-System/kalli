@@ -34,10 +34,11 @@
 					let f = brush.frames[event.index];
 					if (f) {
 						let [x, y, r] = f;
-						// translate coordinates
-						y += File.oY;
-						x += File.oX;
-						str.push(`<div class="brush" style="--bg: ${brush.color}; --top: ${y}px; --left: ${x}px; --radius: ${r}px;"></div>`);
+						// translate / scale coordinate matrix
+						r *= File.scale;
+						y = (y * File.scale) + File.oY;
+						x = (x * File.scale) + File.oX;
+						str.push(`<div class="brush" style="--bg: ${brush.color}; --top: ${y-r}px; --left: ${x-r}px; --radius: ${r*2}px;"></div>`);
 					}
 
 				});

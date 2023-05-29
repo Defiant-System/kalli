@@ -5,7 +5,7 @@ let Test = {
 
 		return setTimeout(() => {
 			Projector.file.dispatch({ type: "set-scale", scale: 4, noRender: 1 });
-			Projector.file.dispatch({ type: "pan-canvas", top: 50, left: -300 });
+			Projector.file.dispatch({ type: "pan-canvas", top: 0, left: -220 });
 		}, 300);
 
 		// return setTimeout(() => $(`.def-desktop_`).trigger("mousedown").trigger("mouseup"), 350);
