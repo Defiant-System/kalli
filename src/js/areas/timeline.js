@@ -20,7 +20,7 @@
 		switch (event.type) {
 			case "file-parsed":
 				event.file.brushes.map(brush => {
-					console.log( brush.frames );
+					// console.log( brush.frames );
 				});
 				break;
 		}

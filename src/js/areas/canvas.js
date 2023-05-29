@@ -6,11 +6,10 @@
 		// fast references
 		this.els = {
 			area: window.find(`.column-canvas .body[data-area="canvas"]`),
-			canvas: window.find(`.column-canvas .design`),
 		};
 
 		// bind event handlers
-		this.els.canvas.on("mousedown", this.pan);
+		this.els.area.on("mousedown", this.move);
 	},
 	dispatch(event) {
 		let APP = kalli,
@@ -38,7 +37,7 @@
 							left = 100,
 							radius = 30;
 						str.push(`<div class="brush" style="--bg: ${brush.color}; --top: ${top}px; --left: ${left}px; --radius: ${radius}px;"></div>`);
-						console.log( brush );
+						// console.log( brush );
 					}
 
 				});
@@ -58,12 +57,30 @@
 				// prevent default behaviour
 				event.preventDefault();
 
+				let el = $(event.target);
+				switch (true) {
+					// pan canvas
+					case el.hasClass("design"): return Self.pan(event);
+					// resize brush
+					case el.hasClass("brush") && event.shiftKey: return Self.resize(event);
+					// move brush; handled in this function
+					default:
+				}
+
 				let Proj = Projector,
-					File = Proj.file;
+					File = Proj.file,
+					x = +el.prop("offsetLeft"),
+					y = +el.prop("offsetTop"),
+					click = {
+						x: event.clientX - x,
+						y: event.clientY - y,
+					};
 					
 				Self.drag = {
+					el,
 					proj: Proj,
 					file: File,
+					click,
 				};
 				// prevent mouse from triggering mouseover
 				APP.els.content.addClass("no-cursor");
@@ -71,6 +88,10 @@
 				Proj.doc.on("mousemove mouseup", Self.move);
 				break;
 			case "mousemove":
+				let top = event.clientY - Drag.click.y,
+					left = event.clientX - Drag.click.x;
+				// move dragged object
+				Drag.el.css({ "--top": `${top}px`, "--left": `${left}px` });
 				break;
 			case "mouseup":
 				// remove class
@@ -92,24 +113,47 @@
 				event.preventDefault();
 
 				let Proj = Projector,
-					File = Proj.file;
-					
+					File = Proj.file,
+					el = $(event.target),
+					x = +el.prop("offsetLeft"),
+					y = +el.prop("offsetTop"),
+					w = +el.prop("offsetWidth"),
+					h = +el.prop("offsetHeight"),
+					offset = { x, y, w, h },
+					click = {
+						y: event.clientY,
+					};
+
 				Self.drag = {
+					el,
 					proj: Proj,
 					file: File,
+					click,
+					offset,
 				};
 				// prevent mouse from triggering mouseover
 				APP.els.content.addClass("no-cursor");
 				// bind event handlers
-				Proj.doc.on("mousemove mouseup", Self.move);
+				Proj.doc.on("mousemove mouseup", Self.resize);
 				break;
 			case "mousemove":
+				let diff = event.clientY - Drag.click.y,
+					hd = diff >> 1,
+					top = Drag.offset.y - hd,
+					left = Drag.offset.x - hd,
+					radius = Drag.offset.h + diff;
+				// resize object
+				Drag.el.css({
+					"--top": `${top}px`,
+					"--left": `${left}px`,
+					"--radius": `${radius}px`,
+				});
 				break;
 			case "mouseup":
 				// remove class
 				APP.els.content.removeClass("no-cursor");
 				// unbind event handlers
-				Drag.proj.doc.off("mousemove mouseup", Self.move);
+				Drag.proj.doc.off("mousemove mouseup", Self.resize);
 				break;
 		}
 	},
