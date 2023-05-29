@@ -33,11 +33,11 @@
 				File.brushes.map(brush => {
 					let f = brush.frames[event.index];
 					if (f) {
-						let top = 100,
-							left = 100,
-							radius = 30;
-						str.push(`<div class="brush" style="--bg: ${brush.color}; --top: ${top}px; --left: ${left}px; --radius: ${radius}px;"></div>`);
-						// console.log( brush );
+						let [x, y, r] = f;
+						// translate coordinates
+						y += File.oY;
+						x += File.oX;
+						str.push(`<div class="brush" style="--bg: ${brush.color}; --top: ${y}px; --left: ${x}px; --radius: ${r}px;"></div>`);
 					}
 
 				});
