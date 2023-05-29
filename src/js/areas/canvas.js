@@ -70,6 +70,7 @@
 
 				let Proj = Projector,
 					File = Proj.file,
+					radius = +el.prop("offsetWidth") / 2,
 					x = +el.prop("offsetLeft"),
 					y = +el.prop("offsetTop"),
 					click = {
@@ -82,6 +83,7 @@
 					proj: Proj,
 					file: File,
 					click,
+					radius,
 				};
 				// prevent mouse from triggering mouseover
 				APP.els.content.addClass("no-cursor");
@@ -93,8 +95,15 @@
 					left = event.clientX - Drag.click.x;
 				// move dragged object
 				Drag.el.css({ "--top": `${top}px`, "--left": `${left}px` });
+				// save values for "mouseup"
+				Drag.top = top;
+				Drag.left = left;
 				break;
 			case "mouseup":
+				let f = Drag.file.brushes[0].frames[Drag.file.frameIndex];
+				f[0] = (Drag.left + Drag.radius - Drag.file.oX) / Drag.file.scale; // left
+				f[1] = (Drag.top + Drag.radius - Drag.file.oY) / Drag.file.scale; // top
+
 				// remove class
 				APP.els.content.removeClass("no-cursor");
 				// unbind event handlers
