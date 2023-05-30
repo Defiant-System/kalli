@@ -348,6 +348,16 @@ content {
 							.tbl-row {
 								padding: 2px 3px 2px 5px;
 
+								&.brush-row {
+									span {
+										&:before {
+											content: "∙";
+											display: inline-block;
+											margin-right: 3px;
+										}
+									}
+								}
+
 								[class*="icon-"],
 								[class^="icon-"] {
 									filter: brightness(1.25);

@@ -3,7 +3,6 @@ class File {
 	constructor(fsFile) {
 		// save reference to original FS file
 		this._file = fsFile;
-		
 		// defaults
 		this.scale = 1;
 		this.width = 0;
@@ -19,6 +18,10 @@ class File {
 
 		// parse image content blob
 		this.parseImage();
+	}
+
+	get name() {
+		return this._file.base;
 	}
 
 	async parseImage() {
@@ -38,6 +41,7 @@ class File {
 			let canvas = createCanvas(width, height);
 			return {
 				...canvas,
+				name: xBrush.getAttribute("name"),
 				color: xBrush.getAttribute("color"),
 				frames: JSON.parse(xBrush.getAttribute("frames")),
 			};

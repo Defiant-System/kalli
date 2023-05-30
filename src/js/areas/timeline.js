@@ -7,7 +7,8 @@
 		this.els = {
 			timeline: window.find(".row-timeline"),
 			playhead: window.find(".row-timeline .play-head"),
-			tblBody: window.find(".row-timeline .right .tbl-body"),
+			leftBody: window.find(".row-timeline .left .tbl-body"),
+			rightBody: window.find(".row-timeline .right .tbl-body"),
 		};
 		
 		// bind event handlers
@@ -23,20 +24,37 @@
 			case "file-parsed":
 				str = [];
 				// plot frames on timeline
+				let brushes = event.file.brushes;
+				str.push(`<div class="tbl-row">`);
+				str.push(`	<i class="icon-eye-on"></i>`);
+				str.push(`	<span>${event.file.name}</span>`);
+				str.push(`</div>`);
+				// left column
+				brushes.map((b, y) => {
+					str.push(`<div class="tbl-row brush-row">`);
+					str.push(`	<i class="icon-eye-on"></i>`);
+					str.push(`	<span>${b.name}</span>`);
+					str.push(`</div>`);
+				});
+				// add html string
+				Self.els.leftBody.html(str.join(""));
+
+				str = [];
+				// find out start & end of animation
 				let minL = 1e3,
 					maxW = 0;
-				// find out start & end of animation
-				event.file.brushes.map(b => { minL = Math.min(b.frames.findIndex(e => !!e), minL); });
-				event.file.brushes.map(b => { maxW = Math.max(b.frames.length-minL-1, maxW); });
+				brushes.map(b => { minL = Math.min(b.frames.findIndex(e => !!e), minL); });
+				brushes.map(b => { maxW = Math.max(b.frames.length-minL-1, maxW); });
 				str.push(`<div class="tbl-row parent-row">`);
 				str.push(`<span class="frames" style="--l: ${minL}; --w: ${maxW};"></span>`);
 				str.push(`</div>`);
-				// iterate frames
-				event.file.brushes.map((b, y) => {
+				// iterate brushes
+				brushes.map((b, y) => {
 					str.push(`<div class="tbl-row">`);
 					let fl = b.frames.length-1,
 						l = false,
 						w = false;
+					// iterate frames
 					b.frames.map((f, x) => {
 						if (f && l === false) l = x;
 						if ((!f && l && w === false) || x === fl) w = x - l;
@@ -49,7 +67,7 @@
 					str.push(`</div>`);
 				});
 				// add html string
-				Self.els.tblBody.html(str.join(""));
+				Self.els.rightBody.html(str.join(""));
 				break;
 		}
 	},
