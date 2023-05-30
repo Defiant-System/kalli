@@ -327,7 +327,7 @@ content {
 			--frW: 14px;
 			--rowH: 23px;
 			--c: #d60;
-			--full: 41;
+			--full: 10;
 
 			.area {
 				margin: 0 19px 19px 0;
@@ -453,18 +453,18 @@ content {
 								position: absolute;
 								top: 30px;
 								left: calc( calc( var( --full ) * var( --frW ) ) - 1px );
-								// left: 573px;
 								height: 113px;
 								width: 1px;
 								overflow: visible;
-								z-index: 98;
+								z-index: 2;
 								background: #444;
 							}
 
 							.play-head {
 								position: absolute;
 								top: 30px;
-								left: 77px;
+								// left: calc( calc( var( --pH ) * var( --frW ) ) - calc( var( --frW ) * .5 ) );
+								left: -999px;
 								height: 113px;
 								width: 1px;
 								overflow: visible;
@@ -525,6 +525,7 @@ content {
 
 							.frames {
 								position: absolute;
+								z-index: 2;
 								top: 5px;
 								left: calc( var( --l ) * var( --frW ) );
 								width: calc( calc( var( --w ) * var( --frW ) ) - 1px );
@@ -593,10 +594,10 @@ content {
 					width: 11px;
 
 					.scroll-bar {
-						top: 31%;
+						top: 0;
 						left: 1px;
 						width: 9px;
-						height: 37%;
+						// height: 37%;
 					}
 				}
 			}
@@ -642,7 +643,7 @@ content {
 						left: 1px;
 						top: 1px;
 						height: 9px;
-						width: 37%;
+						// width: 37%;
 					}
 				}
 			}
@@ -653,7 +654,7 @@ content {
 				background: rgba(0,0,0,.125);
 
 				.scroll-bar {
-					opacity: 0;
+					// opacity: 0;
 					position: absolute;
 					border-radius: 13px;
 					background: darken(@boxFace, 3%);

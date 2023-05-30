@@ -9,6 +9,10 @@
 			playhead: window.find(".row-timeline .play-head"),
 			leftBody: window.find(".row-timeline .left .tbl-body"),
 			rightBody: window.find(".row-timeline .right .tbl-body"),
+			rScrTrack: window.find(".row-timeline .bg-scrollbar.right .scroll-track"),
+			rScrBar: window.find(".row-timeline .bg-scrollbar.right .scroll-bar"),
+			bScrTrack: window.find(".row-timeline .bg-scrollbar.bottom .scroll-track"),
+			bScrBar: window.find(".row-timeline .bg-scrollbar.bottom .scroll-bar"),
 		};
 		
 		// bind event handlers
@@ -66,6 +70,8 @@
 					});
 					str.push(`</div>`);
 				});
+				// update full width detail
+				Self.els.timeline.css({ "--full": minL + maxW });
 				// add html string
 				Self.els.rightBody.html(str.join(""));
 				// calculate scrollbars
@@ -74,8 +80,16 @@
 			case "window.resize":
 			case "update-scrollbars":
 				let oW = Self.els.rightBody.prop("offsetWidth"),
-					sW = Self.els.rightBody.prop("scrollWidth");
-				console.log( sW, oW );
+					oH = Self.els.rightBody.prop("offsetHeight"),
+					sW = Self.els.rightBody.prop("scrollWidth"),
+					sH = Self.els.rightBody.prop("scrollHeight"),
+					hScroll = Self.els.rScrTrack.prop("offsetHeight"),
+					wScroll = Self.els.bScrTrack.prop("offsetWidth"),
+					height = (oH / sH) * hScroll,
+					width = (oW / sW) * wScroll;
+				// console.log( sW, oW, wScroll, wTrack );
+				Self.els.rScrBar.css({ height });
+				Self.els.bScrBar.css({ width });
 				break;
 		}
 	},
