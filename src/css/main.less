@@ -344,7 +344,16 @@ content {
 						flex-direction: column;
 						border-right: 1px solid #555;
 
+						.tbl-head {
+							.brush-layer-tools {
+								height: 31px;
+
+							}
+						}
+
 						.tbl-body {
+							overflow: hidden;
+							
 							.tbl-row {
 								padding: 2px 3px 2px 5px;
 
@@ -477,6 +486,8 @@ content {
 						}
 
 						.tbl-body {
+							overflow: hidden;
+
 							.tbl-row {
 								background-image: repeating-linear-gradient(90deg,
 										transparent 0px, transparent calc( var( --frW ) - 1px ),

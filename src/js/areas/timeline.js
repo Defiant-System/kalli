@@ -68,6 +68,11 @@
 				});
 				// add html string
 				Self.els.rightBody.html(str.join(""));
+				// calculate scrollbars
+				Self.dispatch({ type: "update-scrollbars" });
+				break;
+			case "update-scrollbars":
+				console.log("TODO: calculate timeline scrollbars");
 				break;
 		}
 	},
