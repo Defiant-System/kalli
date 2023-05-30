@@ -327,6 +327,7 @@ content {
 			--frW: 14px;
 			--rowH: 23px;
 			--c: #d60;
+			--full: 41;
 
 			.area {
 				margin: 0 19px 19px 0;
@@ -353,7 +354,7 @@ content {
 
 						.tbl-body {
 							overflow: hidden;
-							
+
 							.tbl-row {
 								padding: 2px 3px 2px 5px;
 
@@ -448,10 +449,22 @@ content {
 								}
 							}
 
+							.end-line {
+								position: absolute;
+								top: 30px;
+								left: calc( calc( var( --full ) * var( --frW ) ) - 1px );
+								// left: 573px;
+								height: 113px;
+								width: 1px;
+								overflow: visible;
+								z-index: 98;
+								background: #444;
+							}
+
 							.play-head {
 								position: absolute;
 								top: 30px;
-								left: 80px;
+								left: 77px;
 								height: 113px;
 								width: 1px;
 								overflow: visible;

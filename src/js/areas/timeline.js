@@ -71,8 +71,11 @@
 				// calculate scrollbars
 				Self.dispatch({ type: "update-scrollbars" });
 				break;
+			case "window.resize":
 			case "update-scrollbars":
-				console.log("TODO: calculate timeline scrollbars");
+				let oW = Self.els.rightBody.prop("offsetWidth"),
+					sW = Self.els.rightBody.prop("scrollWidth");
+				console.log( sW, oW );
 				break;
 		}
 	},

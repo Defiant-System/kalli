@@ -39,6 +39,7 @@ const kalli = {
 			case "window.resize":
 				// forward event
 				Projector.dispatch(event);
+				Self.timeline.dispatch(event);
 				break;
 
 			// custom events
