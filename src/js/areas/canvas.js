@@ -149,9 +149,9 @@
 			case "mousemove":
 				let diff = event.clientY - Drag.click.y,
 					hd = diff >> 1,
-					top = Drag.offset.y - hd,
-					left = Drag.offset.x - hd,
-					radius = Drag.offset.h + diff;
+					top = Drag.offset.y + hd,
+					left = Drag.offset.x + hd,
+					radius = Drag.offset.h - diff;
 				// resize object
 				Drag.el.css({
 					"--top": `${top}px`,

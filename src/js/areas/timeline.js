@@ -7,6 +7,7 @@
 		this.els = {
 			timeline: window.find(".row-timeline"),
 			playhead: window.find(".row-timeline .play-head"),
+			tblBody: window.find(".row-timeline .right .tbl-body"),
 		};
 		
 		// bind event handlers
@@ -15,13 +16,40 @@
 	dispatch(event) {
 		let APP = kalli,
 			Self = APP.timeline,
+			str,
 			el;
 		// console.log(event);
 		switch (event.type) {
 			case "file-parsed":
-				event.file.brushes.map(brush => {
-					// console.log( brush.frames );
+				str = [];
+				// plot frames on timeline
+				let minL = 1e3,
+					maxW = 0;
+				// find out start & end of animation
+				event.file.brushes.map(b => { minL = Math.min(b.frames.findIndex(e => !!e), minL); });
+				event.file.brushes.map(b => { maxW = Math.max(b.frames.length-minL-1, maxW); });
+				str.push(`<div class="tbl-row parent-row">`);
+				str.push(`<span class="frames" style="--l: ${minL}; --w: ${maxW};"></span>`);
+				str.push(`</div>`);
+				// iterate frames
+				event.file.brushes.map((b, y) => {
+					str.push(`<div class="tbl-row">`);
+					let fl = b.frames.length-1,
+						l = false,
+						w = false;
+					b.frames.map((f, x) => {
+						if (f && l === false) l = x;
+						if ((!f && l && w === false) || x === fl) w = x - l;
+						if (l !== false && w !== false) {
+							str.push(`<span class="frames" style="--l: ${l}; --w: ${w}; --c: ${b.color};"></span>`);
+							l = false;
+							w = false;
+						}
+					});
+					str.push(`</div>`);
 				});
+				// add html string
+				Self.els.tblBody.html(str.join(""));
 				break;
 		}
 	},
