@@ -17,6 +17,9 @@
 		
 		// bind event handlers
 		this.els.playhead.on("mousedown", this.doHead);
+
+		// subscribe to internal events
+		karaqu.on("file-parsed", this.dispatch);
 	},
 	dispatch(event) {
 		let APP = kalli,
@@ -28,10 +31,10 @@
 			case "file-parsed":
 				str = [];
 				// plot frames on timeline
-				let brushes = event.file.brushes;
+				let brushes = event.detail.file.brushes;
 				str.push(`<div class="tbl-row">`);
 				str.push(`	<i class="icon-eye-on"></i>`);
-				str.push(`	<span>${event.file.name}</span>`);
+				str.push(`	<span>${event.detail.file.name}</span>`);
 				str.push(`</div>`);
 				// left column
 				brushes.map((b, y) => {
@@ -87,9 +90,8 @@
 					wScroll = Self.els.bScrTrack.prop("offsetWidth"),
 					height = (oH / sH) * hScroll,
 					width = (oW / sW) * wScroll;
-				// console.log( sW, oW, wScroll, wTrack );
-				Self.els.rScrBar.css({ height });
-				Self.els.bScrBar.css({ width });
+				Self.els.rScrBar.css({ height }).toggleClass("hidden", hScroll !== height);
+				Self.els.bScrBar.css({ width }).toggleClass("hidden", wScroll !== width);
 				break;
 		}
 	},

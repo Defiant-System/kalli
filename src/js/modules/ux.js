@@ -7,6 +7,7 @@ const UX = {
 
 		// bind event handlers
 		this.content.on("mousedown", ".knob", this.doKnob);
+		this.content.on("mousedown", ".bg-scrollbar", this.doScoll);
 		this.content.on("click", "[data-options]", this.dispatch);
 	},
 	dispatch(event) {
@@ -55,6 +56,12 @@ const UX = {
 					// unbind event handler
 					Self.doc.off("mousedown", Self.dispatch);
 				}
+				break;
+		}
+	},
+	doScoll(event) {
+		switch (event.type) {
+			case "mousedown":
 				break;
 		}
 	},

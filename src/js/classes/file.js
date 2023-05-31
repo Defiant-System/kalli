@@ -46,8 +46,8 @@ class File {
 				frames: JSON.parse(xBrush.getAttribute("frames")),
 			};
 		});
-		// update timeline
-		APP.timeline.dispatch({ type: "file-parsed", file: this });
+		// emit event
+		karaqu.emit("file-parsed", { file: this });
 
 		// save references for performance
 		this.xImg = xImg;

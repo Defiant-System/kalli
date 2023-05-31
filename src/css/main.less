@@ -272,10 +272,12 @@ content {
 					}
 				}
 
-				.layers {
+				.assets {
 					margin: 0 19px 0 0;
 
 					.body {
+						overflow: hidden;
+						
 						.asset {
 							position: relative;
 							padding: 5px;
@@ -323,7 +325,7 @@ content {
 
 		.row-timeline {
 			display: flex;
-			height: 170px;
+			height: 167px;
 			--frW: 14px;
 			--rowH: 23px;
 			--c: #d60;
@@ -590,7 +592,7 @@ content {
 				.scroll-track {
 					top: 7px;
 					bottom: 7px;
-					left: 2px;
+					left: 3px;
 					width: 11px;
 
 					.scroll-bar {
@@ -636,7 +638,7 @@ content {
 				.scroll-track {
 					left: 7px;
 					right: 7px;
-					top: 2px;
+					top: 3px;
 					height: 11px;
 
 					.scroll-bar {
@@ -659,6 +661,10 @@ content {
 					border-radius: 13px;
 					background: darken(@boxFace, 3%);
 					cursor: ns-resize;
+
+					&.hidden {
+						display: none;
+					}
 				}
 			}
 		}
