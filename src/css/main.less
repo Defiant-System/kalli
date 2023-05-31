@@ -503,6 +503,8 @@ content {
 							overflow: hidden;
 
 							.tbl-row {
+								border: 0;
+								
 								&.parent-row {
 									.frames {
 										background: rgba(255,255,255,.125);
@@ -529,6 +531,7 @@ content {
 									left: 0;
 									width: calc( var( --frW ) * var( --full ) );
 									height: var( --rowH );
+									box-shadow: inset 0 -1px 0 #555;
 								}
 							}
 
