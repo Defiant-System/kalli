@@ -19,7 +19,7 @@
 				event.el.parent().find(".active").removeClass("active");
 				event.el.addClass("active");
 				// updat work area
-				Self.els.workArea
+				APP.els.content
 					.removeClass("show-canvas show-preview show-code")
 					.addClass(`show-${event.el.data("arg")}`);
 				break;
