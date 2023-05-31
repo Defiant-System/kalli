@@ -70,12 +70,24 @@ const UX = {
 				event.preventDefault();
 
 				let scrEl = $(this),
+					psEl = scrEl.parent().parent().parent(),
 					left = scrEl.prop("scrollLeft") + (event.wheelDeltaX * -.7),
-					top = scrEl.prop("scrollTop") + (event.wheelDeltaY * -.7);
-				scrEl.scrollTo(left, top);
+					top = scrEl.prop("scrollTop") + (event.wheelDeltaY * -.7),
+					hId = scrEl.data("scroll-hId"),
+					vId = scrEl.data("scroll-vId"),
+					sEl, vLerp;
+				// scroll DIVs
+				psEl.find(`[data-scroll-hId="${hId}"]`).scrollTo(left, top);
+				psEl.find(`[data-scroll-vId="${vId}"]`).scrollTo(left, top);
 
-				// TODO: sync scrollbar
+				// sync scrollbars
+				sEl = psEl.find(`.bg-scrollbar[data-scroll-target="${hId}"] .scroll-bar`);
+				vLerp = Math.invLerp(0, scrEl.prop("scrollWidth") - scrEl.prop("offsetWidth"), scrEl.prop("scrollLeft"));
+				sEl.css({ left: Math.lerp(1, sEl.parent().prop("offsetWidth") - sEl.prop("offsetWidth") - 1, vLerp) });
 
+				sEl = psEl.find(`.bg-scrollbar[data-scroll-target="${vId}"] .scroll-bar`);
+				vLerp = Math.invLerp(0, scrEl.prop("scrollHeight") - scrEl.prop("offsetHeight"), scrEl.prop("scrollTop"));
+				sEl.css({ top: Math.lerp(1, sEl.parent().prop("offsetHeight") - sEl.prop("offsetHeight") - 1, vLerp) });
 				break;
 			case "mousedown":
 				// prevent default behaviour
@@ -121,7 +133,6 @@ const UX = {
 			case "mousemove":
 				if (Drag.type === "horisontal") {
 					let left = Drag._min(Drag._max(event.clientX + Drag.clickX, Drag.min.x), Drag.max.x);
-					// moves scrollbar element
 					Drag.bar.css({ left });
 					
 					let perc = Drag._invLerp(Drag.min.x, Drag.max.x, left);
