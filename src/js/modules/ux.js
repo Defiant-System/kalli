@@ -70,21 +70,12 @@ const UX = {
 				event.preventDefault();
 
 				let scrEl = $(this),
-					left = scrEl.prop("scrollLeft"),
-					top = scrEl.prop("scrollTop");
-					// dX = Math.sign(event.deltaX),
-					// dY = Math.sign(event.deltaY);
+					left = scrEl.prop("scrollLeft") + (event.wheelDeltaX * -.7),
+					top = scrEl.prop("scrollTop") + (event.wheelDeltaY * -.7);
+				scrEl.scrollTo(left, top);
 
-				let dx = event.wheelDeltaX,
-					dy = event.wheelDeltaY;
-				if (dx == null && event.detail && event.axis == event.HORIZONTAL_AXIS) { dx = event.detail; }
-				if (dy == null && event.detail && event.axis == event.VERTICAL_AXIS) { dy = event.detail; }
-				else if (dy == null) { dy = event.wheelDelta; }
-				
-				dx *= -.7;
-				dy *= -.7;
+				// TODO: sync scrollbar
 
-				scrEl.scrollTo(left + dx, top + dy);
 				break;
 			case "mousedown":
 				// prevent default behaviour
