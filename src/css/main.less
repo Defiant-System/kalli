@@ -402,7 +402,7 @@ content {
 								border-top: 1px solid rgba(200,200,200,.1);
 							}
 
-							> div {
+							> div.frame-count {
 								position: absolute;
 								top: 0;
 								left: 0;
@@ -414,9 +414,9 @@ content {
 									content: "";
 									position: absolute;
 									left: 0;
-									right: 0;
 									bottom: 0;
 									height: 13px;
+									width: calc( var( --frW ) * var( --full ) );
 									border-top: 1px solid #555;
 									background-image: repeating-linear-gradient(90deg,
 										transparent 0px, transparent calc( calc( var( --frW ) * 9 ) - 1px ),
@@ -465,7 +465,6 @@ content {
 							.play-head {
 								position: absolute;
 								top: 30px;
-								// left: calc( calc( var( --pH ) * var( --frW ) ) - calc( var( --frW ) * .5 ) );
 								left: -999px;
 								height: 113px;
 								width: 1px;
@@ -504,15 +503,6 @@ content {
 							overflow: hidden;
 
 							.tbl-row {
-								background-image: repeating-linear-gradient(90deg,
-										transparent 0px, transparent calc( var( --frW ) - 1px ),
-										#555 calc( var( --frW ) - 1px ), #555 var( --frW )
-									),
-									repeating-linear-gradient(90deg,
-										transparent 0px, transparent calc( var( --frW ) * 9 ),
-										#55555570 calc( var( --frW ) * 9 ), #55555570 calc( var( --frW ) * 10 )
-									);
-
 								&.parent-row {
 									.frames {
 										background: rgba(255,255,255,.125);
@@ -522,6 +512,23 @@ content {
 										top: 3px;
 										height: calc( var( --rowH ) - 7px );
 									}
+								}
+
+								&:before {
+									content: "";
+									background-image: repeating-linear-gradient(90deg,
+											transparent 0px, transparent calc( var( --frW ) - 1px ),
+											#555 calc( var( --frW ) - 1px ), #555 var( --frW )
+										),
+										repeating-linear-gradient(90deg,
+											transparent 0px, transparent calc( var( --frW ) * 9 ),
+											#55555570 calc( var( --frW ) * 9 ), #55555570 calc( var( --frW ) * 10 )
+										);
+									position: absolute;
+									top: 0;
+									left: 0;
+									width: calc( var( --frW ) * var( --full ) );
+									height: var( --rowH );
 								}
 							}
 
@@ -556,7 +563,7 @@ content {
 
 					.tbl-row {
 						position: relative;
-						width: 100%;
+						// width: 100%;
 						height: var( --rowH );
 						border-bottom: 1px solid #555;
 					}
