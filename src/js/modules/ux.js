@@ -60,8 +60,42 @@ const UX = {
 		}
 	},
 	doScoll(event) {
+		let APP = kalli,
+			Self = UX,
+			Drag = Self.drag;
 		switch (event.type) {
 			case "mousedown":
+				// prevent default behaviour
+				event.preventDefault();
+
+				// variables
+				let el = $(event.target);
+				// drag object
+				Self.drag = {
+					el,
+					clickX: +el.prop("offsetLeft") - event.clientX,
+					clickY: +el.prop("offsetTop") - event.clientY,
+					min: { x: 1, y: 0 },
+					max: { x: 635, y: 0 },
+					_max: Math.max,
+					_min: Math.min,
+				};
+				// prevent mouse from triggering mouseover
+				APP.els.content.addClass("cover");
+				// bind event handlers
+				APP.els.doc.on("mousemove mouseup", Self.doScoll);
+				break;
+			case "mousemove":
+				let left = Drag._min(Drag._max(event.clientX + Drag.clickX, Drag.min.x), Drag.max.x),
+					top = Drag._min(Drag._max(event.clientY + Drag.clickY, Drag.min.y), Drag.max.y);
+				// moves navigator view rectangle
+				Drag.el.css({ left });
+				break;
+			case "mouseup":
+				// remove class
+				APP.els.content.removeClass("cover");
+				// unbind event handlers
+				APP.els.doc.off("mousemove mouseup", Self.doScoll);
 				break;
 		}
 	},
