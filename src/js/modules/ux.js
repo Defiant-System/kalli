@@ -91,6 +91,10 @@ const UX = {
 						tX: target.get(0).prop("scrollWidth") - target.get(0).prop("offsetWidth"),
 						tY: target.get(0).prop("scrollHeight") - target.get(0).prop("offsetHeight"),
 					},
+					scroll: {
+						top: target.get(1).prop("scrollTop"),
+						left: target.get(1).prop("scrollLeft"),
+					},
 					_max: Math.max,
 					_min: Math.min,
 					_round: Math.round,
@@ -109,13 +113,13 @@ const UX = {
 					Drag.bar.css({ left });
 					
 					let perc = Drag._invLerp(Drag.min.x, Drag.max.x, left);
-					Drag.target.scrollLeft(Drag._round(Drag.max.tX * perc));
+					Drag.target.scrollTo(Drag._round(Drag.max.tX * perc), Drag.scroll.top);
 				} else {
 					let top = Drag._min(Drag._max(event.clientY + Drag.clickY, Drag.min.y), Drag.max.y);
 					Drag.bar.css({ top });
 					
 					let perc = Drag._invLerp(Drag.min.y, Drag.max.y, top);
-					Drag.target.scrollTop(Drag._round(Drag.max.tY * perc));
+					Drag.target.scrollTo(Drag.scroll.left, Drag._round(Drag.max.tY * perc));
 				}
 				break;
 			case "mouseup":

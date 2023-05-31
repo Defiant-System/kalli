@@ -392,22 +392,6 @@ content {
 						.tbl-head {
 							position: relative;
 
-							&:before {
-								content: "";
-								position: absolute;
-								left: 0;
-								right: 0;
-								bottom: 0;
-								height: 13px;
-								border-top: 1px solid #555;
-								background-image: repeating-linear-gradient(90deg,
-									transparent 0px, transparent calc( calc( var( --frW ) * 9 ) - 1px ),
-									#555 calc( calc( var( --frW ) * 9 ) - 1px ), #555 calc( var( --frW ) * 9 ),
-									#55555570 calc( var( --frW ) * 9 ), #55555570 calc( calc( var( --frW ) * 10 ) - 1px ),
-									#555 calc( calc( var( --frW ) * 10 ) - 1px ), #555 calc( var( --frW ) * 10 )
-								);
-							}
-
 							&:after {
 								content: "";
 								position: absolute;
@@ -425,6 +409,22 @@ content {
 								right: 0;
 								bottom: 0;
 								overflow: hidden;
+
+								&:before {
+									content: "";
+									position: absolute;
+									left: 0;
+									right: 0;
+									bottom: 0;
+									height: 13px;
+									border-top: 1px solid #555;
+									background-image: repeating-linear-gradient(90deg,
+										transparent 0px, transparent calc( calc( var( --frW ) * 9 ) - 1px ),
+										#555 calc( calc( var( --frW ) * 9 ) - 1px ), #555 calc( var( --frW ) * 9 ),
+										#55555570 calc( var( --frW ) * 9 ), #55555570 calc( calc( var( --frW ) * 10 ) - 1px ),
+										#555 calc( calc( var( --frW ) * 10 ) - 1px ), #555 calc( var( --frW ) * 10 )
+									);
+								}
 
 								ul {
 									list-style: none;
