@@ -8,6 +8,7 @@ const UX = {
 		// bind event handlers
 		this.content.on("mousedown", ".knob", this.doKnob);
 		this.content.on("mousedown", ".bg-scrollbar", this.doScoll);
+		this.content.on("wheel", "[data-scroll-hId], [data-scroll-vId]", this.doScoll);
 		this.content.on("click", "[data-options]", this.dispatch);
 	},
 	dispatch(event) {
@@ -64,6 +65,27 @@ const UX = {
 			Self = UX,
 			Drag = Self.drag;
 		switch (event.type) {
+			case "wheel":
+				// prevent default behaviour
+				event.preventDefault();
+
+				let scrEl = $(this),
+					left = scrEl.prop("scrollLeft"),
+					top = scrEl.prop("scrollTop");
+					// dX = Math.sign(event.deltaX),
+					// dY = Math.sign(event.deltaY);
+
+				let dx = event.wheelDeltaX,
+					dy = event.wheelDeltaY;
+				if (dx == null && event.detail && event.axis == event.HORIZONTAL_AXIS) { dx = event.detail; }
+				if (dy == null && event.detail && event.axis == event.VERTICAL_AXIS) { dy = event.detail; }
+				else if (dy == null) { dy = event.wheelDelta; }
+				
+				dx *= -.7;
+				dy *= -.7;
+
+				scrEl.scrollTo(left + dx, top + dy);
+				break;
 			case "mousedown":
 				// prevent default behaviour
 				event.preventDefault();
@@ -75,8 +97,8 @@ const UX = {
 					pEl = track.parent(),
 					type = pEl.hasClass("horisontal") ? "horisontal" : "vertical",
 					selector = type === "horisontal" ? `[data-scroll-hId="${pEl.data("scroll-target")}"]` : `[data-scroll-vId="${pEl.data("scroll-target")}"]`,
-					target = pEl.parent().find(selector);
-
+					target = pEl.parent().find(selector),
+					bodyEl = target.get(target.length-1);
 				// drag object
 				Self.drag = {
 					bar,
@@ -88,19 +110,18 @@ const UX = {
 					max: {
 						x: track.prop("offsetWidth") - bar.prop("offsetWidth") - 1,
 						y: track.prop("offsetHeight") - bar.prop("offsetHeight") - 1,
-						tX: target.get(0).prop("scrollWidth") - target.get(0).prop("offsetWidth"),
-						tY: target.get(0).prop("scrollHeight") - target.get(0).prop("offsetHeight"),
+						tX: bodyEl.prop("scrollWidth") - bodyEl.prop("offsetWidth"),
+						tY: bodyEl.prop("scrollHeight") - bodyEl.prop("offsetHeight"),
 					},
 					scroll: {
-						top: target.get(1).prop("scrollTop"),
-						left: target.get(1).prop("scrollLeft"),
+						top: bodyEl.prop("scrollTop"),
+						left: bodyEl.prop("scrollLeft"),
 					},
 					_max: Math.max,
 					_min: Math.min,
 					_round: Math.round,
 					_invLerp: Math.invLerp,
 				};
-
 				// prevent mouse from triggering mouseover
 				APP.els.content.addClass("cover");
 				// bind event handlers
