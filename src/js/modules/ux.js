@@ -69,27 +69,54 @@ const UX = {
 				event.preventDefault();
 
 				// variables
-				let el = $(event.target);
+				let el = $(event.target),
+					track = el.hasClass("scroll-track") ? el : el.parent(),
+					bar = el.hasClass("scroll-bar") ? el : el.find(".scroll-bar"),
+					pEl = track.parent(),
+					type = pEl.hasClass("horisontal") ? "horisontal" : "vertical",
+					selector = type === "horisontal" ? `[data-scroll-hId="${pEl.data("scroll-target")}"]` : `[data-scroll-vId="${pEl.data("scroll-target")}"]`,
+					target = pEl.parent().find(selector);
+
 				// drag object
 				Self.drag = {
-					el,
-					clickX: +el.prop("offsetLeft") - event.clientX,
-					clickY: +el.prop("offsetTop") - event.clientY,
-					min: { x: 1, y: 0 },
-					max: { x: 635, y: 0 },
+					bar,
+					type,
+					target,
+					clickX: +bar.prop("offsetLeft") - event.clientX,
+					clickY: +bar.prop("offsetTop") - event.clientY,
+					min: { x: 1, y: 1 },
+					max: {
+						x: track.prop("offsetWidth") - bar.prop("offsetWidth") - 1,
+						y: track.prop("offsetHeight") - bar.prop("offsetHeight") - 1,
+						tX: target.get(0).prop("scrollWidth") - target.get(0).prop("offsetWidth"),
+						tY: target.get(0).prop("scrollHeight") - target.get(0).prop("offsetHeight"),
+					},
 					_max: Math.max,
 					_min: Math.min,
+					_round: Math.round,
+					_invLerp: Math.invLerp,
 				};
+
 				// prevent mouse from triggering mouseover
 				APP.els.content.addClass("cover");
 				// bind event handlers
 				APP.els.doc.on("mousemove mouseup", Self.doScoll);
 				break;
 			case "mousemove":
-				let left = Drag._min(Drag._max(event.clientX + Drag.clickX, Drag.min.x), Drag.max.x),
-					top = Drag._min(Drag._max(event.clientY + Drag.clickY, Drag.min.y), Drag.max.y);
-				// moves navigator view rectangle
-				Drag.el.css({ left });
+				if (Drag.type === "horisontal") {
+					let left = Drag._min(Drag._max(event.clientX + Drag.clickX, Drag.min.x), Drag.max.x);
+					// moves scrollbar element
+					Drag.bar.css({ left });
+					
+					let perc = Drag._invLerp(Drag.min.x, Drag.max.x, left);
+					Drag.target.scrollLeft(Drag._round(Drag.max.tX * perc));
+				} else {
+					let top = Drag._min(Drag._max(event.clientY + Drag.clickY, Drag.min.y), Drag.max.y);
+					Drag.bar.css({ top });
+					
+					let perc = Drag._invLerp(Drag.min.y, Drag.max.y, top);
+					Drag.target.scrollTop(Drag._round(Drag.max.tY * perc));
+				}
 				break;
 			case "mouseup":
 				// remove class
