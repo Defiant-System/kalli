@@ -3,11 +3,11 @@ let Test = {
 	init(APP) {
 		// return;
 
-		return setTimeout(() => {
-			APP.els.content.find(`.button[data-arg="code"]`).trigger("click");
-
-			hljs.highlightAll();
-		}, 340);
+		// return setTimeout(() => {
+		// 	APP.els.content.find(`.button[data-arg="code"]`).trigger("click");
+		// 	// highlight code view
+		// 	hljs.highlightAll();
+		// }, 340);
 
 		return setTimeout(() => {
 			Projector.file.dispatch({ type: "set-scale", scale: 4, noRender: 1 });

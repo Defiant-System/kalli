@@ -8,6 +8,7 @@
 			timeline: window.find(".row-timeline"),
 			playhead: window.find(".row-timeline .play-head"),
 			leftBody: window.find(".row-timeline .left .tbl-body"),
+			frameCount: window.find(".row-timeline .frame-count ul"),
 			rightBody: window.find(".row-timeline .right .tbl-body"),
 			rScrTrack: window.find(".row-timeline .bg-scrollbar.right .scroll-track"),
 			rScrBar: window.find(".row-timeline .bg-scrollbar.right .scroll-bar"),
@@ -28,6 +29,16 @@
 			el;
 		// console.log(event);
 		switch (event.type) {
+			case "window.keystroke":
+				// moves cursor
+				switch (event.char) {
+					case "up": break;
+					case "down": break;
+					case "left": break;
+					case "right": break;
+				}
+				break;
+
 			case "file-parsed":
 				str = [];
 				// plot frames on timeline
@@ -76,7 +87,11 @@
 				// update full width detail
 				Self.els.timeline.css({ "--full": minL + maxW });
 				// add html string
-				Self.els.rightBody.html(str.join(""));
+				Self.els.rightBody.find(".tbl-row").remove();
+				Self.els.rightBody.append(str.join(""));
+				// frame counters
+				str = [...Array(parseInt((minL + maxW) / 10, 10) + 1)].map(a => `<li></li>`);
+				Self.els.frameCount.append(str.join(""));
 				// calculate scrollbars
 				Self.dispatch({ type: "update-scrollbars" });
 				break;

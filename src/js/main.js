@@ -34,6 +34,7 @@ const kalli = {
 	dispatch(event) {
 		let Self = kalli,
 			el;
+		// console.log( event );
 		switch (event.type) {
 			// system events
 			case "window.init":
@@ -42,6 +43,10 @@ const kalli = {
 				// forward event
 				Projector.dispatch(event);
 				Self.assets.dispatch(event);
+				Self.timeline.dispatch(event);
+				break;
+			case "window.keystroke":
+				// forward event
 				Self.timeline.dispatch(event);
 				break;
 
