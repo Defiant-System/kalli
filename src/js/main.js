@@ -1,4 +1,8 @@
 
+@import "./ext/highlight.min.js"
+@import "./ext/hl-javascript.min.js"
+@import "./ext/hl-xml.min.js"
+
 @import "./classes/file.js"
 
 @import "./modules/ux.js";

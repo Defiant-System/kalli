@@ -5,6 +5,8 @@ let Test = {
 
 		return setTimeout(() => {
 			APP.els.content.find(`.button[data-arg="code"]`).trigger("click");
+
+			hljs.highlightAll();
 		}, 340);
 
 		return setTimeout(() => {
