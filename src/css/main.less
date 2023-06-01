@@ -370,6 +370,8 @@ content {
 			--rowH: 23px;
 			--c: #d60;
 			--full: 10;
+			--cT: 2;  // cursor top
+			--cL: 12; // cursor left
 
 			.area {
 				margin: 0 19px 19px 0;
@@ -593,12 +595,12 @@ content {
 
 							.cursor {
 								position: absolute;
-								top: 22px;
-								left: 153px;
-								width: 15px;
-								height: 24px;
+								top: calc( calc( var( --cT ) * var( --rowH ) ) - 1px );
+								left: calc( calc( var( --cL ) * var( --frW ) ) - 1px );
+								width: calc( var( --frW ) + 1px );
+								height: calc( var( --rowH ) + 1px );
 								// z-index: 2;
-								background: #0aa;
+								background: #0cc;
 								opacity: .35;
 							}
 						}

@@ -25,6 +25,8 @@
 	dispatch(event) {
 		let APP = kalli,
 			Self = APP.timeline,
+			full,
+			value,
 			str,
 			el;
 		// console.log(event);
@@ -32,10 +34,27 @@
 			case "window.keystroke":
 				// moves cursor
 				switch (event.char) {
-					case "up": break;
-					case "down": break;
-					case "left": break;
-					case "right": break;
+					case "up":
+						value = +Self.els.timeline.cssProp("--cT");
+						value = Math.max(1, value - 1);
+						Self.els.timeline.css({ "--cT": value });
+						break;
+					case "down":
+						value = +Self.els.timeline.cssProp("--cT");
+						value = Math.min(Projector.file.brushes.length, value + 1);
+						Self.els.timeline.css({ "--cT": value });
+						break;
+					case "left":
+						value = +Self.els.timeline.cssProp("--cL");
+						value = Math.max(0, value - 1);
+						Self.els.timeline.css({ "--cL": value });
+						break;
+					case "right":
+						full = +Self.els.timeline.cssProp("--full");
+						value = +Self.els.timeline.cssProp("--cL");
+						value = Math.min(full, value + 1);
+						Self.els.timeline.css({ "--cL": value });
+						break;
 				}
 				break;
 
