@@ -127,6 +127,9 @@ class File {
 				this.width = Math.round(this.oW * this.scale);
 				this.height = Math.round(this.oH * this.scale);
 
+				// make sure projector is reset
+				if (Proj.cX === 0 || Proj.cY === 0) Proj.reset(this);
+
 				// origo
 				this.oX = Math.round(Proj.cX - (this.width >> 1));
 				this.oY = Math.round(Proj.cY - (this.height >> 1));
