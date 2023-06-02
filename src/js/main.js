@@ -51,8 +51,18 @@ const kalli = {
 				// forward event
 				Self.timeline.dispatch(event);
 				break;
+			case "open.file":
+				// Files.open(event.path);
+				event.open({ responseType: "xml" })
+					.then(file => Self.dispatch({ type: "prepare-file", file }));
+				break;
 
 			// custom events
+			case "open-file":
+				window.dialog.open({
+					xml: fsItem => Self.dispatch(fsItem),
+				});
+				break;
 			case "setup-workspace":
 				// hide blank view
 				Self.els.content.removeClass("show-blank-view");
@@ -74,6 +84,7 @@ const kalli = {
 					// add file to "recent" list
 					Self.blankView.dispatch({ ...event, type: "add-recent-file" });
 				}
+				console.log(event);
 				// set up workspace
 				Self.dispatch({ type: "setup-workspace" });
 				// open file with Files
