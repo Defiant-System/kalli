@@ -89,6 +89,7 @@
 		width: 600px;
 		height: 193px;
 		color: #999;
+		--bg: #fff;
 
 		.recent-file,
 		.sample {
@@ -117,6 +118,7 @@
 
 				&:before {
 					box-shadow: 0 0 0 1px #489bf7;
+					filter: none;
 				}
 
 				span {
@@ -126,7 +128,12 @@
 
 			&:before {
 				content: "";
-				background: #fff;
+				background-color: var( --bg );
+				background-image: var( --img );
+				background-repeat: no-repeat;
+				background-size: 85% auto;
+				background-position: 50% 50%;
+				filter: grayscale(50%);
 				position: absolute;
 				top: 3px;
 				left: 3px;

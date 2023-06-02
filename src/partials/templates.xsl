@@ -32,7 +32,10 @@
 <xsl:template name="sample-list">
 	<xsl:for-each select="./Samples/*">
 		<div class="sample">
-			<xsl:attribute name="data-kind"><xsl:value-of select="@kind"/></xsl:attribute>
+			<xsl:attribute name="style">
+				--bg: <xsl:value-of select="@bg"/>;
+				--img: url(~/samples/img/<xsl:value-of select="@img"/>);
+			</xsl:attribute>
 			<span><xsl:value-of select="@name"/></span>
 		</div>
 	</xsl:for-each>

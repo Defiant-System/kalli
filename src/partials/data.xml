@@ -1,7 +1,10 @@
 <Data>
 	<Samples>
-		<i path="hb.xml"/>
-		<i path="hello.xml"/>
+		<i bg="#d3d" img="hb.png" name="hb.xml"/>
+		<i bg="#2ddbec" img="hello.png" name="hello.xml"/>
+		<i bg="#eee" img="disney.png" name="disney.xml"/>
+		<i bg="#f00" img="coca_cola.png" name="coca_cola.xml"/>
+		<i bg="#f90" img="vanguard.png" name="vanguard.xml"/>
 	</Samples>
 	<!-- <Recents>
 		<i path="hb.xml"/>
