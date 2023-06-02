@@ -4,6 +4,11 @@ let Test = {
 		return;
 
 		// return setTimeout(() => {
+		// 	window.find(".block-samples .sample:nth(0)").trigger("click");
+		// }, 100);
+
+
+		// return setTimeout(() => {
 		// 	APP.els.content.find(`.button[data-arg="code"]`).trigger("click");
 		// 	// highlight code view
 		// 	hljs.highlightAll();

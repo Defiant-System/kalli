@@ -49,9 +49,18 @@
 			case "select-sample":
 				el = $(event.target);
 				if (!el.hasClass("sample")) return;
-
-				name = el.data("url");
-				APP.dispatch({ type: "load-samples", names: [name.slice(name.lastIndexOf("/")+1)] });
+				// load sample file
+				APP.dispatch({ type: "load-sample", names: [el.find("span").html()] });
+				break;
+			case "add-recent-file":
+				if (!event.file.path) return;
+				let str = `<i name="${event.file.base}" filepath="${event.file.path}"/>`,
+					xFile = $.nodeFromString(str),
+					xExist = Self.xRecent.selectSingleNode(`//Recents/*[@filepath="${event.file.path}"]`);
+				// remove entry if already exist
+				if (xExist) xExist.parentNode.removeChild(xExist);
+				// insert new entry at first position
+				Self.xRecent.insertBefore(xFile, Self.xRecent.firstChild);
 				break;
 		}
 	}
