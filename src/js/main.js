@@ -63,10 +63,6 @@ const kalli = {
 					xml: fsItem => Self.dispatch(fsItem),
 				});
 				break;
-			case "setup-workspace":
-				// hide blank view
-				Self.els.content.removeClass("show-blank-view");
-				break;
 			case "show-blank-view":
 				// show blank view
 				Self.els.content.addClass("show-blank-view");
@@ -84,15 +80,16 @@ const kalli = {
 					// add file to "recent" list
 					Self.blankView.dispatch({ ...event, type: "add-recent-file" });
 				}
-				console.log(event);
 				// set up workspace
 				Self.dispatch({ type: "setup-workspace" });
-				// open file with Files
+				// open file in work module
 				Self.work.open(event.file);
 				break;
 			case "setup-workspace":
-				// hide blank view
-				Self.els.content.removeClass("show-blank-view");
+				// hide blank view; show default canvas view
+				Self.els.content
+					.removeClass("show-blank-view")
+					.addClass("show-canvas");
 				// TODO: update toolbar
 				break;
 			case "open-help":

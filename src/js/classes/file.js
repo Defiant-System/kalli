@@ -56,7 +56,7 @@ class File {
 		this.dispatch({ ...event, type: "set-scale", scale: 1 });
 
 		// render image
-		this.render({ frame: 21, reset: true });
+		this.render({ reset: true });
 	}
 
 	frameHistory(index) {
