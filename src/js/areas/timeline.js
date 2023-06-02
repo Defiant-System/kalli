@@ -57,7 +57,7 @@
 						break;
 				}
 				break;
-
+			// subscribed events
 			case "file-parsed":
 				str = [];
 				// plot frames on timeline
@@ -126,6 +126,15 @@
 					width = (oW / sW) * wScroll;
 				Self.els.rScrBar.css({ height }).toggleClass("hidden", hScroll !== height);
 				Self.els.bScrBar.css({ width }).toggleClass("hidden", wScroll !== width);
+				break;
+			case "select-frame":
+				let rW = parseInt(Self.els.timeline.cssProp("--frW"), 10),
+					rH = parseInt(Self.els.timeline.cssProp("--rowH"), 10),
+					offset = event.offset(".tbl-body");
+				Self.els.timeline.css({
+					"--cT": parseInt(offset.y / rH, 10),
+					"--cL": parseInt(offset.x / rW, 10),
+				});
 				break;
 		}
 	},
