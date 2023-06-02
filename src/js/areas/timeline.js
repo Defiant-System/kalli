@@ -25,6 +25,7 @@
 	dispatch(event) {
 		let APP = kalli,
 			Self = APP.timeline,
+			data,
 			full,
 			value,
 			str,
@@ -32,28 +33,28 @@
 		// console.log(event);
 		switch (event.type) {
 			case "window.keystroke":
+				data = {
+					cT: +Self.els.timeline.cssProp("--cT"),
+					cL: +Self.els.timeline.cssProp("--cL"),
+				};
 				// moves cursor
 				switch (event.char) {
 					case "up":
-						value = +Self.els.timeline.cssProp("--cT");
-						value = Math.max(1, value - 1);
-						Self.els.timeline.css({ "--cT": value });
+						data.cT = Math.max(1, data.cT - 1);
+						Self.dispatch({ type: "focus-frame", ...data });
 						break;
 					case "down":
-						value = +Self.els.timeline.cssProp("--cT");
-						value = Math.min(Projector.file.brushes.length, value + 1);
-						Self.els.timeline.css({ "--cT": value });
+						data.cT = Math.min(Projector.file.brushes.length, data.cT + 1);
+						Self.dispatch({ type: "focus-frame", ...data });
 						break;
 					case "left":
-						value = +Self.els.timeline.cssProp("--cL");
-						value = Math.max(0, value - 1);
-						Self.els.timeline.css({ "--cL": value });
+						data.cL = Math.max(0, data.cL - 1);
+						Self.dispatch({ type: "focus-frame", ...data });
 						break;
 					case "right":
 						full = +Self.els.timeline.cssProp("--full");
-						value = +Self.els.timeline.cssProp("--cL");
-						value = Math.min(full, value + 1);
-						Self.els.timeline.css({ "--cL": value });
+						data.cL = Math.min(full, data.cL + 1);
+						Self.dispatch({ type: "focus-frame", ...data });
 						break;
 				}
 				break;
@@ -131,9 +132,16 @@
 				let rW = parseInt(Self.els.timeline.cssProp("--frW"), 10),
 					rH = parseInt(Self.els.timeline.cssProp("--rowH"), 10),
 					offset = event.offset(".tbl-body");
+				Self.dispatch({
+					type: "focus-frame",
+					cT: parseInt(offset.y / rH, 10),
+					cL: parseInt(offset.x / rW, 10),
+				});
+				break;
+			case "focus-frame":
 				Self.els.timeline.css({
-					"--cT": parseInt(offset.y / rH, 10),
-					"--cL": parseInt(offset.x / rW, 10),
+					"--cT": event.cT,
+					"--cL": event.cL,
 				});
 				break;
 		}

@@ -513,8 +513,9 @@ content {
 							.play-head {
 								position: absolute;
 								top: 30px;
-								left: -999px;
-								left: 160px;
+								// left: -999px;
+								// left: 160px;
+								left: calc( calc( var( --cL ) * var( --frW ) ) + calc( calc( var( --frW ) * .5 ) - 1px ) );
 								height: 110px;
 								width: 1px;
 								overflow: visible;
