@@ -69,9 +69,9 @@
 				// left column
 				brushes.map((b, y) => {
 					str.push(`<div class="tbl-row brush-row">`);
-					str.push(`	<i class="icon-eye-on"></i>`);
+					str.push(`	<i class="icon-eye-on" data-click="toggle-visibility"></i>`);
 					str.push(`	<span>${b.name}</span>`);
-					str.push(`	<i class="icon-trashcan"></i>`);
+					str.push(`	<i class="icon-trashcan" data-click="delete-row"></i>`);
 					str.push(`</div>`);
 				});
 				// add html string
@@ -144,6 +144,12 @@
 				Self.els.timeline.css({ "--cT": event.cT, "--cL": event.cL });
 				Self.els.leftBody.find(".active").removeClass("active");
 				Self.els.leftBody.find(`.tbl-row:nth(${event.cT})`).addClass("active");
+				break;
+			case "toggle-visibility":
+				console.log(event);
+				break;
+			case "delete-row":
+				console.log(event);
 				break;
 		}
 	},
