@@ -4,6 +4,14 @@
 		<Menu type="divider"/>
 		<Menu name="Quit Kalligraphy" shell="win -c"/>
 	</Menu>
+	<Menu name="File">
+		<Menu name="Open&#8230;" click="open-file"/>
+		<Menu type="divider"/>
+		<Menu name="Save" click="save-file" hotkey="alt+s"/>
+		<Menu name="Save As&#8230;" click="save-file-as"/>
+		<Menu type="divider"/>
+		<Menu name="Close file" click="close-file"/>
+	</Menu>
 	<Menu name="Help">
 		<Menu name="Help" click="open-help"/>
 		<Menu type="divider"/>

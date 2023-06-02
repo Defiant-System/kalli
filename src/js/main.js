@@ -63,6 +63,10 @@ const kalli = {
 					xml: fsItem => Self.dispatch(fsItem),
 				});
 				break;
+			case "close-file":
+				// show blank view
+				Self.els.content.addClass("show-blank-view");
+				break;
 			case "show-blank-view":
 				// show blank view
 				Self.els.content.addClass("show-blank-view");
