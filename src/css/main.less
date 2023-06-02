@@ -370,8 +370,8 @@ content {
 			--rowH: 23px;
 			--c: #d60;
 			--full: 10;
-			--cT: 2;  // cursor top
-			--cL: 12; // cursor left
+			--cT: 0; // cursor top
+			--cL: 0; // cursor left
 
 			.area {
 				margin: 0 19px 19px 0;
@@ -421,6 +421,10 @@ content {
 								[class*="icon-"],
 								[class^="icon-"] {
 									filter: brightness(1.25);
+
+									&.icon-trashcan {
+										filter: invert(100%);
+									}
 								}
 								
 								span {

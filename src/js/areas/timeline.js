@@ -64,7 +64,6 @@
 				// plot frames on timeline
 				let brushes = event.detail.file.brushes;
 				str.push(`<div class="tbl-row">`);
-				str.push(`	<i class="icon-eye-on"></i>`);
 				str.push(`	<span>${event.detail.file.name}</span>`);
 				str.push(`</div>`);
 				// left column
@@ -72,6 +71,7 @@
 					str.push(`<div class="tbl-row brush-row">`);
 					str.push(`	<i class="icon-eye-on"></i>`);
 					str.push(`	<span>${b.name}</span>`);
+					str.push(`	<i class="icon-trashcan"></i>`);
 					str.push(`</div>`);
 				});
 				// add html string
@@ -112,6 +112,8 @@
 				// frame counters
 				str = [...Array(parseInt((minL + maxW) / 10, 10) + 1)].map(a => `<li></li>`);
 				Self.els.frameCount.append(str.join(""));
+				// auto focus on frame "1,0"
+				Self.dispatch({ type: "focus-frame", cT: 1, cL: 0 });
 				// calculate scrollbars
 				Self.dispatch({ type: "update-scrollbars" });
 				break;
@@ -139,10 +141,9 @@
 				});
 				break;
 			case "focus-frame":
-				Self.els.timeline.css({
-					"--cT": event.cT,
-					"--cL": event.cL,
-				});
+				Self.els.timeline.css({ "--cT": event.cT, "--cL": event.cL });
+				Self.els.leftBody.find(".active").removeClass("active");
+				Self.els.leftBody.find(`.tbl-row:nth(${event.cT})`).addClass("active");
 				break;
 		}
 	},
