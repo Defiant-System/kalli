@@ -38,6 +38,8 @@ const kalli = {
 		switch (event.type) {
 			// system events
 			case "window.init":
+				// reset app by default - show initial view
+				Self.dispatch({ type: "show-blank-view" });
 				break;
 			case "window.resize":
 				// forward event
@@ -51,6 +53,14 @@ const kalli = {
 				break;
 
 			// custom events
+			case "setup-workspace":
+				// hide blank view
+				Self.els.content.removeClass("show-blank-view");
+				break;
+			case "show-blank-view":
+				// show blank view
+				Self.els.content.addClass("show-blank-view");
+				break;
 			case "load-sample":
 				// opening image file from application package
 				event.names.map(async name => {

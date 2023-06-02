@@ -48,6 +48,16 @@ content {
 		cursor: none;
 	}
 
+	&.show-blank-view {
+		.blank-view {
+			display: block;
+		}
+
+		.workarea {
+			display: none;
+		}
+	}
+
 	&.show-canvas {
 		.workarea .row-work .column-canvas {
 			.head,
@@ -866,6 +876,7 @@ content {
 
 
 	// imports
+	@import "blank-view";
 	@import "inline-menubox";
 
 	// "highlight/atom-one-dark";

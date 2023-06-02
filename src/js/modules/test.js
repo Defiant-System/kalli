@@ -1,7 +1,7 @@
 
 let Test = {
 	init(APP) {
-		// return;
+		return;
 
 		// return setTimeout(() => {
 		// 	APP.els.content.find(`.button[data-arg="code"]`).trigger("click");

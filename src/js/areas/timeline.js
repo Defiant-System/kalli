@@ -7,8 +7,8 @@
 		this.els = {
 			timeline: window.find(".row-timeline"),
 			playhead: window.find(".row-timeline .play-head"),
-			leftBody: window.find(".row-timeline .left .tbl-body"),
 			frameCount: window.find(".row-timeline .frame-count ul"),
+			leftBody: window.find(".row-timeline .left .tbl-body"),
 			rightBody: window.find(".row-timeline .right .tbl-body"),
 			rScrTrack: window.find(".row-timeline .bg-scrollbar.right .scroll-track"),
 			rScrBar: window.find(".row-timeline .bg-scrollbar.right .scroll-bar"),
@@ -149,7 +149,11 @@
 				console.log(event);
 				break;
 			case "delete-row":
-				console.log(event);
+				el = event.el.parent();
+				// remove row from "right list"
+				Self.els.rightBody.find(`.tbl-row:nth(${el.index()})`).remove();
+				// remove row from "left list"
+				el.remove();
 				break;
 		}
 	},
