@@ -25,9 +25,11 @@
 	dispatch(event) {
 		let APP = kalli,
 			Self = APP.timeline,
+			offset,
 			data,
 			full,
 			value,
+			rW, rH,
 			str,
 			el;
 		// console.log(event);
@@ -131,9 +133,9 @@
 				Self.els.bScrBar.css({ width }).toggleClass("hidden", wScroll !== width);
 				break;
 			case "select-frame":
-				let rW = parseInt(Self.els.timeline.cssProp("--frW"), 10),
-					rH = parseInt(Self.els.timeline.cssProp("--rowH"), 10),
-					offset = event.offset(".tbl-body");
+				rW = parseInt(Self.els.timeline.cssProp("--frW"), 10);
+				rH = parseInt(Self.els.timeline.cssProp("--rowH"), 10);
+				offset = event.offset(".tbl-body");
 				Self.dispatch({
 					type: "focus-frame",
 					cT: parseInt(offset.y / rH, 10),
@@ -144,6 +146,15 @@
 				Self.els.timeline.css({ "--cT": event.cT, "--cL": event.cL });
 				Self.els.leftBody.find(".active").removeClass("active");
 				Self.els.leftBody.find(`.tbl-row:nth(${event.cT})`).addClass("active");
+				break;
+			case "go-to-frame-index":
+				rW = parseInt(Self.els.timeline.cssProp("--frW"), 10);
+				offset = event.offset(".tbl-head");
+				Self.dispatch({
+					type: "focus-frame",
+					cT: +Self.els.timeline.cssProp("--cT"),
+					cL: parseInt(offset.x / rW, 10),
+				});
 				break;
 			case "toggle-visibility":
 				console.log(event);
