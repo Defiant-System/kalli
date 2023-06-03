@@ -114,8 +114,12 @@
 				// frame counters
 				str = [...Array(parseInt((minL + maxW) / 10, 10) + 1)].map(a => `<li></li>`);
 				Self.els.frameCount.append(str.join(""));
-				// auto focus on frame "1,0"
-				Self.dispatch({ type: "focus-frame", cT: 1, cL: 0 });
+				// auto focus on frame "1,0", if not specified in file
+				data = {
+					cT: event.detail.file.cursorTop || 1,
+					cL: event.detail.file.cursorLeft || 0,
+				};
+				Self.dispatch({ type: "focus-frame", ...data });
 				// calculate scrollbars
 				Self.dispatch({ type: "update-scrollbars" });
 				break;
@@ -143,16 +147,19 @@
 				});
 				break;
 			case "focus-frame":
-				Self.els.timeline.css({ "--cT": event.cT, "--cL": event.cL });
+				data = {
+					cT: event.cT || +Self.els.timeline.cssProp("--cT"),
+					cL: event.cL || +Self.els.timeline.cssProp("--cL"),
+				};
+				Self.els.timeline.css({ "--cT": data.cT, "--cL": data.cL });
 				Self.els.leftBody.find(".active").removeClass("active");
-				Self.els.leftBody.find(`.tbl-row:nth(${event.cT})`).addClass("active");
+				Self.els.leftBody.find(`.tbl-row:nth(${data.cT})`).addClass("active");
 				break;
 			case "go-to-frame-index":
 				rW = parseInt(Self.els.timeline.cssProp("--frW"), 10);
 				offset = event.offset(".tbl-head");
 				Self.dispatch({
 					type: "focus-frame",
-					cT: +Self.els.timeline.cssProp("--cT"),
 					cL: parseInt(offset.x / rW, 10),
 				});
 				break;
@@ -207,6 +214,8 @@
 					frame = parseInt( left / Self.drag.frW, 10 );
 				// moves navigator view rectangle
 				Drag.el.css({ left });
+
+				Self.els.timeline.css({ "--cL": frame });
 				// update file 
 				Drag.file.render({ frame });
 				break;

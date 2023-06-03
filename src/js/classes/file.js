@@ -36,8 +36,13 @@ class File {
 		this.oH = this.height = height;
 		this.bgColor = xImg.getAttribute("bgColor");
 
+		// set default frame index
+		let xNode = this._file.data.selectSingleNode(`//Project/timeline`);
+		this.cursorTop = xNode.getAttribute("cursorTop") || 1;
+		this.cursorLeft = xNode.getAttribute("cursorLeft") || 0;
+
 		// prepare brushes
-		this.brushes = this._file.data.selectNodes(`//Project/timeline/brush`).map(xBrush => {
+		this.brushes = xNode.selectNodes(`./brush`).map(xBrush => {
 			let canvas = createCanvas(width, height);
 			return {
 				...canvas,
