@@ -15,6 +15,7 @@
 		// available height
 		this.navHeight = this.els.wrapper.height() || 161;
 		this.maxWidth = parseInt(this.els.wrapper.css("max-width"), 10);
+		this.maxHeight = parseInt(this.els.wrapper.css("max-height"), 10);
 
 		// bind event handlers
 		this.els.zoomRect.on("mousedown", this.pan);
@@ -52,7 +53,7 @@
 				Self.navWidth = _round(Self.navHeight / Self.ratio);
 				if (Self.navWidth > Self.maxWidth) {
 					Self.navWidth = Self.maxWidth;
-					Self.navHeight = Self.ratio * Self.navWidth;
+					Self.navHeight = _round(Self.ratio * Self.navWidth);
 				}
 
 				data.top = (((Proj.aY - File.oY) / File.height) * Self.navHeight);
@@ -70,7 +71,11 @@
 				break;
 			case "projector-update":
 				if (!Self.navWidth) return;
-				Self.els.wrapper.css({ width: Self.navWidth +"px" });
+				
+				data = { width: Self.navWidth };
+				if (Self.ratio < 1) data.top = (Self.maxHeight - Self.navHeight) >> 1;
+
+				Self.els.wrapper.css(data);
 				Self.cvs.prop({ width: Self.navWidth, height: Self.navHeight });
 				Self.ctx.drawImage(File.cvs[0], 0, 0, Self.navWidth, Self.navHeight);
 				Self.els.wrapper.removeClass("hidden");
