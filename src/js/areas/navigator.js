@@ -20,6 +20,7 @@
 		this.els.zoomRect.on("mousedown", this.pan);
 
 		// subscribe to events
+		karaqu.on("file-parsed", this.dispatch);
 		karaqu.on("projector-update", this.dispatch);
 	},
 	dispatch(event) {
@@ -40,7 +41,9 @@
 		// console.log(event);
 		switch (event.type) {
 			// subscribed events
-			case "projector-update":
+			case "file-parsed":
+				// get file from event object, if not available
+				if (!File) File = event.detail.file;
 				// calc ratio
 				Self.ratio = File.height / File.width;
 				if (isNaN(Self.ratio)) return;
@@ -56,32 +59,20 @@
 				data.left = (((Proj.aX - File.oX) / File.width) * Self.navWidth);
 				data.height = _min(((Proj.aH / File.height) * Self.navHeight), Self.navHeight - data.top);
 				data.width = _min(((Proj.aW / File.width) * Self.navWidth), Self.navWidth - data.left);
-
+				
 				if (data.top < 0) data.height = _min(data.height + data.top, data.height);
 				if (data.left < 0) data.width = _min(data.width + data.left, data.width);
 				data.top = _max(data.top, 0);
 				data.left = _max(data.left, 0);
 
-				Object.keys(data).map(k => { data[k] = _round(data[k]) });
+				for (let key in data) data[key] = _round(data[key]);
 				Self.els.zoomRect.css(data);
-				Self.els.wrapper.css({ width: Self.navWidth });
+				break;
+			case "projector-update":
+				if (!Self.navWidth) return;
+				Self.els.wrapper.css({ width: Self.navWidth +"px" });
 				Self.cvs.prop({ width: Self.navWidth, height: Self.navHeight });
-
-				if (!File.bgColor || File.bgColor === "transparent") {
-					// checkers background
-					Proj.drawCheckers(Self.ctx, { w: Self.navWidth, h: Self.navHeight, size: 5 });
-				} else {
-					// layer: checkers
-					Self.ctx.fillStyle = File.bgColor;
-					Self.ctx.fillRect(0, 0, Self.navWidth, Self.navHeight);
-				}
-
-				// paint resized image
-				opt = { resizeWidth: Self.navWidth, resizeHeight: Self.navHeight, resizeQuality: "medium" };
-				createImageBitmap(File.cvs[0], opt)
-					.then(img => Self.ctx.drawImage(img, 0, 0))
-					.catch(e => null);
-				// show wrapper when ready
+				Self.ctx.drawImage(File.cvs[0], 0, 0, Self.navWidth, Self.navHeight);
 				Self.els.wrapper.removeClass("hidden");
 				break;
 
