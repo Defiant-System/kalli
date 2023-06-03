@@ -140,8 +140,10 @@ const Projector = {
 		this.ctx.restore();
 
 		if (!opt.noEmit) {
+			let events = ["projector-update"];
+			if (opt.emit) events.push(opt.emit);
 			// emit event
-			karaqu.emit("projector-update");
+			events.map(type => karaqu.emit(type));
 		}
 	}
 };
