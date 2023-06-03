@@ -46,14 +46,14 @@ class File {
 				frames: JSON.parse(xBrush.getAttribute("frames")),
 			};
 		});
-		// emit event
-		karaqu.emit("file-parsed", { file: this });
-
 		// save references for performance
 		this.xImg = xImg;
 		this.image = image;
 		// set file initial scale
 		this.dispatch({ ...event, type: "set-scale", scale: 1 });
+
+		// emit event
+		karaqu.emit("file-parsed", { file: this });
 
 		// render image
 		this.render({ reset: true });

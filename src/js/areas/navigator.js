@@ -59,7 +59,7 @@
 				data.left = (((Proj.aX - File.oX) / File.width) * Self.navWidth);
 				data.height = _min(((Proj.aH / File.height) * Self.navHeight), Self.navHeight - data.top);
 				data.width = _min(((Proj.aW / File.width) * Self.navWidth), Self.navWidth - data.left);
-				
+
 				if (data.top < 0) data.height = _min(data.height + data.top, data.height);
 				if (data.left < 0) data.width = _min(data.width + data.left, data.width);
 				data.top = _max(data.top, 0);
