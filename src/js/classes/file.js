@@ -61,7 +61,7 @@ class File {
 		karaqu.emit("file-parsed", { file: this });
 
 		// render image
-		this.render({ reset: true });
+		this.render({ reset: true, frame: this.cursorLeft });
 	}
 
 	frameHistory(index) {
