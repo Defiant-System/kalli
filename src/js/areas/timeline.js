@@ -25,6 +25,7 @@
 	dispatch(event) {
 		let APP = kalli,
 			Self = APP.timeline,
+			Proj = Projector,
 			offset,
 			data,
 			full,
@@ -46,7 +47,7 @@
 						Self.dispatch({ type: "focus-frame", ...data });
 						break;
 					case "down":
-						data.cT = Math.min(Projector.file.brushes.length, data.cT + 1);
+						data.cT = Math.min(Proj.file.brushes.length, data.cT + 1);
 						Self.dispatch({ type: "focus-frame", ...data });
 						break;
 					case "left":
@@ -154,14 +155,16 @@
 				Self.els.timeline.css({ "--cT": data.cT, "--cL": data.cL });
 				Self.els.leftBody.find(".active").removeClass("active");
 				Self.els.leftBody.find(`.tbl-row:nth(${data.cT})`).addClass("active");
+				// update projector
+				Proj.file.render({ frame: data.cL });
 				break;
 			case "go-to-frame-index":
 				rW = parseInt(Self.els.timeline.cssProp("--frW"), 10);
 				offset = event.offset(".tbl-head");
-				Self.dispatch({
-					type: "focus-frame",
-					cL: parseInt(offset.x / rW, 10),
-				});
+				value = parseInt(offset.x / rW, 10);
+				Self.dispatch({ type: "focus-frame", cL: value });
+				// update projector
+				Proj.file.render({ frame: value });
 				break;
 			case "toggle-visibility":
 				console.log(event);
@@ -212,14 +215,16 @@
 			case "mousemove":
 				let left = Drag._min(Drag._max(event.clientX + Drag.clickX, Drag.min.x), Drag.max.x),
 					frame = parseInt( left / Self.drag.frW, 10 );
+				// for performance
+				if (Drag.index === frame) return;
+				// save value on drag object
+				Drag.index = frame;
 				// moves navigator view rectangle
 				Drag.el.css({ left });
 				// update cursor left
 				Self.els.timeline.css({ "--cL": frame });
 				// update file 
 				Drag.file.render({ frame });
-				// save value on drag object
-				Drag.index = frame;
 				break;
 			case "mouseup":
 				// land playhead on a "nice position"

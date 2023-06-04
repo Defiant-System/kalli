@@ -65,8 +65,8 @@ class File {
 	}
 
 	frameHistory(index) {
-		let width = this.width,
-			height = this.height,
+		let width = this.oW,
+			height = this.oH,
 			pi2 = Math.PI * 2;
 		// update brush masks
 		this.brushes.map(brush => {
@@ -88,8 +88,8 @@ class File {
 		let APP = kalli,
 			Proj = Projector,
 			bgColor = this.xImg.getAttribute("bg"),
-			width = this.width,
-			height = this.height;
+			width = this.oW,
+			height = this.oH;
 		// reset canvas
 		this.cvs.prop({ width, height });
 
