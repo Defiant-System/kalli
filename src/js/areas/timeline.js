@@ -214,12 +214,16 @@
 					frame = parseInt( left / Self.drag.frW, 10 );
 				// moves navigator view rectangle
 				Drag.el.css({ left });
-
+				// update cursor left
 				Self.els.timeline.css({ "--cL": frame });
 				// update file 
 				Drag.file.render({ frame });
+				// save value on drag object
+				Drag.index = frame;
 				break;
 			case "mouseup":
+				// land playhead on a "nice position"
+				Drag.el.css({ left: Math.floor((Drag.index + .5) * Drag.frW) - 1 });
 				// remove class
 				APP.els.content.removeClass("no-cursor");
 				// unbind event handlers
