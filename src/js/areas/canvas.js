@@ -194,7 +194,6 @@
 						x: (Proj.cX - Proj.aX - (File.width >> 1)) + 1,
 						y: (Proj.cY - Proj.aY - (File.height >> 1)) + 1,
 					},
-					stop: true,
 					_max: Math.max,
 					_min: Math.min,
 					proj: Proj,
