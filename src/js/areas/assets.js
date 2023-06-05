@@ -20,6 +20,13 @@
 		// console.log(event);
 		switch (event.type) {
 			case "file-parsed":
+				// render asset list
+				window.render({
+					template: "assets",
+					match: `//assets`,
+					data: event.detail.file._file.data,
+					target: Self.els.listBody
+				});
 				// calculate scrollbars
 				Self.dispatch({ type: "update-scrollbars" });
 				break;

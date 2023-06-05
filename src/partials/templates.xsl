@@ -53,6 +53,20 @@
 </xsl:template>
 
 
+<xsl:template name="assets">
+	<xsl:for-each select="./*">
+		<div class="asset">
+			<div class="thumbnail">
+				<xsl:attribute name="style">
+					background-image: url(~/samples/<xsl:value-of select="@src"/>);
+				</xsl:attribute>
+			</div>
+			<span><xsl:value-of select="@src"/></span>
+		</div>
+	</xsl:for-each>
+</xsl:template>
+
+
 <xsl:template name="knob">
 	<div class="inline-menubox" data-ui="doKnob">
 		<div class="inline-content">
