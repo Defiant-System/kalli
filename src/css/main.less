@@ -1,8 +1,10 @@
 
 @boxBg: #2c2c2c;
+@boxLayer: #454545;
 @boxFace: #636363;
 
 background: @boxBg;
+overflow: visible;
 
 
 content {
@@ -839,7 +841,7 @@ content {
 		}
 
 		.area {
-			background: #454545;
+			background: @boxLayer;
 			position: relative;
 			border-radius: 5px;
 			flex: 1;
@@ -904,6 +906,7 @@ content {
 	// imports
 	@import "blank-view";
 	@import "inline-menubox";
+	@import "color-picker";
 
 	// "highlight/atom-one-dark";
 	@import "highlight/stackoverflow-dark";

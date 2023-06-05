@@ -189,7 +189,7 @@
 				el.remove();
 				break;
 			case "show-timeline-row-colors":
-				console.log(event);
+				APP.colorpicker.dispatch({ type: "focus-color-field", el: event.el });
 				break;
 		}
 	},

@@ -117,6 +117,7 @@ const kalli = {
 	navigator: @import "./areas/navigator.js",
 	timeline: @import "./areas/timeline.js",
 	assets: @import "./areas/assets.js",
+	colorpicker: @import "modules/color-picker.js",
 };
 
 window.exports = kalli;

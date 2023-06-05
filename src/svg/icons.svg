@@ -147,6 +147,24 @@
 			c-0.2,0-0.4-0.2-0.4-0.4c0-1.1,0.9-2,2-2c0.2,0,0.4,0.2,0.4,0.4C7.8,5.6,7.6,5.8,7.4,5.8z"/>
 	</svg>
 
+	<svg id="icon-pipette" viewBox="0 0 15 15">
+		<style type="text/css">
+			.st0{fill:#333;}
+		</style>
+		<path class="st0" d="M13.6,1.4c-0.6-0.6-1.6-0.6-2.2,0L9.3,3.5L7.8,2.1L6.2,3.7L7.5,5l-5.7,5.7c-0.1,0.1-0.1,0.2-0.1,0.4h0L1,13.6
+			C1,13.8,1.2,14,1.4,14l2.6-0.6c0,0,0,0,0,0c0.1,0,0.2,0,0.3-0.1L10,7.5l1.3,1.3l1.6-1.6l-1.5-1.5l2.1-2.1C14.2,3,14.2,2,13.6,1.4z
+			 M4.3,12l-0.7-0.6L3,10.7l5.1-5.1l1.3,1.3L4.3,12z"/>
+	</svg>
+
+	<svg id="icon-box-arrow-left" viewBox="0 0 13 19">
+		<style type="text/css">
+			.st0{fill:#3a3a3a;}
+			.st1{fill:#ffffff39;}
+		</style>
+		<polyline class="st0" points="13,16.7 2.7,9.9 13,2.2 "/>
+		<path class="st1" d="M0.4,10.8C0.2,10.6,0,10.3,0,10c0-0.3,0.1-0.6,0.4-0.8l10.6-8v2.5L2.7,9.9l8.3,5.5v2.4L0.4,10.8z"/>
+	</svg>
+
 	<svg id="knob" viewBox="0 0 34 1734">
 		<filter id="DS_1" x="-40%" y="-40%" width="180%" height="180%">
 			<feDropShadow dx="0" dy="0" stdDeviation="1.5" flood-color="#f90" flood-opacity="1" />
