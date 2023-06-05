@@ -67,11 +67,13 @@
 				// plot frames on timeline
 				let brushes = event.detail.file.brushes;
 				str.push(`<div class="tbl-row">`);
+				str.push(`	<b class="row-color" data-menu="timeline-row-colors"></b>`);
 				str.push(`	<span>${event.detail.file.name}</span>`);
 				str.push(`</div>`);
 				// left column
 				brushes.map((b, y) => {
 					str.push(`<div class="tbl-row brush-row">`);
+					str.push(`	<b class="row-color" data-menu="timeline-row-colors"></b>`);
 					str.push(`	<i class="icon-eye-on" data-click="toggle-visibility"></i>`);
 					str.push(`	<span>${b.name}</span>`);
 					str.push(`	<i class="icon-trashcan" data-click="delete-row"></i>`);

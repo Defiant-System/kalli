@@ -8,9 +8,6 @@ class File {
 		this.width = 0;
 		this.height = 0;
 
-		// let xNode = this._file.data.selectSingleNode(`//Project/timeline/brush`);
-		// this.frames = JSON.parse(xNode.getAttribute("frames"));
-
 		// file canvas
 		let { cvs, ctx } = createCanvas(1, 1);
 		this.cvs = cvs;

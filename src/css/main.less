@@ -411,6 +411,10 @@ content {
 								&.brush-row {
 									display: flex;
 
+									.row-color {
+										top: 4px;
+									}
+
 									span {
 										position: relative;
 										flex: 1;
@@ -458,6 +462,18 @@ content {
 
 								.icon-trashcan {
 									display: none;
+								}
+
+								.row-color {
+									background: var( --c );
+									position: relative;
+									top: 2px;
+									margin: 0 5px 0 2px;
+									display: inline-block;
+									width: 10px;
+									height: 10px;
+									border-radius: 50%;
+									box-shadow: 0 0 0 1px rgba(0,0,0,.35);
 								}
 								
 								span {
