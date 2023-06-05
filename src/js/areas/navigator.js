@@ -83,6 +83,14 @@
 
 				Self.els.wrapper.css(data);
 				Self.cvs.prop({ width: Self.navWidth, height: Self.navHeight });
+				if (!File.opaque) {
+					// layer: checkers
+					Proj.drawCheckers(Self.ctx, { w: Self.navWidth, h: Self.navHeight });
+				} else {
+					// file bg-color
+					Self.ctx.fillStyle = File.bgColor;
+					Self.ctx.fillRect(0, 0, Self.navWidth, Self.navHeight);
+				}
 				Self.ctx.drawImage(File.cvs[0], 0, 0, Self.navWidth, Self.navHeight);
 				Self.els.wrapper.removeClass("hidden");
 				break;

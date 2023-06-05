@@ -129,7 +129,7 @@ const Projector = {
 			// layer: checkers
 			this.drawCheckers(this.ctx, { w, h });
 		} else {
-			// layer: checkers
+			// file bg-color
 			this.ctx.fillStyle = File.bgColor;
 			this.ctx.fillRect(0, 0, w, h);
 		}

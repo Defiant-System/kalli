@@ -24,8 +24,8 @@
 				window.render({
 					template: "assets",
 					match: `//assets`,
+					target: Self.els.listBody,
 					data: event.detail.file._file.data,
-					target: Self.els.listBody
 				});
 				// calculate scrollbars
 				Self.dispatch({ type: "update-scrollbars" });

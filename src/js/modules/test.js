@@ -1,7 +1,7 @@
 
 let Test = {
 	init(APP) {
-		return;
+		// return;
 
 		// return setTimeout(() => {
 		// 	window.find(".block-samples .sample:nth(0)").trigger("click");

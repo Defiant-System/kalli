@@ -66,10 +66,11 @@
 				str = [];
 				// plot frames on timeline
 				let brushes = event.detail.file.brushes,
-					bgColor = event.detail.file.bgColor;
+					bgColor = event.detail.file.bgColor,
+					opaque = event.detail.file.opaque ? "" : "icon-eye-off";
 				str.push(`<div class="tbl-row">`);
 				str.push(`	<b class="row-color" data-click="show-timeline-row-colors" style="--c: ${bgColor}"></b>`);
-				str.push(`	<i class="icon-eye-on" data-click="toggle-visibility"></i>`);
+				str.push(`	<i class="icon-eye-on ${opaque}" data-click="toggle-visibility"></i>`);
 				str.push(`	<span>${event.detail.file.name}</span>`);
 				str.push(`</div>`);
 				// left column
