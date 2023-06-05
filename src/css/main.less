@@ -325,8 +325,7 @@ content {
 							border-bottom: 1px solid rgba(0,0,0,.1);
 
 							canvas {
-								background: url(~/samples/img/hb.png) 50% 50%/contain no-repeat;
-								background-color: rgba(200,200,200,.1);
+								background: rgba(200,200,200,.1) 50% 50%/contain no-repeat;
 								display: inline-block;
 								width: 31px;
 								height: 31px;
@@ -413,18 +412,19 @@ content {
 
 									.row-color {
 										top: 4px;
+										margin-right: 5px;
+									}
+
+									.icon-eye-on,
+									.icon-eye-off {
+										top: 2px;
 									}
 
 									span {
-										position: relative;
-										flex: 1;
-
 										&:before {
-											content: "∙";
-											position: relative;
-											left: -1px;
+											opacity: 1;
+											width: auto;
 											margin-right: 5px;
-											display: inline-block;
 										}
 									}
 								}
@@ -455,9 +455,13 @@ content {
 								[class*="icon-"],
 								[class^="icon-"] {
 									position: relative;
-									top: 1px;
 									filter: brightness(1.25);
 									cursor: pointer;
+								}
+
+								.icon-eye-on,
+								.icon-eye-off {
+									top: 0px;
 								}
 
 								.icon-trashcan {
@@ -468,7 +472,7 @@ content {
 									background: var( --c );
 									position: relative;
 									top: 1px;
-									margin: 0 5px 0 2px;
+									margin: 0 2px;
 									display: inline-block;
 									width: 10px;
 									height: 10px;
@@ -479,6 +483,18 @@ content {
 								span {
 									display: inline-block;
 									padding: 3px 3px 0 5px;
+									position: relative;
+									flex: 1;
+
+									&:before {
+										opacity: 0;
+										content: "∙";
+										position: relative;
+										left: -1px;
+										margin-right: 0;
+										display: inline-block;
+										width: 0;
+									}
 								}
 							}
 						}

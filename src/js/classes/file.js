@@ -4,6 +4,7 @@ class File {
 		// save reference to original FS file
 		this._file = fsFile;
 		// defaults
+		this._opaque = true;
 		this.scale = 1;
 		this.width = 0;
 		this.height = 0;
@@ -15,6 +16,20 @@ class File {
 
 		// parse image content blob
 		this.parseImage();
+	}
+
+	get opaque() {
+		return this._opaque;
+	}
+
+	set opaque(v) {
+		this._opaque = v;
+		// save value in file data
+		this.xImg.setAttribute("opaque", v);
+		// re-render view
+		Projector.render();
+		// return value
+		return this._opaque;
 	}
 
 	get name() {
@@ -32,6 +47,7 @@ class File {
 		this.oW = this.width = width;
 		this.oH = this.height = height;
 		this.bgColor = xImg.getAttribute("bgColor");
+		this._opaque = xImg.getAttribute("opaque") === "1";
 
 		// set default frame index
 		let xNode = this._file.data.selectSingleNode(`//Project/timeline`);
@@ -84,7 +100,6 @@ class File {
 	render(opt={}) {
 		let APP = kalli,
 			Proj = Projector,
-			bgColor = this.xImg.getAttribute("bg"),
 			width = this.oW,
 			height = this.oH;
 		// reset canvas

@@ -69,6 +69,7 @@
 					bgColor = event.detail.file.bgColor;
 				str.push(`<div class="tbl-row">`);
 				str.push(`	<b class="row-color" data-menu="timeline-row-colors" style="--c: ${bgColor}"></b>`);
+				str.push(`	<i class="icon-eye-on" data-click="toggle-visibility"></i>`);
 				str.push(`	<span>${event.detail.file.name}</span>`);
 				str.push(`</div>`);
 				// left column
@@ -170,7 +171,14 @@
 				Proj.file.render({ frame: value });
 				break;
 			case "toggle-visibility":
-				console.log(event);
+				value = event.el.hasClass("icon-eye-off");
+				event.el.toggleClass("icon-eye-off", value);
+				el = event.el.parents(".tbl-row");
+				if (el.hasClass("brush-row")) {
+
+				} else {
+					Proj.file.opaque = value;
+				}
 				break;
 			case "delete-row":
 				el = event.el.parent();
