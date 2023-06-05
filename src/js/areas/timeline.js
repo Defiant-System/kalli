@@ -65,15 +65,16 @@
 			case "file-parsed":
 				str = [];
 				// plot frames on timeline
-				let brushes = event.detail.file.brushes;
+				let brushes = event.detail.file.brushes,
+					bgColor = event.detail.file.bgColor;
 				str.push(`<div class="tbl-row">`);
-				str.push(`	<b class="row-color" data-menu="timeline-row-colors"></b>`);
+				str.push(`	<b class="row-color" data-menu="timeline-row-colors" style="--c: ${bgColor}"></b>`);
 				str.push(`	<span>${event.detail.file.name}</span>`);
 				str.push(`</div>`);
 				// left column
 				brushes.map((b, y) => {
 					str.push(`<div class="tbl-row brush-row">`);
-					str.push(`	<b class="row-color" data-menu="timeline-row-colors"></b>`);
+					str.push(`	<b class="row-color" data-menu="timeline-row-colors" style="--c: ${b.color}"></b>`);
 					str.push(`	<i class="icon-eye-on" data-click="toggle-visibility"></i>`);
 					str.push(`	<span>${b.name}</span>`);
 					str.push(`	<i class="icon-trashcan" data-click="delete-row"></i>`);
@@ -207,6 +208,7 @@
 					},
 					_max: Math.max,
 					_min: Math.min,
+					_floor: Math.floor,
 				};
 
 				// prevent mouse from triggering mouseover
@@ -222,15 +224,15 @@
 				// save value on drag object
 				Drag.index = frame;
 				// moves navigator view rectangle
-				Drag.el.css({ left });
+				Drag.el.css({ left: Drag._floor((Drag.index + .5) * Drag.frW) - 1 });
 				// update cursor left
 				Self.els.timeline.css({ "--cL": frame });
 				// update file 
 				Drag.file.render({ frame });
 				break;
 			case "mouseup":
-				// land playhead on a "nice position"
-				Drag.el.css({ left: Math.floor((Drag.index + .5) * Drag.frW) - 1 });
+				// playhead obeys cursor left
+				Drag.el.css({ left: "" });
 				// remove class
 				APP.els.content.removeClass("no-cursor");
 				// unbind event handlers
