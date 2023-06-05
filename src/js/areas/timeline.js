@@ -68,14 +68,14 @@
 				let brushes = event.detail.file.brushes,
 					bgColor = event.detail.file.bgColor;
 				str.push(`<div class="tbl-row">`);
-				str.push(`	<b class="row-color" data-menu="timeline-row-colors" style="--c: ${bgColor}"></b>`);
+				str.push(`	<b class="row-color" data-click="show-timeline-row-colors" style="--c: ${bgColor}"></b>`);
 				str.push(`	<i class="icon-eye-on" data-click="toggle-visibility"></i>`);
 				str.push(`	<span>${event.detail.file.name}</span>`);
 				str.push(`</div>`);
 				// left column
 				brushes.map((b, y) => {
 					str.push(`<div class="tbl-row brush-row">`);
-					str.push(`	<b class="row-color" data-menu="timeline-row-colors" style="--c: ${b.color}"></b>`);
+					str.push(`	<b class="row-color" data-click="show-timeline-row-colors" style="--c: ${b.color}"></b>`);
 					str.push(`	<i class="icon-eye-on" data-click="toggle-visibility"></i>`);
 					str.push(`	<span>${b.name}</span>`);
 					str.push(`	<i class="icon-trashcan" data-click="delete-row"></i>`);
@@ -175,7 +175,7 @@
 				event.el.toggleClass("icon-eye-off", value);
 				el = event.el.parents(".tbl-row");
 				if (el.hasClass("brush-row")) {
-
+					// TODO: show / hide brush
 				} else {
 					Proj.file.opaque = value;
 				}
@@ -186,6 +186,9 @@
 				Self.els.rightBody.find(`.tbl-row:nth(${el.index()})`).remove();
 				// remove row from "left list"
 				el.remove();
+				break;
+			case "show-timeline-row-colors":
+				console.log(event);
 				break;
 		}
 	},
