@@ -81,7 +81,7 @@
 				Self.dispatch({ type: "set-wheel-range", ...Self.origin });
 
 				value = window.getBoundingClientRect(el[0]);
-				top = value.top - (+Self.els.el.prop("offsetHeight") >> 1) + 12;
+				top = value.top - (+Self.els.el.prop("offsetHeight") >> 1) + 5;
 				left = value.left + 23;
 				Self.els.el.css({ top, left }).addClass("show");
 
@@ -237,7 +237,8 @@
 		return Math.sqrt(Math.pow(left - this.radius, 2) + Math.pow(top - this.radius, 2));
 	},
 	doField(event) {
-		let Self = kalli.colorpicker,
+		let APP = kalli,
+			Self = APP.colorpicker,
 			Drag = Self.drag;
 		switch(event.type) {
 			case "mousedown":
@@ -282,7 +283,8 @@
 		}
 	},
 	doWrapper(event) {
-		let Self = kalli.colorpicker,
+		let APP = kalli,
+			Self = APP.colorpicker,
 			Drag = Self.drag;
 		switch(event.type) {
 			case "mousedown":
@@ -366,7 +368,8 @@
 		}
 	},
 	doRange(event) {
-		let Self = kalli.colorpicker,
+		let APP = kalli,
+			Self = APP.colorpicker,
 			Drag = Self.drag;
 		switch(event.type) {
 			case "mousedown":

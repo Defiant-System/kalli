@@ -7,6 +7,10 @@ let Color = {
 		return this.rgbToHsv(rgb);
 	},
 	hexToRgb(hex) {
+		if (hex.length === 4) {
+			let [h,r,g,b] = hex.split("");
+			hex = h+r+r+g+g+b+b;
+		}
 		let r = parseInt(hex.substr(1,2), 16),
 			g = parseInt(hex.substr(3,2), 16),
 			b = parseInt(hex.substr(5,2), 16),
