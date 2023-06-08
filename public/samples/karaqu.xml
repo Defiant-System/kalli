@@ -1,0 +1,9 @@
+
+<Project>
+	<assets>
+		<img opaque="1" bgColor="#ddd" src="img/karaqu.png"/>
+	</assets>
+	<timeline cursorTop="1" cursorLeft="0">
+		<brush color="#ff9900" name="Brush 1" frames="[[10,10,3]]"/>
+	</timeline>
+</Project>
