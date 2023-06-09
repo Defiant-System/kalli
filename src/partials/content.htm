@@ -63,9 +63,9 @@
 			</div>
 			<div class="resize horizontal"><!-- area resize handle --></div>
 			<div class="column-sidebar">
-				<div class="area navigator">
+				<div class="area navigator" data-area="navigator">
 					<div class="head">Navigator</div>
-					<div class="body" data-area="navigator">
+					<div class="body">
 						<div class="hidden">
 							<canvas class="nav-cvs"></canvas>
 							<div class="view-rect"></div>
@@ -75,14 +75,14 @@
 						<div class="value">100</div>
 						<div class="zoom-slider">
 							<i class="icon-mini" data-click="zoom-out"></i>
-							<input class="mini-range" type="range" value="4" min="0" max="13">
+							<input class="mini-range" type="range" value="3" min="0" max="8">
 							<i class="icon-maxi" data-click="zoom-in"></i>
 						</div>
 					</div>
 				</div>
-				<div class="area assets">
+				<div class="area assets" data-area="assets">
 					<div class="head">Assets</div>
-					<div class="body" data-area="assets" data-scroll-vId="listv1">
+					<div class="body" data-scroll-vId="listv1">
 						<!-- <div class="asset">
 							<div class="thumbnail"></div>
 							<span>hb.png</span>

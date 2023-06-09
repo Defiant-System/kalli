@@ -7,6 +7,8 @@
 		this.els = {
 			wrapper: window.find(".area.navigator .body > div"),
 			zoomRect: window.find(".area.navigator .body .view-rect"),
+			zoomValue: window.find(".area.navigator .foot .value"),
+			zoomSlider: window.find(".area.navigator .zoom-slider input"),
 		};
 
 		this.cvs = this.els.wrapper.find(".nav-cvs");
@@ -19,11 +21,10 @@
 
 		// bind event handlers
 		this.els.zoomRect.on("mousedown", this.pan);
+		this.els.zoomSlider.on("input", this.dispatch);
 
 		// subscribe to events
 		karaqu.on("file-parsed", this.dispatch);
-		karaqu.on("projector-zoom", this.dispatch);
-		karaqu.on("projector-pan", this.dispatch);
 		karaqu.on("projector-update", this.dispatch);
 	},
 	dispatch(event) {
@@ -36,6 +37,7 @@
 			_min = Math.min,
 			data = {},
 			oX, oY,
+			value,
 			opt,
 			width,
 			height,
@@ -70,10 +72,6 @@
 
 				for (let key in data) data[key] = _round(data[key]);
 				Self.els.zoomRect.css(data);
-				break;
-			case "projector-zoom":
-				break;
-			case "projector-pan":
 				break;
 			case "projector-update":
 				if (!Self.navWidth) return;
@@ -110,6 +108,28 @@
 				data.left = _max(data.left, 0);
 
 				Self.els.zoomRect.css(data);
+				break;
+			case "input":
+			case "file-initial-scale":
+				value = event.value || Self.els.zoomSlider.val();
+				value = _max(_min(+value, ZOOM.length - 1), 0);
+
+				Self.zoomValue = ZOOM[value].level;
+				Self.els.zoomValue.html(Self.zoomValue + "%");
+
+				if (event.type === "input") {
+					File.dispatch({ type: "set-scale", scale: Self.zoomValue / 100 });
+				} else {
+					Self.els.zoomSlider.val(event.value);
+				}
+				break;
+			case "zoom-out":
+				value = _max(+Self.els.zoomSlider.val() - 1, 0);
+				Self.els.zoomSlider.val(value.toString()).trigger("input");
+				break;
+			case "zoom-in":
+				value = _min(+Self.els.zoomSlider.val() + 1, ZOOM.length - 1);
+				Self.els.zoomSlider.val(value).trigger("input");
 				break;
 			case "pan-canvas":
 				top = _round((event.top / event.max.y) * event.max.h) + Proj.aY;
