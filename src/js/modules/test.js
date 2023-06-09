@@ -2,7 +2,7 @@
 let Test = {
 	init(APP) {
 
-		return;
+		// return;
 
 		// return setTimeout(() => window.find(".tbl-row:nth(0) .row-color").trigger("click"), 350);
 

@@ -83,6 +83,14 @@
 			case "projector-update":
 				if (!Self.navWidth) return;
 				
+				// adjust zoom fields
+				ZOOM.map((z, i) => {
+					if (z.level === File.scale * 100) {
+						Self.els.zoomSlider.val(i);
+						Self.els.zoomValue.html(z.level);
+					}
+				});
+
 				data = { width: Self.navWidth };
 				if (Self.ratio < 1) data.top = (Self.maxHeight - Self.navHeight) >> 1;
 

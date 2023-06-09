@@ -154,7 +154,6 @@ class File {
 		switch (event.type) {
 			// custom events
 			case "set-scale":
-				console.log( event.scale );
 				// scaled dimension
 				this.scale = event.scale || this.scale;
 				this.width = Math.round(this.oW * this.scale);
@@ -163,12 +162,15 @@ class File {
 				// make sure projector is reset
 				if (Proj.cX === 0 || Proj.cY === 0) Proj.reset(this);
 
+				let pX = .5,
+					pY = .5;
+
 				// origo
-				this.oX = Math.round(Proj.cX - (this.width * .5));
-				this.oY = Math.round(Proj.cY - (this.height * .5));
+				this.oX = Math.round(Proj.cX - (this.width * pX ));
+				this.oY = Math.round(Proj.cY - (this.height * pY ));
 
 				// update work area zoom value
-				APP.work.dispatch({ ...event, type: "update-zoom-value" });
+				// APP.work.dispatch({ ...event, type: "update-zoom-value" });
 
 				if (!event.noRender) {
 					// render file
