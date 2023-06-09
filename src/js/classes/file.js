@@ -38,6 +38,7 @@ class File {
 
 	async parseImage() {
 		let APP = kalli,
+			Proj = Projector,
 			xImg = this._file.data.selectSingleNode(`//Project/assets/img`),
 			image = await loadImage("~/samples/"+ xImg.getAttribute("src")),
 			width = image.width,
@@ -67,8 +68,22 @@ class File {
 		// save references for performance
 		this.xImg = xImg;
 		this.image = image;
+
+		// make sure aW & aH are set
+		Proj.dispatch({ type: "window.resize", noRender: 1 });
+		// default to first zoom level
+		let scale = .125;
+		// iterate available zoom levels
+		ZOOM.filter(z => z.level <= 100)
+			.map(zoom => {
+				let testScale = zoom.level / 100;
+				if (Proj.aW > width * testScale && Proj.aH > height * testScale) {
+					scale = testScale;
+				}
+			});
+
 		// set file initial scale
-		this.dispatch({ ...event, type: "set-scale", scale: 1 });
+		this.dispatch({ type: "set-scale", scale });
 
 		// emit event
 		karaqu.emit("file-parsed", { file: this });
@@ -124,7 +139,7 @@ class File {
 			// save refererce to frame index
 			this.frameIndex = opt.frame;
 		}
-
+		
 		// render file / image
 		if (opt.reset) Proj.reset(this);
 		Proj.render();
@@ -139,6 +154,7 @@ class File {
 		switch (event.type) {
 			// custom events
 			case "set-scale":
+				console.log( event.scale );
 				// scaled dimension
 				this.scale = event.scale || this.scale;
 				this.width = Math.round(this.oW * this.scale);
@@ -148,15 +164,8 @@ class File {
 				if (Proj.cX === 0 || Proj.cY === 0) Proj.reset(this);
 
 				// origo
-				if (this.oX) {
-					// this.oX = Math.round(Proj.cX - (this.width * ));
-					// this.oY = Math.round(Proj.cY - (this.height * ));
-					this.oX = Math.round(Proj.cX - (this.width >> 1));
-					this.oY = 0;
-				} else {
-					this.oX = Math.round(Proj.cX - (this.width >> 1));
-					this.oY = Math.round(Proj.cY - (this.height >> 1));
-				}
+				this.oX = Math.round(Proj.cX - (this.width * .5));
+				this.oY = Math.round(Proj.cY - (this.height * .5));
 
 				// update work area zoom value
 				APP.work.dispatch({ ...event, type: "update-zoom-value" });

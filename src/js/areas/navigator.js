@@ -70,6 +70,13 @@
 				data.top = _max(data.top, 0);
 				data.left = _max(data.left, 0);
 
+				// adjust zoom fields
+				ZOOM.map((z, i) => {
+					if (z.level === File.scale * 100) {
+						Self.dispatch({ type: "file-initial-scale", value: i });
+					}
+				});
+
 				for (let key in data) data[key] = _round(data[key]);
 				Self.els.zoomRect.css(data);
 				break;
@@ -115,7 +122,7 @@
 				value = _max(_min(+value, ZOOM.length - 1), 0);
 
 				Self.zoomValue = ZOOM[value].level;
-				Self.els.zoomValue.html(Self.zoomValue + "%");
+				Self.els.zoomValue.html(Self.zoomValue);
 
 				if (event.type === "input") {
 					File.dispatch({ type: "set-scale", scale: Self.zoomValue / 100 });
