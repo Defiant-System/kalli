@@ -156,6 +156,20 @@
 			 M4.3,12l-0.7-0.6L3,10.7l5.1-5.1l1.3,1.3L4.3,12z"/>
 	</svg>
 
+	<svg id="icon-mountain" viewBox="0 0 17 17">
+		<style type="text/css">
+			.st0{fill:#777;}
+		</style>
+		<polygon class="st0" points="10.5,4.4 7.7,7.2 5.6,5.5 0,11 0.4,12 16.6,12 17,10.9 "/>
+	</svg>
+
+	<svg id="icon-mountain-mini" viewBox="0 0 17 17">
+		<style type="text/css">
+			.st0{fill:#777;}
+		</style>
+		<polygon class="st0" points="9.8,6 8,7.9 6.6,6.7 2.9,10.3 3.2,11 13.8,11 14.1,10.2 "/>
+	</svg>
+
 	<svg id="icon-box-arrow-left" viewBox="0 0 13 19">
 		<style type="text/css">
 			.st0{fill:#3a3a3a;}

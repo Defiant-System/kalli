@@ -148,8 +148,18 @@ class File {
 				if (Proj.cX === 0 || Proj.cY === 0) Proj.reset(this);
 
 				// origo
-				this.oX = Math.round(Proj.cX - (this.width >> 1));
-				this.oY = Math.round(Proj.cY - (this.height >> 1));
+				if (this.oX) {
+					// this.oX = Math.round(Proj.cX - (this.width * ));
+					// this.oY = Math.round(Proj.cY - (this.height * ));
+					this.oX = Math.round(Proj.cX - (this.width >> 1));
+					this.oY = 0;
+				} else {
+					this.oX = Math.round(Proj.cX - (this.width >> 1));
+					this.oY = Math.round(Proj.cY - (this.height >> 1));
+				}
+
+				// update work area zoom value
+				APP.work.dispatch({ ...event, type: "update-zoom-value" });
 
 				if (!event.noRender) {
 					// render file

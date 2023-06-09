@@ -143,6 +143,9 @@ content {
 		&.icon-eye-on   { background-image: url(~/icons/icon-eye-on.png); }
 		&.icon-eye-off  { background-image: url(~/icons/icon-eye-off.png); }
 
+		&.icon-mini     { background-image: url(~/icons/icon-mountain-mini.png); }
+		&.icon-maxi     { background-image: url(~/icons/icon-mountain.png); }
+
 		&.icon-pipette  {
 			background-image: url(~/icons/icon-pipette.png);
 			width: 17px;
@@ -246,6 +249,7 @@ content {
 								top: 1px;
 								right: 0;
 								padding: 0;
+								cursor: default;
 
 								span {
 									background: @boxBg;
@@ -267,12 +271,12 @@ content {
 
 								&:hover {
 									filter: none;
-									color: #ccc;
+									// color: #ccc;
 
-									[class*="icon-"],
-									[class^="icon-"] {
-										filter: brightness(1.25);
-									}
+									// [class*="icon-"],
+									// [class^="icon-"] {
+									// 	filter: brightness(1.25);
+									// }
 								}
 							}
 						}
@@ -286,12 +290,12 @@ content {
 				flex-direction: column;
 
 				.navigator {
-					height: 200px;
+					height: 219px;
 					margin-bottom: 5px;
 					flex: initial;
 					
 					.body {
-						bottom: 4px;
+						bottom: 23px;
 
 						> div {
 							position: relative;
@@ -315,6 +319,71 @@ content {
 								cursor: move;
 								// opacity: .25;
 								box-shadow: 0 0 0 2px #f90;
+							}
+						}
+					}
+
+					.foot {
+						display: flex;
+						height: 20px;
+						padding: 2px 0;
+						bottom: 1px;
+						font-size: 0;
+
+						[class*="icon-"],
+						[class^="icon-"] {
+							width: 17px;
+							height: 17px;
+							filter: drop-shadow(0 1px 0 rgba(0,0,0,0.15));
+						}
+
+						> div {
+							display: inline-block;
+							vertical-align: middle;
+							font-size: 11px;
+
+							&.value {
+								background: lighten(@boxBg, 5%);
+								border-radius: 3px;
+								padding: 3px 1px 0 0;
+								margin-right: 5px;
+								width: 45px;
+								text-align: center;
+								user-select: none;
+
+								&:after {
+									content: "%";
+									opacity: .5;
+									padding-left: 2px;
+								}
+							}
+						}
+
+						.zoom-slider {
+							display: flex;
+							flex: 1;
+							padding: 0 3px;
+
+							input {
+								display: inline-block;
+								vertical-align: middle;
+								margin: 0 7px;
+								height: 16px;
+								box-shadow: 0 0 0;
+
+								&::-webkit-slider-thumb {
+									background: #aaa;
+									box-shadow: 0 0 0;
+									height: 10px;
+									width: 10px;
+									margin-top: -4px;
+									border: 0;
+								}
+								&::-webkit-slider-runnable-track {
+									background: rgba(#777, .5);
+									height: 2px;
+									box-shadow: 0 1px 0 rgba(#000, 0.2)
+								}
 							}
 						}
 					}

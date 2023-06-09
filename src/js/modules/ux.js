@@ -180,7 +180,7 @@ const UX = {
 							? kalli[area.data("area")].dispatch
 							: e => {};
 				// redirect to canvas object
-				if (eType === "change-zoom") eFunc = kalli.canvas.dispatch;
+				// if (eType === "change-zoom") eFunc = kalli.canvas.dispatch;
 				// prepare drag object
 				Self.drag = {
 					el,
@@ -209,7 +209,8 @@ const UX = {
 			case "mousemove":
 				value = (Drag.clientY - event.clientY) + Drag.value;
 				value = Drag._min(Drag._max(value, Drag.min), Drag.max);
-				value -= value % 2;
+				// value -= value % 2;
+
 				Drag.el.data({ value });
 				// update span element
 				// val = Drag._round(((value / 100) * (Drag.vMax - Drag.vMin)) / Drag.step) * Drag.step;
