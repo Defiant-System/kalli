@@ -80,14 +80,19 @@ const UX = {
 				psEl.find(`[data-scroll-hId="${hId}"]`).scrollTo(left, top);
 				psEl.find(`[data-scroll-vId="${vId}"]`).scrollTo(left, top);
 
+				// sync "play-head"
+				APP.timeline.els.timeline.css({ "--sLeft": scrEl.prop("scrollLeft") });
+
 				// sync scrollbars
 				sEl = psEl.find(`.bg-scrollbar[data-scroll-target="${hId}"] .scroll-bar`);
 				vLerp = Math.invLerp(0, scrEl.prop("scrollWidth") - scrEl.prop("offsetWidth"), scrEl.prop("scrollLeft"));
-				sEl.css({ left: Math.lerp(1, sEl.parent().prop("offsetWidth") - sEl.prop("offsetWidth") - 1, vLerp) });
+				left = Math.lerp(1, sEl.parent().prop("offsetWidth") - sEl.prop("offsetWidth") - 1, vLerp);
+				sEl.css({ left });
 
 				sEl = psEl.find(`.bg-scrollbar[data-scroll-target="${vId}"] .scroll-bar`);
 				vLerp = Math.invLerp(0, scrEl.prop("scrollHeight") - scrEl.prop("offsetHeight"), scrEl.prop("scrollTop"));
-				sEl.css({ top: Math.lerp(1, sEl.parent().prop("offsetHeight") - sEl.prop("offsetHeight") - 1, vLerp) });
+				top = Math.lerp(1, sEl.parent().prop("offsetHeight") - sEl.prop("offsetHeight") - 1, vLerp);
+				sEl.css({ top });
 				break;
 			case "mousedown":
 				// prevent default behaviour

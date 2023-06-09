@@ -1,7 +1,7 @@
 
 <Project>
 	<assets>
-		<img opaque="1" bgColor="#d3d" src="img/hb.png"/>
+		<img opaque="1" bgColor="#777" src="img/hb.png"/>
 	</assets>
 	<timeline cursorTop="1" cursorLeft="12">
 		<!-- 

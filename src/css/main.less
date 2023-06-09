@@ -375,6 +375,7 @@ content {
 			height: 167px;
 			--frW: 14px;
 			--rowH: 23px;
+			--sLeft: 0;
 			--color: #d60;
 			--full: 10;
 			--cT: 0; // cursor top
@@ -596,7 +597,8 @@ content {
 								top: 30px;
 								// left: -999px;
 								// left: 160px;
-								left: calc( calc( var( --cL ) * var( --frW ) ) + calc( calc( var( --frW ) * .5 ) - 1px ) );
+								// left: calc( calc( calc( var( --cL ) * var( --frW ) ) + calc( calc( var( --frW ) * .5 ) - 1px ) ) + var( --sLeft ) );
+								left: calc( calc( var( --cL ) * var( --frW ) ) + calc( calc( var( --frW ) * .5 ) - calc( var( --sLeft ) * 1px ) - 1px ) );
 								height: 110px;
 								width: 1px;
 								overflow: visible;

@@ -80,7 +80,7 @@ class File {
 	frameHistory(index) {
 		let width = this.oW,
 			height = this.oH,
-			pi2 = Math.PI * 2;
+			tau = Math.PI * 2;
 		// update brush masks
 		this.brushes.map(brush => {
 			// reset canvas
@@ -90,7 +90,7 @@ class File {
 			[...brush.frames.slice(0, index)].map(f => {
 				if (f) {
 					brush.ctx.beginPath();
-					brush.ctx.arc(...f, 0, pi2);
+					brush.ctx.arc(...f, 0, tau);
 					brush.ctx.fill();
 				}
 			});
