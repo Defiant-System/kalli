@@ -162,19 +162,21 @@ class File {
 				// make sure projector is reset
 				if (Proj.cX === 0 || Proj.cY === 0) Proj.reset(this);
 
-				let pX = .5,
-					pY = .5;
+				let pX = .75,
+					pY = .1175;
+
+				// console.log( Proj.cY, Proj.aH, this.height );
 
 				// origo
 				this.oX = Math.round(Proj.cX - (this.width * pX ));
 				this.oY = Math.round(Proj.cY - (this.height * pY ));
 
 				// update work area zoom value
-				// APP.work.dispatch({ ...event, type: "update-zoom-value" });
+				APP.work.dispatch({ type: "update-zoom-value", scale: this.scale });
 
 				if (!event.noRender) {
 					// render file
-					this.render({ reset: true });
+					this.render({ frame: this.cursorLeft });
 				}
 				break;
 			case "pan-canvas":
