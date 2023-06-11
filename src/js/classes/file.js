@@ -151,13 +151,16 @@ class File {
 		Proj.render();
 	}
 
-	viewApply() {
+	viewApply(opt={}) {
 		if (this.isDirty) this.viewUpdate();
-		let m = this._matrix;
+		let APP = kalli,
+			m = this._matrix;
 		this.ctx.setTransform(m[0], m[1], m[2], m[3], m[4], m[5]);
 
 		// render projector canvas
-		Projector.render({ noEmit: event.noEmit });
+		Projector.render({ noEmit: opt.noEmit });
+		// update "edit bubble"
+		APP.canvas.dispatch({ type: "edit-frame-index", index: this.frameIndex });
 	}
 
 	viewUpdate() {
@@ -172,21 +175,18 @@ class File {
 	viewPan(amount) {
 		if (this.isDirty) this.viewUpdate();
 
-		let Proj = Projector;
-
-		let posX = Number.isInteger(amount.left)
-			? amount.left
-			: this.width > Proj.aW ? Proj.cX - (this.width >> 1) + amount.posX : false;
-		let posY = Number.isInteger(amount.top)
-			? amount.top
-			: this.height > Proj.aH ? Proj.cY - (this.height >> 1) + amount.posY : false;
+		let Proj = Projector,
+			posX = Number.isInteger(amount.left)
+					? amount.left
+					: this.width > Proj.aW ? Proj.cX - (this.width >> 1) + amount.posX : false,
+			posY = Number.isInteger(amount.top)
+					? amount.top
+					: this.height > Proj.aH ? Proj.cY - (this.height >> 1) + amount.posY : false;
 		if (Number.isInteger(posX)) this.posX = posX;
 		if (Number.isInteger(posY)) this.posY = posY;
 
-		// this.posX = amount.posX;
-		// this.posY = amount.posY;
 		this.dirty = true;
-		this.viewApply();
+		this.viewApply({ noEmit: amount.noEmit });
 	}
 
 	viewScaleAt(at, amount) {
@@ -225,21 +225,6 @@ class File {
 					// render file
 					this.render({ frame: this.cursorLeft });
 				}
-				break;
-			case "pan-canvas":
-				// console.log( event );
-				posX = Number.isInteger(event.left)
-					? event.left
-					: this.width > Proj.aW ? Proj.cX - (this.width >> 1) + event.x : false;
-				posY = Number.isInteger(event.top)
-					? event.top
-					: this.height > Proj.aH ? Proj.cY - (this.height >> 1) + event.y : false;
-				if (Number.isInteger(posX)) this.posX = posX;
-				if (Number.isInteger(posY)) this.posY = posY;
-				// render projector canvas
-				Proj.render({ noEmit: event.noEmit });
-				// update "edit bubble"
-				APP.canvas.dispatch({ type: "edit-frame-index", index: this.frameIndex });
 				break;
 		}
 	}

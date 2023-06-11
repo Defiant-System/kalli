@@ -151,8 +151,8 @@
 				left = _round((event.left / event.max.x) * event.max.w) + Proj.aX;
 				//if (isNaN(top) || isNaN(left)) return;
 
-				// forward event to canvas
-				File.dispatch({ type: "pan-canvas", top, left, noEmit: true });
+				// forward event to file canvas
+				File.viewPan({ top, left });
 				break;
 		}
 	},

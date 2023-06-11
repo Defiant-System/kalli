@@ -224,7 +224,6 @@
 				Drag.x = Drag._max(Drag._min(event.clientX - Drag.clickX, Drag.min.x), Drag.max.x);
 				Drag.y = Drag._max(Drag._min(event.clientY - Drag.clickY, Drag.min.y), Drag.max.y);
 				// forward event to file
-				// Drag.file.dispatch({ ...Drag, type: "pan-canvas", noEmit: true });
 				Drag.file.viewPan({ posX: Drag.x, posY: Drag.y });
 				// dispatch event to sidebar navigator
 				Drag.nav.dispatch({ ...Drag, type: "pan-view-rect" });

@@ -21,7 +21,7 @@ let Test = {
 		return setTimeout(() => {
 			let drag = { top: 0, left: -484 };
 			Projector.file.dispatch({ type: "set-scale", scale: 4, noRender: 1 });
-			Projector.file.dispatch({ type: "pan-canvas", ...drag });
+			Projector.file.viewPan(drag);
 			APP.navigator.dispatch({ type: "pan-view-rect", ...drag });
 
 			// APP.els.content.find(".icon-maxi").trigger("click");
