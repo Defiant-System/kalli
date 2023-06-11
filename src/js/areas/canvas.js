@@ -10,15 +10,30 @@
 
 		// bind event handlers
 		this.els.area.on("mousedown", this.move);
+		this.els.area.on("wheel", this.dispatch);
 	},
 	dispatch(event) {
 		let APP = kalli,
 			Self = APP.canvas,
 			Proj = Projector,
 			File = Proj.file,
+			pos = {},
 			str;
 		// console.log(event);
 		switch (event.type) {
+			// native events
+			case "wheel":
+				// prevent default behaviour
+				event.preventDefault();
+
+				pos.y = event.layerY;
+				pos.x = event.layerX;
+
+				// if (event.deltaY < 0) event.
+
+				// File.dispatch();
+				break;
+			// custom events
 			case "change-zoom":
 				// min: 25
 				// max: 800
@@ -36,8 +51,8 @@
 						let [x, y, r] = f;
 						// translate / scale coordinate matrix
 						r *= File.scale;
-						y = (y * File.scale) + File.oY;
-						x = (x * File.scale) + File.oX;
+						y = (y * File.scale) + File.posY;
+						x = (x * File.scale) + File.posX;
 						str.push(`<div class="brush" style="--bg: ${brush.color}; --top: ${y-r}px; --left: ${x-r}px; --radius: ${r*2}px;"></div>`);
 					}
 
@@ -101,8 +116,8 @@
 				break;
 			case "mouseup":
 				let f = Drag.file.brushes[0].frames[Drag.file.frameIndex];
-				f[0] = (Drag.left + Drag.radius - Drag.file.oX) / Drag.file.scale; // left
-				f[1] = (Drag.top + Drag.radius - Drag.file.oY) / Drag.file.scale; // top
+				f[0] = (Drag.left + Drag.radius - Drag.file.posX) / Drag.file.scale; // left
+				f[1] = (Drag.top + Drag.radius - Drag.file.posY) / Drag.file.scale; // top
 
 				// remove class
 				APP.els.content.removeClass("no-cursor");
@@ -184,8 +199,8 @@
 				if (File.width <= Proj.aW && File.height <= Proj.aH) return;
 
 				Self.drag = {
-					clickX: event.clientX - (File.oX - Proj.cX + (File.width >> 1)),
-					clickY: event.clientY - (File.oY - Proj.cY + (File.height >> 1)),
+					clickX: event.clientX - (File.posX - Proj.cX + (File.width >> 1)),
+					clickY: event.clientY - (File.posY - Proj.cY + (File.height >> 1)),
 					min: {
 						x: Proj.aX - Proj.cX + (File.width >> 1),
 						y: Proj.aY - Proj.cY + (File.height >> 1),

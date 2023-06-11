@@ -4,7 +4,9 @@ class File {
 		// save reference to original FS file
 		this._file = fsFile;
 		// defaults
+		this.dirty = true;
 		this._opaque = true;
+		this._matrix = [1, 0, 0, 1, 0, 0];
 		this.scale = 1;
 		this.width = 0;
 		this.height = 0;
@@ -16,6 +18,10 @@ class File {
 
 		// parse image content blob
 		this.parseImage();
+	}
+
+	get isDirty() {
+		return this.dirty;
 	}
 
 	get opaque() {
@@ -145,10 +151,40 @@ class File {
 		Proj.render();
 	}
 
+	viewApply() {
+		if (this.isDirty) this.update();
+		let m = this._matrix;
+		this.ctx.setTransform(m[0], m[1], m[2], m[3], m[4], m[5]);
+	}
+
+	viewUpdate() {
+		let m = this._matrix;
+		m[3] = m[0] = this.scale;
+		m[2] = m[1] = 0;
+		m[4] = this.posX;
+		m[5] = this.posY;
+		this.dirty = false;
+	}
+
+	viewPan(amount) {
+		if (this.isDirty) this.update();
+		this.posX += amount.x;
+		this.posY += amount.y;
+		this.dirty = true;
+	}
+
+	viewScaleAt(at, amount) {
+		if (this.isDirty) this.update();
+		this.scale *= amount;
+		this.posX = at.x - (at.x - this.posX) * amount;
+		this.posY = at.y - (at.y - this.posY) * amount;
+		this.dirty = true;
+	}
+
 	dispatch(event) {
 		let APP = kalli,
 			Proj = Projector,
-			oX, oY,
+			posX, posY,
 			el;
 		//console.log(event);
 		switch (event.type) {
@@ -162,14 +198,9 @@ class File {
 				// make sure projector is reset
 				if (Proj.cX === 0 || Proj.cY === 0) Proj.reset(this);
 
-				let pX = .75,
-					pY = .1175;
-
-				// console.log( Proj.cY, Proj.aH, this.height );
-
 				// origo
-				this.oX = Math.round(Proj.cX - (this.width * pX ));
-				this.oY = Math.round(Proj.cY - (this.height * pY ));
+				this.posX = Math.round(Proj.cX - (this.width * .5));
+				this.posY = Math.round(Proj.cY - (this.height * .5));
 
 				// update work area zoom value
 				APP.work.dispatch({ type: "update-zoom-value", scale: this.scale });
@@ -181,14 +212,14 @@ class File {
 				break;
 			case "pan-canvas":
 				// console.log( event );
-				oX = Number.isInteger(event.left)
+				posX = Number.isInteger(event.left)
 					? event.left
 					: this.width > Proj.aW ? Proj.cX - (this.width >> 1) + event.x : false;
-				oY = Number.isInteger(event.top)
+				posY = Number.isInteger(event.top)
 					? event.top
 					: this.height > Proj.aH ? Proj.cY - (this.height >> 1) + event.y : false;
-				if (Number.isInteger(oX)) this.oX = oX;
-				if (Number.isInteger(oY)) this.oY = oY;
+				if (Number.isInteger(posX)) this.posX = posX;
+				if (Number.isInteger(posY)) this.posY = posY;
 				// render projector canvas
 				Proj.render({ noEmit: event.noEmit });
 				// update "edit bubble"
