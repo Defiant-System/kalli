@@ -152,9 +152,12 @@ class File {
 	}
 
 	viewApply() {
-		if (this.isDirty) this.update();
+		if (this.isDirty) this.viewUpdate();
 		let m = this._matrix;
 		this.ctx.setTransform(m[0], m[1], m[2], m[3], m[4], m[5]);
+
+		// render projector canvas
+		Projector.render({ noEmit: event.noEmit });
 	}
 
 	viewUpdate() {
@@ -167,14 +170,27 @@ class File {
 	}
 
 	viewPan(amount) {
-		if (this.isDirty) this.update();
-		this.posX += amount.x;
-		this.posY += amount.y;
+		if (this.isDirty) this.viewUpdate();
+
+		let Proj = Projector;
+
+		let posX = Number.isInteger(amount.left)
+			? amount.left
+			: this.width > Proj.aW ? Proj.cX - (this.width >> 1) + amount.posX : false;
+		let posY = Number.isInteger(amount.top)
+			? amount.top
+			: this.height > Proj.aH ? Proj.cY - (this.height >> 1) + amount.posY : false;
+		if (Number.isInteger(posX)) this.posX = posX;
+		if (Number.isInteger(posY)) this.posY = posY;
+
+		// this.posX = amount.posX;
+		// this.posY = amount.posY;
 		this.dirty = true;
+		this.viewApply();
 	}
 
 	viewScaleAt(at, amount) {
-		if (this.isDirty) this.update();
+		if (this.isDirty) this.viewUpdate();
 		this.scale *= amount;
 		this.posX = at.x - (at.x - this.posX) * amount;
 		this.posY = at.y - (at.y - this.posY) * amount;
