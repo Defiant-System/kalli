@@ -114,6 +114,7 @@ const Projector = {
 		this.cvs.prop({ width: this.aW, height: this.aH });
 
 		this.ctx.save();
+		// this.ctx.scale(scale, scale);
 		this.ctx.translate(oX, oY);
 
 		// drop shadow

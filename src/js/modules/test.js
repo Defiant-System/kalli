@@ -4,6 +4,7 @@ let Test = {
 
 		// return;
 
+		return setTimeout(() => APP.els.content.find(".icon-maxi").trigger("click"), 350);
 		// return setTimeout(() => window.find(".tbl-row:nth(0) .row-color").trigger("click"), 350);
 
 
@@ -19,12 +20,12 @@ let Test = {
 		// }, 340);
 
 		return setTimeout(() => {
-			let drag = { top: 0, left: -420 };
+			let drag = { top: 0, left: -484 };
 			Projector.file.dispatch({ type: "set-scale", scale: 4, noRender: 1 });
-			Projector.file.dispatch({ type: "pan-canvas", ...drag });
+			Projector.file.viewPan(drag);
 			APP.navigator.dispatch({ type: "pan-view-rect", ...drag });
 
-			// APP.els.content.find(".icon-maxi").trigger("click");
+			// APP.work.els.workArea.find(".zoom").trigger("click");
 		}, 350);
 
 		// return setTimeout(() => $(`.def-desktop_`).trigger("mousedown").trigger("mouseup"), 350);

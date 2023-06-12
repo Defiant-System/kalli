@@ -162,17 +162,14 @@ class File {
 				// make sure projector is reset
 				if (Proj.cX === 0 || Proj.cY === 0) Proj.reset(this);
 
-				let pX = .75,
-					pY = .1175;
-
-				// console.log( Proj.cY, Proj.aH, this.height );
-
 				// origo
-				this.oX = Math.round(Proj.cX - (this.width * pX ));
-				this.oY = Math.round(Proj.cY - (this.height * pY ));
+				this.oX = Math.round(Proj.cX - (this.width * .5 ));
+				this.oY = Math.round(Proj.cY - (this.height * .5 ));
 
 				// update work area zoom value
 				APP.work.dispatch({ type: "update-zoom-value", scale: this.scale });
+				// update navigator
+				APP.navigator.dispatch({ type: "pan-view-rect", x: File.oX, y: File.oY });
 
 				if (!event.noRender) {
 					// render file
