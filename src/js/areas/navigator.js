@@ -133,7 +133,12 @@
 				Self.els.zoomValue.html(Self.zoomValue);
 
 				if (event.type === "input") {
-					File.dispatch({ type: "set-scale", scale: Self.zoomValue / 100 });
+					File.viewScaleAt({
+						x: (File.width * .5),
+						y: (File.height * .5),
+						scale: Self.zoomValue / 100
+					});
+					// File.dispatch({ type: "set-scale", scale: Self.zoomValue / 100 });
 				} else {
 					Self.els.zoomSlider.val(event.value);
 				}

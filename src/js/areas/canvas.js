@@ -195,6 +195,7 @@
 
 				let Proj = Projector,
 					File = Proj.file;
+				
 				// dont pan if image fits available area
 				if (File.width <= Proj.aW && File.height <= Proj.aH) return;
 

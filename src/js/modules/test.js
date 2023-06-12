@@ -4,6 +4,7 @@ let Test = {
 
 		// return;
 
+		return setTimeout(() => APP.els.content.find(".icon-maxi").trigger("click"), 350);
 		// return setTimeout(() => window.find(".tbl-row:nth(0) .row-color").trigger("click"), 350);
 
 
@@ -23,8 +24,6 @@ let Test = {
 			Projector.file.dispatch({ type: "set-scale", scale: 4, noRender: 1 });
 			Projector.file.viewPan(drag);
 			APP.navigator.dispatch({ type: "pan-view-rect", ...drag });
-
-			// APP.els.content.find(".icon-maxi").trigger("click");
 		}, 350);
 
 		// return setTimeout(() => $(`.def-desktop_`).trigger("mousedown").trigger("mouseup"), 350);

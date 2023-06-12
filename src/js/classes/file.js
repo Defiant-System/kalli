@@ -87,15 +87,26 @@ class File {
 					scale = testScale;
 				}
 			});
+		// set scale (to fit view)
+		this.scale = scale;
+
+		// reset projector
+		Proj.reset(this);
+
+		// origo
+		this.posX = Math.round(Proj.cX - (this.width * .5));
+		this.posY = Math.round(Proj.cY - (this.height * .5));
+		// update file matrix
+		this.viewUpdate();
 
 		// set file initial scale
-		this.dispatch({ type: "set-scale", scale });
+		// this.dispatch({ type: "set-scale", scale });
 
 		// emit event
 		karaqu.emit("file-parsed", { file: this });
 
 		// render image
-		this.render({ reset: true, frame: this.cursorLeft });
+		this.render({ frame: this.cursorLeft });
 	}
 
 	frameHistory(index) {
@@ -147,15 +158,12 @@ class File {
 		}
 		
 		// render file / image
-		if (opt.reset) Proj.reset(this);
 		Proj.render();
 	}
 
 	viewApply(opt={}) {
 		if (this.isDirty) this.viewUpdate();
-		let APP = kalli,
-			m = this._matrix;
-		this.ctx.setTransform(m[0], m[1], m[2], m[3], m[4], m[5]);
+		let APP = kalli;
 
 		// render projector canvas
 		Projector.render({ noEmit: opt.noEmit });
@@ -189,12 +197,30 @@ class File {
 		this.viewApply({ noEmit: amount.noEmit });
 	}
 
-	viewScaleAt(at, amount) {
+	viewScaleAt(opt) {
 		if (this.isDirty) this.viewUpdate();
-		this.scale *= amount;
-		this.posX = at.x - (at.x - this.posX) * amount;
-		this.posY = at.y - (at.y - this.posY) * amount;
+		
+		let amount = opt.scale - this.scale;
+		// let focalPoint = {
+		// 	x: (File.width * .5),
+		// 	y: (File.height * .5),
+		// };
+
+		this.scale = opt.scale;
+		if (amount > 0) {
+			this.posX = opt.x - (opt.x - this.posX) * amount;
+			this.posY = opt.y - (opt.y - this.posY) * amount;
+		} else {
+			this.posX = opt.x - (opt.x - this.posX) / amount;
+			this.posY = opt.y - (opt.y - this.posY) / amount;
+		}
+		
+
+		// this.width = Math.round(this.oW * this.scale);
+		// this.height = Math.round(this.oH * this.scale);
+
 		this.dirty = true;
+		this.viewApply({ noEmit: opt.noEmit });
 	}
 
 	dispatch(event) {

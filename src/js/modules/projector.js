@@ -113,8 +113,10 @@ const Projector = {
 
 		this.ctx.save();
 		// this.ctx.translate(posX, posY);
-		
-		this.ctx.setTransform(1, 0, 0, 1, posX, posY);
+
+		// apply file matrix to projector
+		this.ctx.setTransform(...File._matrix);
+		// console.log( File._matrix );
 
 		// drop shadow
 		this.ctx.save();
