@@ -245,11 +245,11 @@ class File {
 				this.posY = Math.round(Proj.cY - (this.height * .5));
 
 				// update work area zoom value
-				APP.work.dispatch({ type: "update-zoom-value", scale: this.scale });
+				// APP.work.dispatch({ ...event, type: "update-zoom-value" });
 
 				if (!event.noRender) {
 					// render file
-					this.render({ frame: this.cursorLeft });
+					this.render({ reset: true });
 				}
 				break;
 		}

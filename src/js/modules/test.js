@@ -24,6 +24,8 @@ let Test = {
 			Projector.file.dispatch({ type: "set-scale", scale: 4, noRender: 1 });
 			Projector.file.viewPan(drag);
 			APP.navigator.dispatch({ type: "pan-view-rect", ...drag });
+
+			// APP.work.els.workArea.find(".zoom").trigger("click");
 		}, 350);
 
 		// return setTimeout(() => $(`.def-desktop_`).trigger("mousedown").trigger("mouseup"), 350);

@@ -6,7 +6,7 @@
 		// fast references
 		this.els = {
 			workArea: window.find(".column-canvas > .area"),
-			zoomValue: window.find(".button.zoom .value"),
+			btnZoom: window.find(".button.zoom"),
 		};
 	},
 	dispatch(event) {
@@ -18,7 +18,7 @@
 		switch (event.type) {
 			case "update-zoom-value":
 				value = Math.round(event.scale * 100);
-				Self.els.zoomValue.html(value);
+				Self.els.btnZoom.find(".value").html(value);
 				break;
 			case "switch-view":
 				// update buttons
