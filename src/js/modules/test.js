@@ -4,7 +4,7 @@ let Test = {
 
 		// return;
 
-		return setTimeout(() => APP.els.content.find(".icon-maxi").trigger("click"), 350);
+		// return setTimeout(() => APP.els.content.find(".icon-maxi").trigger("click"), 350);
 		// return setTimeout(() => window.find(".tbl-row:nth(0) .row-color").trigger("click"), 350);
 
 
@@ -18,6 +18,19 @@ let Test = {
 		// 	// highlight code view
 		// 	hljs.highlightAll();
 		// }, 340);
+
+		return setTimeout(() => {
+			// Projector.file.dispatch({ type: "set-scale", scale: 2 });
+			// Projector.file.dispatch({ type: "pan-canvas", x: 54.5, y: 95.5 });
+			// APP.navigator.dispatch({ type: "pan-view-rect", x: 54.5, y: 95.5 });
+
+			let scale = 2,
+				viewX = Projector.aW * .5,
+				viewY = Projector.aH * .5;
+			setTimeout(() => Projector.file.dispatch({ type: "scale-at", viewX, viewY, scale }), 700);
+			// setTimeout(() => APP.els.content.find(".icon-maxi").trigger("click"), 100);
+			
+		}, 350);
 
 		return setTimeout(() => {
 			let drag = { top: 0, left: -484 };

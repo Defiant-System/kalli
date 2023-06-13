@@ -107,7 +107,7 @@ const Projector = {
 			h = File.height,
 			scale = File.scale,
 			oW = File.oW,
-			oH = File.oX,
+			oH = File.oH,
 			oX = File.oX,
 			oY = File.oY;
 		// reset canvas

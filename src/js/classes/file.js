@@ -153,6 +153,23 @@ class File {
 		//console.log(event);
 		switch (event.type) {
 			// custom events
+			case "scale-at":
+				let scaleChange = event.scale - this.scale,
+					offsetX = (event.viewX * scaleChange) - (this.oW * event.scale * .5),
+					offsetY = (event.viewY * scaleChange) - (this.oH * event.scale * .5);
+
+				// console.log( Proj.aW, Proj.aH );
+				// console.log( this.oX, this.oY );
+				// console.log( offsetX, offsetY );
+				this.scale = event.scale || this.scale;
+				this.oX = offsetX;
+				this.oY = offsetY;
+				this.width = Math.round(this.oW * this.scale);
+				this.height = Math.round(this.oH * this.scale);
+
+				// render projector canvas
+				Proj.render();
+				break;
 			case "set-scale":
 				// scaled dimension
 				this.scale = event.scale || this.scale;
@@ -162,9 +179,12 @@ class File {
 				// make sure projector is reset
 				if (Proj.cX === 0 || Proj.cY === 0) Proj.reset(this);
 
+				let cX = Math.round(Proj.cX - (this.width * .5)),
+					cY = Math.round(Proj.cY - (this.height * .5));
+
 				// origo
-				this.oX = Math.round(Proj.cX - (this.width * .5 ));
-				this.oY = Math.round(Proj.cY - (this.height * .5 ));
+				this.oX = cX;
+				this.oY = cY;
 
 				// update work area zoom value
 				APP.work.dispatch({ type: "update-zoom-value", scale: this.scale });

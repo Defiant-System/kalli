@@ -10,6 +10,7 @@
 
 		// bind event handlers
 		this.els.area.on("mousedown", this.move);
+		this.els.area.on("wheel", this.dispatch);
 	},
 	dispatch(event) {
 		let APP = kalli,
@@ -19,6 +20,22 @@
 			str;
 		// console.log(event);
 		switch (event.type) {
+			// native events
+			case "wheel":
+				// prevent default behaviour
+				event.preventDefault();
+
+				let amount = event.deltaY > 0 ? 1.1 : 1 / 1.1,
+					pos = {
+						y: event.layerY,
+						x: event.layerX,
+					};
+
+				// if (event.deltaY < 0) event.
+
+				File.dispatch({ type: "scale-at", pos, amount });
+				break;
+			// custom events
 			case "change-zoom":
 				// min: 25
 				// max: 800
