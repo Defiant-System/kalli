@@ -36,11 +36,6 @@
 				File.dispatch({ type: "scale-at", pos, amount });
 				break;
 			// custom events
-			case "change-zoom":
-				// min: 25
-				// max: 800
-				Projector.file.dispatch({ type: "set-scale", scale: event.value / 100 });
-				break;
 			case "edit-frame-index":
 				// delete old brushes
 				Self.els.area.find(".brush").remove();

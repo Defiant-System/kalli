@@ -24,12 +24,13 @@ let Test = {
 			// Projector.file.dispatch({ type: "pan-canvas", x: 54.5, y: 95.5 });
 			// APP.navigator.dispatch({ type: "pan-view-rect", x: 54.5, y: 95.5 });
 
-			let scale = 2,
-				viewX = Projector.aW * .5,
-				viewY = Projector.aH * .5;
-			setTimeout(() => Projector.file.dispatch({ type: "scale-at", viewX, viewY, scale }), 700);
-			// setTimeout(() => APP.els.content.find(".icon-maxi").trigger("click"), 100);
+			// return;
+
+			let viewX = Projector.aW * .5,
+				viewY = Projector.aH * .71;
+			setTimeout(() => Projector.file.dispatch({ type: "scale-at", viewX, viewY, scale: 2 }), 700);
 			
+			// setTimeout(() => APP.els.content.find(".icon-maxi").trigger("click"), 700);
 		}, 350);
 
 		return setTimeout(() => {

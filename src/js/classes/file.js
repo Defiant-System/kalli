@@ -154,9 +154,17 @@ class File {
 		switch (event.type) {
 			// custom events
 			case "scale-at":
-				let scaleChange = event.scale - this.scale,
-					offsetX = (event.viewX * scaleChange) - (this.oW * event.scale * .5),
-					offsetY = (event.viewY * scaleChange) - (this.oH * event.scale * .5);
+				let newScale = event.scale || this.scale,
+					scaleChange = event.scale - this.scale,
+					viewX = (event.viewX || (Proj.aW * .5)),
+					viewY = (event.viewY || (Proj.aH * .5)),
+					width = Math.round(this.oW * newScale),
+					height = Math.round(this.oH * newScale),
+					offsetX = (viewX * scaleChange) - (this.oW * event.scale * .5),
+					offsetY = (viewY * scaleChange) - (this.oH * event.scale * .5);
+
+				if (height > Proj.aH) offsetY = Math.min(offsetY, 0);
+				if (width > Proj.aW) offsetX = Math.min(offsetX, 0);
 
 				// console.log( Proj.aW, Proj.aH );
 				// console.log( this.oX, this.oY );
@@ -164,11 +172,18 @@ class File {
 				this.scale = event.scale || this.scale;
 				this.oX = offsetX;
 				this.oY = offsetY;
-				this.width = Math.round(this.oW * this.scale);
-				this.height = Math.round(this.oH * this.scale);
+				this.width = width;
+				this.height = height;
 
-				// render projector canvas
-				Proj.render();
+				// update work area zoom value
+				APP.work.dispatch({ type: "update-zoom-value", scale: this.scale });
+				// update navigator
+				APP.navigator.dispatch({ type: "pan-view-rect", x: this.oX, y: this.oY });
+
+				if (!event.noRender) {
+					// render file
+					this.render({ frame: this.cursorLeft });
+				}
 				break;
 			case "set-scale":
 				// scaled dimension
@@ -189,7 +204,7 @@ class File {
 				// update work area zoom value
 				APP.work.dispatch({ type: "update-zoom-value", scale: this.scale });
 				// update navigator
-				APP.navigator.dispatch({ type: "pan-view-rect", x: File.oX, y: File.oY });
+				APP.navigator.dispatch({ type: "pan-view-rect", x: this.oX, y: this.oY });
 
 				if (!event.noRender) {
 					// render file
@@ -204,8 +219,8 @@ class File {
 				oY = Number.isInteger(event.top)
 					? event.top
 					: this.height > Proj.aH ? Proj.cY - (this.height >> 1) + event.y : false;
-				if (Number.isInteger(oX)) this.oX = oX;
-				if (Number.isInteger(oY)) this.oY = oY;
+				if (oX !== false) this.oX = oX;
+				if (oY !== false) this.oY = oY;
 				// render projector canvas
 				Proj.render({ noEmit: event.noEmit });
 				// update "edit bubble"
