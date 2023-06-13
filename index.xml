@@ -5,8 +5,8 @@
 		<meta name="author" value="Hakan Bilgin" namespace="ant"/>
 		<meta name="license" value="AGPL-3.0"/>
 		<meta name="repository" value="https://github.com/Defiant-System/kalli"/>
-		<meta name="width" value="960" min="730"/>
-		<meta name="height" value="680" min="520"/>
+		<meta name="width" value="961" min="730"/>
+		<meta name="height" value="725" min="520"/>
 		<meta name="top" value="220"/>
 		<meta name="left" value="140"/>
 		<meta name="minimize"/>

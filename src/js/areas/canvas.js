@@ -26,14 +26,11 @@
 				event.preventDefault();
 
 				let amount = event.deltaY > 0 ? 1.1 : 1 / 1.1,
-					pos = {
-						y: event.layerY,
-						x: event.layerX,
-					};
+					scale = File.scale * amount,
+					zoomY = event.layerY - (Proj.aH * .5),
+					zoomX = event.layerX - (Proj.aW * .5);
 
-				// if (event.deltaY < 0) event.
-
-				File.dispatch({ type: "scale-at", pos, amount });
+				// File.dispatch({ type: "scale-at", zoomY, zoomX, scale });
 				break;
 			// custom events
 			case "edit-frame-index":
@@ -47,9 +44,9 @@
 					if (f) {
 						let [x, y, r] = f;
 						// translate / scale coordinate matrix
-						r *= File.scale;
-						y = (y * File.scale) + File.oY;
-						x = (x * File.scale) + File.oX;
+						r *= File.scale.toFixed(2);
+						y = ((y * File.scale) + File.oY).toFixed(2);
+						x = ((x * File.scale) + File.oX).toFixed(2);
 						str.push(`<div class="brush" style="--bg: ${brush.color}; --top: ${y-r}px; --left: ${x-r}px; --radius: ${r*2}px;"></div>`);
 					}
 

@@ -26,9 +26,40 @@ let Test = {
 
 			// return;
 
-			let viewX = Projector.aW * .5,
-				viewY = Projector.aH * .71;
-			setTimeout(() => Projector.file.dispatch({ type: "scale-at", viewX, viewY, scale: 2 }), 700);
+			setTimeout(() =>
+				Projector.file.dispatch({
+					type: "scale-at",
+					zoomX: 148,
+					zoomY: 89,
+					scale: 2
+				}), 500);
+
+			// return setTimeout(() => Projector.file.dispatch({ type: "scale-at", scale: 4 }), 1000);
+
+			return;
+
+			return setTimeout(() =>
+				Projector.file.dispatch({
+					type: "scale-at",
+					zoomX: 296,
+					zoomY: 162,
+					scale: 4
+				}), 1000);
+
+			// return setTimeout(() =>
+			// 	Projector.file.dispatch({
+			// 		type: "scale-at",
+			// 		zoomX: 296,
+			// 		zoomY: 323,
+			// 		scale: 4
+			// 	}), 1000);
+
+			return;
+
+
+			let zoomX = Projector.aW * .5,
+				zoomY = Projector.aH * .71;
+			setTimeout(() => Projector.file.dispatch({ type: "scale-at", zoomX, zoomY, scale: 2 }), 700);
 			
 			// setTimeout(() => APP.els.content.find(".icon-maxi").trigger("click"), 700);
 		}, 350);

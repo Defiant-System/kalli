@@ -148,30 +148,39 @@ class File {
 	dispatch(event) {
 		let APP = kalli,
 			Proj = Projector,
+			cX, cY,
 			oX, oY,
 			el;
 		//console.log(event);
 		switch (event.type) {
 			// custom events
 			case "scale-at":
-				let newScale = event.scale || this.scale,
-					scaleChange = event.scale - this.scale,
-					viewX = (event.viewX || (Proj.aW * .5)),
-					viewY = (event.viewY || (Proj.aH * .5)),
+				// cX = Proj.aW * .5;
+				// cY = Proj.aH * .5;
+
+				let newScale = event.scale,
+					scaleChange = newScale - this.scale,
+					zoomX = event.zoomX || ((Proj.aW * .5) - this.oX),
+					zoomY = event.zoomY || ((Proj.aH * .5) - this.oY),
 					width = Math.round(this.oW * newScale),
-					height = Math.round(this.oH * newScale),
-					offsetX = (viewX * scaleChange) - (this.oW * event.scale * .5),
-					offsetY = (viewY * scaleChange) - (this.oH * event.scale * .5);
+					height = Math.round(this.oH * newScale);
+				
+				oX = (zoomX / this.scale) * -scaleChange;
+				oY = (zoomY / this.scale) * -scaleChange;
+				// if (height > Proj.aH) oY = Math.min(oY, 0);
+				// if (width > Proj.aW) oX = Math.min(oX, 0);
 
-				if (height > Proj.aH) offsetY = Math.min(offsetY, 0);
-				if (width > Proj.aW) offsetX = Math.min(offsetX, 0);
-
-				// console.log( Proj.aW, Proj.aH );
+				console.log( zoomX, zoomY );
+				// console.log( this.oW, this.oH );
+				// console.log( oX, oY );
 				// console.log( this.oX, this.oY );
-				// console.log( offsetX, offsetY );
+				// console.log( width, height );
+				
+				// 296, 250
+
 				this.scale = event.scale || this.scale;
-				this.oX = offsetX;
-				this.oY = offsetY;
+				this.oX += oX;
+				this.oY += oY;
 				this.width = width;
 				this.height = height;
 
@@ -194,8 +203,8 @@ class File {
 				// make sure projector is reset
 				if (Proj.cX === 0 || Proj.cY === 0) Proj.reset(this);
 
-				let cX = Math.round(Proj.cX - (this.width * .5)),
-					cY = Math.round(Proj.cY - (this.height * .5));
+				cX = Math.round(Proj.cX - (this.width * .5));
+				cY = Math.round(Proj.cY - (this.height * .5));
 
 				// origo
 				this.oX = cX;
