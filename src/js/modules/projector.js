@@ -55,7 +55,7 @@ const Projector = {
 		}
 		for (let i=cfg.x; i<il; i++) {
 			for (let j=cfg.y; j<jl; j++) {
-				ctx.fillStyle = ((i + j) % 2) ? "#bbb" : "#fff";
+				ctx.fillStyle = ((i + j) % 2) ? "#bbb" : "#ddd";
 				let x = i * cfg.size + cfg.pX,
 					y = j * cfg.size + cfg.pY,
 					w = cfg.size,
@@ -128,7 +128,7 @@ const Projector = {
 
 		if (!File.opaque) {
 			// layer: checkers
-			this.drawCheckers(this.ctx, { w, h });
+			this.drawCheckers(this.ctx, { w, h, size: 16 });
 		} else {
 			// file bg-color
 			this.ctx.fillStyle = File.bgColor;

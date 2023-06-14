@@ -181,6 +181,9 @@ class File {
 				if (width < Proj.aW) this.oX = (Proj.aW - width) * .5;
 				if (height < Proj.aH) this.oY = (Proj.aH - height) * .5;
 
+				this.oX = Math.round(this.oX);
+				this.oY = Math.round(this.oY);
+
 				// update work area zoom value
 				APP.work.dispatch({ type: "update-zoom-value", scale: this.scale });
 				// update navigator
