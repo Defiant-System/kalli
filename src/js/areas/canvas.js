@@ -27,9 +27,10 @@
 
 				let amount = event.deltaY > 0 ? 1.1 : 1 / 1.1,
 					scale = File.scale * amount,
-					zoomY = event.layerY - (Proj.aH * .5),
-					zoomX = event.layerX - (Proj.aW * .5);
+					zoomY = event.layerY - File.oY,
+					zoomX = event.layerX - File.oX;
 
+				console.log( zoomX, zoomY );
 				// File.dispatch({ type: "scale-at", zoomY, zoomX, scale });
 				break;
 			// custom events
