@@ -83,7 +83,7 @@ class File {
 			});
 
 		// set file initial scale
-		this.dispatch({ type: "set-scale", scale });
+		this.dispatch({ type: "scale-at", scale });
 
 		// emit event
 		karaqu.emit("file-parsed", { file: this });
@@ -148,16 +148,12 @@ class File {
 	dispatch(event) {
 		let APP = kalli,
 			Proj = Projector,
-			cX, cY,
 			oX, oY,
 			el;
 		//console.log(event);
 		switch (event.type) {
 			// custom events
 			case "scale-at":
-				// cX = Proj.aW * .5;
-				// cY = Proj.aH * .5;
-
 				let newScale = event.scale,
 					scaleChange = newScale - this.scale,
 					zoomX = event.zoomX != undefined ? event.zoomX : ((Proj.aW * .5) - this.oX),
@@ -168,15 +164,13 @@ class File {
 				oX = (zoomX / this.scale) * -scaleChange;
 				oY = (zoomY / this.scale) * -scaleChange;
 
-				// console.log( zoomX, zoomY );
-				// console.log( oX, oY );
-				// console.log( width, height );
-
 				this.scale = event.scale || this.scale;
 				this.oX += oX;
 				this.oY += oY;
 				this.width = width;
 				this.height = height;
+				// set reference to file
+				Proj.file = this;
 
 				// constrainsts
 				if (width > Proj.aW && this.oX > 0) this.oX = 0;
@@ -186,32 +180,6 @@ class File {
 				// make sure image is centered
 				if (width < Proj.aW) this.oX = (Proj.aW - width) * .5;
 				if (height < Proj.aH) this.oY = (Proj.aH - height) * .5;
-
-				// update work area zoom value
-				APP.work.dispatch({ type: "update-zoom-value", scale: this.scale });
-				// update navigator
-				APP.navigator.dispatch({ type: "pan-view-rect", x: this.oX, y: this.oY });
-
-				if (!event.noRender) {
-					// render file
-					this.render({ frame: this.cursorLeft });
-				}
-				break;
-			case "set-scale":
-				// scaled dimension
-				this.scale = event.scale || this.scale;
-				this.width = Math.round(this.oW * this.scale);
-				this.height = Math.round(this.oH * this.scale);
-
-				// make sure projector is reset
-				if (Proj.cX === 0 || Proj.cY === 0) Proj.reset(this);
-
-				cX = Math.round(Proj.cX - (this.width * .5));
-				cY = Math.round(Proj.cY - (this.height * .5));
-
-				// origo
-				this.oX = cX;
-				this.oY = cY;
 
 				// update work area zoom value
 				APP.work.dispatch({ type: "update-zoom-value", scale: this.scale });
@@ -233,6 +201,8 @@ class File {
 					: this.height > Proj.aH ? Proj.cY - (this.height >> 1) + event.y : false;
 				if (oX !== false) this.oX = oX;
 				if (oY !== false) this.oY = oY;
+				// set reference to file
+				Proj.file = this;
 				// render projector canvas
 				Proj.render({ noEmit: event.noEmit });
 				// update "edit bubble"

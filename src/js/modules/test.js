@@ -2,7 +2,7 @@
 let Test = {
 	init(APP) {
 
-		// return;
+		return;
 
 		// return setTimeout(() => APP.els.content.find(".icon-maxi").trigger("click"), 350);
 		// return setTimeout(() => window.find(".tbl-row:nth(0) .row-color").trigger("click"), 350);
@@ -20,20 +20,16 @@ let Test = {
 		// }, 340);
 
 		return setTimeout(() => {
-			// Projector.file.dispatch({ type: "set-scale", scale: 2 });
-			// Projector.file.dispatch({ type: "pan-canvas", x: 54.5, y: 95.5 });
-			// APP.navigator.dispatch({ type: "pan-view-rect", x: 54.5, y: 95.5 });
-
-			// return;
 
 			setTimeout(() =>
 				Projector.file.dispatch({
 					type: "scale-at",
-					zoomX: 148,
-					zoomY: 89,
-					scale: 2
+					zoomX: 212,
+					zoomY: 282,
+					scale: 4
 				}), 500);
 
+			setTimeout(() => APP.els.content.find(".icon-mini").trigger("click"), 1000);
 			// return setTimeout(() => Projector.file.dispatch({ type: "scale-at", scale: 4 }), 1000);
 
 			return;
