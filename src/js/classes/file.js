@@ -168,9 +168,6 @@ class File {
 				oX = (zoomX / this.scale) * -scaleChange;
 				oY = (zoomY / this.scale) * -scaleChange;
 
-				// if (height > Proj.aH) oY = Math.min(oY, 0);
-				// if (width > Proj.aW) oX = Math.min(oX, 0);
-
 				// console.log( zoomX, zoomY );
 				// console.log( oX, oY );
 				// console.log( width, height );
@@ -180,6 +177,12 @@ class File {
 				this.oY += oY;
 				this.width = width;
 				this.height = height;
+
+				// constrainsts
+				if (width > Proj.aW && this.oX > 0) this.oX = 0;
+				if (height > Proj.aH && this.oY > 0) this.oY = 0;
+				if (this.width + this.oX < Proj.aW) this.oX = Proj.aW - this.width;
+				if (this.height + this.oY < Proj.aH) this.oY = Proj.aH - this.height;
 				// make sure image is centered
 				if (width < Proj.aW) this.oX = (Proj.aW - width) * .5;
 				if (height < Proj.aH) this.oY = (Proj.aH - height) * .5;
