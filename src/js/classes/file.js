@@ -160,29 +160,29 @@ class File {
 
 				let newScale = event.scale,
 					scaleChange = newScale - this.scale,
-					zoomX = event.zoomX || ((Proj.aW * .5) - this.oX),
-					zoomY = event.zoomY || ((Proj.aH * .5) - this.oY),
+					zoomX = event.zoomX != undefined ? event.zoomX : ((Proj.aW * .5) - this.oX),
+					zoomY = event.zoomY != undefined ? event.zoomY : ((Proj.aH * .5) - this.oY),
 					width = Math.round(this.oW * newScale),
 					height = Math.round(this.oH * newScale);
 				
 				oX = (zoomX / this.scale) * -scaleChange;
 				oY = (zoomY / this.scale) * -scaleChange;
+
 				// if (height > Proj.aH) oY = Math.min(oY, 0);
 				// if (width > Proj.aW) oX = Math.min(oX, 0);
 
-				console.log( zoomX, zoomY );
-				// console.log( this.oW, this.oH );
+				// console.log( zoomX, zoomY );
 				// console.log( oX, oY );
-				// console.log( this.oX, this.oY );
 				// console.log( width, height );
-				
-				// 296, 250
 
 				this.scale = event.scale || this.scale;
 				this.oX += oX;
 				this.oY += oY;
 				this.width = width;
 				this.height = height;
+				// make sure image is centered
+				if (width < Proj.aW) this.oX = (Proj.aW - width) * .5;
+				if (height < Proj.aH) this.oY = (Proj.aH - height) * .5;
 
 				// update work area zoom value
 				APP.work.dispatch({ type: "update-zoom-value", scale: this.scale });
