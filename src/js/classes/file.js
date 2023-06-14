@@ -185,6 +185,8 @@ class File {
 				this.oY = Math.round(this.oY);
 
 				// update work area zoom value
+				APP.canvas.dispatch({ type: "update-zoom-index", scale: this.scale });
+				// update work area zoom value
 				APP.work.dispatch({ type: "update-zoom-value", scale: this.scale });
 				// update navigator
 				APP.navigator.dispatch({ type: "pan-view-rect", x: this.oX, y: this.oY });

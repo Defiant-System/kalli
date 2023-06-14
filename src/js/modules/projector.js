@@ -40,8 +40,8 @@ const Projector = {
 			},
 			lX = cfg.w % cfg.size,
 			lY = cfg.h % cfg.size,
-			il = (cfg.w-lX) / cfg.size,
-			jl = (cfg.h-lY) / cfg.size;
+			il = ((cfg.w-lX) / cfg.size) + 1,
+			jl = ((cfg.h-lY) / cfg.size) + 1;
 		ctx.save();
 		if (cfg.oX < 0) {
 			cfg.pX = cfg.oX % cfg.size;
@@ -53,8 +53,6 @@ const Projector = {
 			cfg.y = (cfg.pY - cfg.oY) / cfg.size;
 			jl = (jl-lY) - cfg.y;
 		}
-		il++;
-		jl++;
 		for (let i=cfg.x; i<il; i++) {
 			for (let j=cfg.y; j<jl; j++) {
 				ctx.fillStyle = ((i + j) % 2) ? "#bbb" : "#ddd";
@@ -130,7 +128,7 @@ const Projector = {
 
 		if (!File.opaque) {
 			// layer: checkers
-			this.drawCheckers(this.ctx, { w, h, size: 16 });
+			this.drawCheckers(this.ctx, { w, h, size: 12 });
 		} else {
 			// file bg-color
 			this.ctx.fillStyle = File.bgColor;

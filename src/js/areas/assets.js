@@ -19,6 +19,7 @@
 			el;
 		// console.log(event);
 		switch (event.type) {
+			// subscribed events
 			case "file-parsed":
 				// render asset list
 				window.render({
@@ -30,6 +31,7 @@
 				// calculate scrollbars
 				Self.dispatch({ type: "update-scrollbars" });
 				break;
+			// custom events
 			case "window.resize":
 			case "update-scrollbars":
 				let oH = Self.els.listBody.prop("offsetHeight"),

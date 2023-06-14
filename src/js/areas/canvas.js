@@ -7,6 +7,8 @@
 		this.els = {
 			area: window.find(`.column-canvas .body[data-area="canvas"]`),
 		};
+		// default zoom-index
+		this.zoomIndex = 3;
 
 		// bind event handlers
 		this.els.area.on("mousedown", this.move);
@@ -25,15 +27,25 @@
 				// prevent default behaviour
 				event.preventDefault();
 
-				let amount = event.deltaY > 0 ? 1.1 : 1 / 1.1,
-					scale = File.scale * amount,
+				let dir = event.deltaY < 0 ? 1 : -1,
 					zoomY = event.layerY - File.oY,
-					zoomX = event.layerX - File.oX;
-
-				console.log( zoomX, zoomY );
-				// File.dispatch({ type: "scale-at", zoomY, zoomX, scale });
+					zoomX = event.layerX - File.oX,
+					zoomIndex = Math.min(Math.max(Self.zoomIndex + dir, 0), ZOOM.length-1),
+					scale = ZOOM[Self.zoomIndex].level / 100;
+				// call dispatch only if new value is other than current value (performance)
+				if (Self.zoomIndex !== zoomIndex) {
+					File.dispatch({ type: "scale-at", zoomY, zoomX, scale });
+					// save value
+					Self.zoomIndex = zoomIndex;
+				}
 				break;
 			// custom events
+			case "update-zoom-index":
+				ZOOM.map((zoom, index) => {
+						let testScale = zoom.level / 100;
+						if (testScale === event.scale) this.zoomIndex = index;
+					});
+				break;
 			case "edit-frame-index":
 				// delete old brushes
 				Self.els.area.find(".brush").remove();
@@ -50,7 +62,6 @@
 						x = ((x * File.scale) + File.oX).toFixed(2);
 						str.push(`<div class="brush" style="--bg: ${brush.color}; --top: ${y-r}px; --left: ${x-r}px; --radius: ${r*2}px;"></div>`);
 					}
-
 				});
 				// add new brushes
 				Self.els.area.append(str.join(""));
