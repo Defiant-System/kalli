@@ -71,8 +71,8 @@ const Projector = {
 		// pre-render frame
 		let w = file.oW * file.scale,
 			h = file.oH * file.scale,
-			posX = file.posX || Math.round(this.cX - (w / 2)),
-			posY = file.posY || Math.round(this.cY - (h / 2));
+			oX = file.oX || Math.round(this.cX - (w / 2)),
+			oY = file.oY || Math.round(this.cY - (h / 2));
 		
 		// reset canvases
 		this.swap.cvs.prop({ width: this.aW, height: this.aH });
@@ -82,7 +82,7 @@ const Projector = {
 		this.swap.ctx.shadowOffsetY = 3;
 		this.swap.ctx.shadowBlur = 13;
 		this.swap.ctx.shadowColor = "#999";
-		this.swap.ctx.fillRect(posX, posY, w, h);
+		this.swap.ctx.fillRect(oX, oY, w, h);
 		this.frame = this.swap.ctx.getImageData(0, 0, this.aW, this.aH);
 	},
 	reset(file) {
@@ -106,17 +106,16 @@ const Projector = {
 			w = File.width,
 			h = File.height,
 			scale = File.scale,
-			posX = File.posX,
-			posY = File.posY;
+			oW = File.oW,
+			oH = File.oH,
+			oX = File.oX,
+			oY = File.oY;
 		// reset canvas
 		this.cvs.prop({ width: this.aW, height: this.aH });
 
 		this.ctx.save();
-		// this.ctx.translate(posX, posY);
-
-		// apply file matrix to projector
-		this.ctx.setTransform(...File._matrix);
-		// console.log( File._matrix );
+		// this.ctx.scale(scale, scale);
+		this.ctx.translate(oX, oY);
 
 		// drop shadow
 		this.ctx.save();

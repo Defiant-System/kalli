@@ -17,7 +17,6 @@
 			Self = APP.canvas,
 			Proj = Projector,
 			File = Proj.file,
-			pos = {},
 			str;
 		// console.log(event);
 		switch (event.type) {
@@ -26,19 +25,14 @@
 				// prevent default behaviour
 				event.preventDefault();
 
-				pos.y = event.layerY;
-				pos.x = event.layerX;
+				let amount = event.deltaY > 0 ? 1.1 : 1 / 1.1,
+					scale = File.scale * amount,
+					zoomY = event.layerY - (Proj.aH * .5),
+					zoomX = event.layerX - (Proj.aW * .5);
 
-				// if (event.deltaY < 0) event.
-
-				// File.dispatch();
+				// File.dispatch({ type: "scale-at", zoomY, zoomX, scale });
 				break;
 			// custom events
-			case "change-zoom":
-				// min: 25
-				// max: 800
-				Projector.file.dispatch({ type: "set-scale", scale: event.value / 100 });
-				break;
 			case "edit-frame-index":
 				// delete old brushes
 				Self.els.area.find(".brush").remove();
@@ -50,9 +44,9 @@
 					if (f) {
 						let [x, y, r] = f;
 						// translate / scale coordinate matrix
-						r *= File.scale;
-						y = (y * File.scale) + File.posY;
-						x = (x * File.scale) + File.posX;
+						r *= File.scale.toFixed(2);
+						y = ((y * File.scale) + File.oY).toFixed(2);
+						x = ((x * File.scale) + File.oX).toFixed(2);
 						str.push(`<div class="brush" style="--bg: ${brush.color}; --top: ${y-r}px; --left: ${x-r}px; --radius: ${r*2}px;"></div>`);
 					}
 
@@ -116,8 +110,8 @@
 				break;
 			case "mouseup":
 				let f = Drag.file.brushes[0].frames[Drag.file.frameIndex];
-				f[0] = (Drag.left + Drag.radius - Drag.file.posX) / Drag.file.scale; // left
-				f[1] = (Drag.top + Drag.radius - Drag.file.posY) / Drag.file.scale; // top
+				f[0] = (Drag.left + Drag.radius - Drag.file.oX) / Drag.file.scale; // left
+				f[1] = (Drag.top + Drag.radius - Drag.file.oY) / Drag.file.scale; // top
 
 				// remove class
 				APP.els.content.removeClass("no-cursor");
@@ -195,13 +189,12 @@
 
 				let Proj = Projector,
 					File = Proj.file;
-				
 				// dont pan if image fits available area
 				if (File.width <= Proj.aW && File.height <= Proj.aH) return;
 
 				Self.drag = {
-					clickX: event.clientX - (File.posX - Proj.cX + (File.width >> 1)),
-					clickY: event.clientY - (File.posY - Proj.cY + (File.height >> 1)),
+					clickX: event.clientX - (File.oX - Proj.cX + (File.width >> 1)),
+					clickY: event.clientY - (File.oY - Proj.cY + (File.height >> 1)),
 					min: {
 						x: Proj.aX - Proj.cX + (File.width >> 1),
 						y: Proj.aY - Proj.cY + (File.height >> 1),
@@ -225,7 +218,7 @@
 				Drag.x = Drag._max(Drag._min(event.clientX - Drag.clickX, Drag.min.x), Drag.max.x);
 				Drag.y = Drag._max(Drag._min(event.clientY - Drag.clickY, Drag.min.y), Drag.max.y);
 				// forward event to file
-				Drag.file.viewPan({ posX: Drag.x, posY: Drag.y });
+				Drag.file.dispatch({ ...Drag, type: "pan-canvas", noEmit: true });
 				// dispatch event to sidebar navigator
 				Drag.nav.dispatch({ ...Drag, type: "pan-view-rect" });
 				break;

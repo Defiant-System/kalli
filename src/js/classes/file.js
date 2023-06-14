@@ -4,9 +4,7 @@ class File {
 		// save reference to original FS file
 		this._file = fsFile;
 		// defaults
-		this.dirty = true;
 		this._opaque = true;
-		this._matrix = [1, 0, 0, 1, 0, 0];
 		this.scale = 1;
 		this.width = 0;
 		this.height = 0;
@@ -18,10 +16,6 @@ class File {
 
 		// parse image content blob
 		this.parseImage();
-	}
-
-	get isDirty() {
-		return this.dirty;
 	}
 
 	get opaque() {
@@ -87,26 +81,15 @@ class File {
 					scale = testScale;
 				}
 			});
-		// set scale (to fit view)
-		this.scale = scale;
-
-		// reset projector
-		Proj.reset(this);
-
-		// origo
-		this.posX = Math.round(Proj.cX - (this.width * .5));
-		this.posY = Math.round(Proj.cY - (this.height * .5));
-		// update file matrix
-		this.viewUpdate();
 
 		// set file initial scale
-		// this.dispatch({ type: "set-scale", scale });
+		this.dispatch({ type: "scale-at", scale });
 
 		// emit event
 		karaqu.emit("file-parsed", { file: this });
 
 		// render image
-		this.render({ frame: this.cursorLeft });
+		this.render({ reset: true, frame: this.cursorLeft });
 	}
 
 	frameHistory(index) {
@@ -158,99 +141,72 @@ class File {
 		}
 		
 		// render file / image
+		if (opt.reset) Proj.reset(this);
 		Proj.render();
-	}
-
-	viewApply(opt={}) {
-		if (this.isDirty) this.viewUpdate();
-		let APP = kalli;
-
-		// render projector canvas
-		Projector.render({ noEmit: opt.noEmit });
-		// update "edit bubble"
-		APP.canvas.dispatch({ type: "edit-frame-index", index: this.frameIndex });
-	}
-
-	viewUpdate() {
-		let m = this._matrix;
-		m[3] = m[0] = this.scale;
-		m[2] = m[1] = 0;
-		m[4] = this.posX;
-		m[5] = this.posY;
-		this.dirty = false;
-	}
-
-	viewPan(amount) {
-		if (this.isDirty) this.viewUpdate();
-
-		let Proj = Projector,
-			posX = Number.isInteger(amount.left)
-					? amount.left
-					: this.width > Proj.aW ? Proj.cX - (this.width >> 1) + amount.posX : false,
-			posY = Number.isInteger(amount.top)
-					? amount.top
-					: this.height > Proj.aH ? Proj.cY - (this.height >> 1) + amount.posY : false;
-		if (Number.isInteger(posX)) this.posX = posX;
-		if (Number.isInteger(posY)) this.posY = posY;
-
-		this.dirty = true;
-		this.viewApply({ noEmit: amount.noEmit });
-	}
-
-	viewScaleAt(opt) {
-		if (this.isDirty) this.viewUpdate();
-		
-		let amount = opt.scale - this.scale;
-		// let focalPoint = {
-		// 	x: (File.width * .5),
-		// 	y: (File.height * .5),
-		// };
-
-		this.scale = opt.scale;
-		if (amount > 0) {
-			this.posX = opt.x - (opt.x - this.posX) * amount;
-			this.posY = opt.y - (opt.y - this.posY) * amount;
-		} else {
-			this.posX = opt.x - (opt.x - this.posX) / amount;
-			this.posY = opt.y - (opt.y - this.posY) / amount;
-		}
-		
-
-		// this.width = Math.round(this.oW * this.scale);
-		// this.height = Math.round(this.oH * this.scale);
-
-		this.dirty = true;
-		this.viewApply({ noEmit: opt.noEmit });
 	}
 
 	dispatch(event) {
 		let APP = kalli,
 			Proj = Projector,
-			posX, posY,
+			oX, oY,
 			el;
 		//console.log(event);
 		switch (event.type) {
 			// custom events
-			case "set-scale":
-				// scaled dimension
+			case "scale-at":
+				let newScale = event.scale,
+					scaleChange = newScale - this.scale,
+					zoomX = event.zoomX != undefined ? event.zoomX : ((Proj.aW * .5) - this.oX),
+					zoomY = event.zoomY != undefined ? event.zoomY : ((Proj.aH * .5) - this.oY),
+					width = Math.round(this.oW * newScale),
+					height = Math.round(this.oH * newScale);
+				
+				oX = (zoomX / this.scale) * -scaleChange;
+				oY = (zoomY / this.scale) * -scaleChange;
+
 				this.scale = event.scale || this.scale;
-				this.width = Math.round(this.oW * this.scale);
-				this.height = Math.round(this.oH * this.scale);
+				this.oX += oX;
+				this.oY += oY;
+				this.width = width;
+				this.height = height;
+				// set reference to file
+				Proj.file = this;
 
-				// make sure projector is reset
-				if (Proj.cX === 0 || Proj.cY === 0) Proj.reset(this);
-
-				// origo
-				this.posX = Math.round(Proj.cX - (this.width * .5));
-				this.posY = Math.round(Proj.cY - (this.height * .5));
+				// constrainsts
+				if (width > Proj.aW && this.oX > 0) this.oX = 0;
+				if (height > Proj.aH && this.oY > 0) this.oY = 0;
+				if (this.width + this.oX < Proj.aW) this.oX = Proj.aW - this.width;
+				if (this.height + this.oY < Proj.aH) this.oY = Proj.aH - this.height;
+				// make sure image is centered
+				if (width < Proj.aW) this.oX = (Proj.aW - width) * .5;
+				if (height < Proj.aH) this.oY = (Proj.aH - height) * .5;
 
 				// update work area zoom value
-				// APP.work.dispatch({ ...event, type: "update-zoom-value" });
+				APP.work.dispatch({ type: "update-zoom-value", scale: this.scale });
+				// update navigator
+				APP.navigator.dispatch({ type: "pan-view-rect", x: this.oX, y: this.oY });
 
 				if (!event.noRender) {
 					// render file
-					this.render({ reset: true });
+					this.render({ frame: this.cursorLeft });
 				}
+				break;
+			case "pan-canvas":
+				// console.log( event );
+				oX = Number.isInteger(event.left)
+					? event.left
+					: this.width > Proj.aW ? Proj.cX - (this.width >> 1) + event.x : false;
+				oY = Number.isInteger(event.top)
+					? event.top
+					: this.height > Proj.aH ? Proj.cY - (this.height >> 1) + event.y : false;
+				if (oX !== false) this.oX = oX;
+				if (oY !== false) this.oY = oY;
+				// set reference to file
+				Proj.file = this;
+				// render projector canvas
+				Proj.render({ noEmit: event.noEmit });
+				// update "edit bubble"
+				APP.canvas.dispatch({ type: "edit-frame-index", index: this.frameIndex });
 				break;
 		}
 	}

@@ -36,7 +36,7 @@
 			_max = Math.max,
 			_min = Math.min,
 			data = {},
-			posX, posY,
+			oX, oY,
 			value,
 			opt,
 			width,
@@ -60,8 +60,8 @@
 					Self.navHeight = _round(Self.ratio * Self.navWidth);
 				}
 
-				data.top = ((Proj.aY - File.posY) / File.height) * Self.navHeight;
-				data.left = ((Proj.aX - File.posX) / File.width) * Self.navWidth;
+				data.top = ((Proj.aY - File.oY) / File.height) * Self.navHeight;
+				data.left = ((Proj.aX - File.oX) / File.width) * Self.navWidth;
 				data.height = _min(((Proj.aH / File.height) * Self.navHeight), Self.navHeight - data.top);
 				data.width = _min(((Proj.aW / File.width) * Self.navWidth), Self.navWidth - data.left);
 
@@ -110,10 +110,10 @@
 
 			// custom events
 			case "pan-view-rect":
-				posX = Proj.cX - (File.width >> 1) + event.x;
-				posY = Proj.cY - (File.height >> 1) + event.y;
-				data.top = ((Proj.aY - File.posY) / File.height) * Self.navHeight;
-				data.left = ((Proj.aX - File.posX) / File.width) * Self.navWidth;
+				oX = Proj.cX - (File.width >> 1) + event.x;
+				oY = Proj.cY - (File.height >> 1) + event.y;
+				data.top = ((Proj.aY - File.oY) / File.height) * Self.navHeight;
+				data.left = ((Proj.aX - File.oX) / File.width) * Self.navWidth;
 				data.height = _min(((Proj.aH / File.height) * Self.navHeight), Self.navHeight - data.top);
 				data.width = _min(((Proj.aW / File.width) * Self.navWidth), Self.navWidth - data.left);
 
@@ -133,12 +133,7 @@
 				Self.els.zoomValue.html(Self.zoomValue);
 
 				if (event.type === "input") {
-					File.viewScaleAt({
-						x: (File.width * .5),
-						y: (File.height * .5),
-						scale: Self.zoomValue / 100
-					});
-					// File.dispatch({ type: "set-scale", scale: Self.zoomValue / 100 });
+					File.dispatch({ type: "scale-at", scale: Self.zoomValue / 100 });
 				} else {
 					Self.els.zoomSlider.val(event.value);
 				}
@@ -156,8 +151,8 @@
 				left = _round((event.left / event.max.x) * event.max.w) + Proj.aX;
 				//if (isNaN(top) || isNaN(left)) return;
 
-				// forward event to file canvas
-				File.viewPan({ top, left });
+				// forward event to canvas
+				File.dispatch({ type: "pan-canvas", top, left, noEmit: true });
 				break;
 		}
 	},
