@@ -124,24 +124,6 @@ class File {
 		});
 	}
 
-	render2(opt={}) {
-		let APP = kalli,
-			Proj = Projector,
-			width = this.oW,
-			height = this.oH;
-		// reset canvas
-		this.cvs.prop({ width, height });
-
-		// render frames history
-		if (opt.frame) this.frameHistory(opt.frame);
-
-		// apply image to canvas
-		// this.ctx.drawImage(this.image, 0, 0, width, height);
-		
-
-		Proj.render();
-	}
-
 	render(opt={}) {
 		let APP = kalli,
 			Proj = Projector,
