@@ -21,8 +21,10 @@ const Projector = {
 		switch (event.type) {
 			// native events
 			case "window.resize":
-				Self.aW = Self.pEl.prop("offsetWidth");
-				Self.aH = Self.pEl.prop("offsetHeight");
+				Self.aW = +Self.pEl.prop("offsetWidth");
+				Self.aH = +Self.pEl.prop("offsetHeight");
+				Self.cX = Self.aW / 2;
+				Self.cY = Self.aH / 2;
 				Self.cvs.prop({ width: Self.aW, height: Self.aH });
 
 				if (!event.noRender) Self.render();

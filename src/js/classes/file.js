@@ -39,6 +39,7 @@ class File {
 	async parseImage() {
 		let APP = kalli,
 			Proj = Projector,
+			xWork = this._file.data.selectSingleNode(`//Project/work`),
 			xImg = this._file.data.selectSingleNode(`//Project/assets/img`),
 			image = await loadImage("~/samples/"+ xImg.getAttribute("src")),
 			width = image.width,
@@ -71,25 +72,36 @@ class File {
 
 		// make sure aW & aH are set
 		Proj.dispatch({ type: "window.resize", noRender: 1 });
-		// default to first zoom level
-		let scale = .125;
-		// iterate available zoom levels
-		ZOOM.filter(z => z.level <= 100)
-			.map(zoom => {
-				let testScale = zoom.level / 100;
-				if (Proj.aW > width * testScale && Proj.aH > height * testScale) {
-					scale = testScale;
-				}
-			});
 
+		// default to first zoom level
+		let xScale = xWork ? +xWork.getAttribute("scale") : false,
+			scale = xScale || .125;
+		if (!xScale) {
+			// iterate available zoom levels
+			ZOOM.filter(z => z.level <= 100)
+				.map(zoom => {
+					let testScale = zoom.level / 100;
+					if (Proj.aW > width * testScale && Proj.aH > height * testScale) {
+						scale = testScale;
+					}
+				});
+		}
 		// set file initial scale
+		this.dispatch({ type: "scale-at", scale: 1 });
+		// auto scale view to file image size
 		this.dispatch({ type: "scale-at", scale });
+		// pan canvas, if any
+		let top = xWork ? +xWork.getAttribute("top") : false,
+			left = xWork ? +xWork.getAttribute("left") : false,
+			area = xWork ? xWork.getAttribute("area") : false;
+		if (!!top || !!left) this.dispatch({ type: "pan-canvas", top, left });
+
+		// auto select area
+		if (area) APP.work.els.workArea.find(`.foot .button[data-arg="${area}"]`).trigger("click");
+		else this.render({ reset: true, frame: this.cursorLeft });
 
 		// emit event
 		karaqu.emit("file-parsed", { file: this });
-
-		// render image
-		this.render({ reset: true, frame: this.cursorLeft });
 	}
 
 	frameHistory(index) {
@@ -156,8 +168,8 @@ class File {
 			case "scale-at":
 				let newScale = event.scale,
 					scaleChange = newScale - this.scale,
-					zoomX = event.zoomX != undefined ? event.zoomX : ((Proj.aW * .5) - this.oX),
-					zoomY = event.zoomY != undefined ? event.zoomY : ((Proj.aH * .5) - this.oY),
+					zoomX = event.zoomX != undefined ? event.zoomX : Proj.cX - this.oX,
+					zoomY = event.zoomY != undefined ? event.zoomY : Proj.cY - this.oY,
 					width = Math.round(this.oW * newScale),
 					height = Math.round(this.oH * newScale);
 				
@@ -172,6 +184,10 @@ class File {
 				// set reference to file
 				Proj.file = this;
 
+				if (event.oX && event.oY) {
+					this.oX = event.oX;
+					this.oY = event.oY;
+				}
 				// constrainsts
 				if (width > Proj.aW && this.oX > 0) this.oX = 0;
 				if (height > Proj.aH && this.oY > 0) this.oY = 0;
@@ -180,7 +196,7 @@ class File {
 				// make sure image is centered
 				if (width < Proj.aW) this.oX = (Proj.aW - width) * .5;
 				if (height < Proj.aH) this.oY = (Proj.aH - height) * .5;
-
+				// get rid of floats
 				this.oX = Math.round(this.oX);
 				this.oY = Math.round(this.oY);
 
@@ -197,7 +213,6 @@ class File {
 				}
 				break;
 			case "pan-canvas":
-				// console.log( event );
 				oX = Number.isInteger(event.left)
 					? event.left
 					: this.width > Proj.aW ? Proj.cX - (this.width >> 1) + event.x : false;
@@ -206,6 +221,7 @@ class File {
 					: this.height > Proj.aH ? Proj.cY - (this.height >> 1) + event.y : false;
 				if (oX !== false) this.oX = oX;
 				if (oY !== false) this.oY = oY;
+
 				// set reference to file
 				Proj.file = this;
 				// render projector canvas
