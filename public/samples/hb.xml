@@ -1,6 +1,6 @@
 
 <Project>
-	<work area="canvas" top="0" left="54" scale="2"/>
+	<work area="preview" top="0" left="54" scale="2"/>
 	<assets>
 		<img opaque="1" bgColor="#777" src="img/hb.png"/>
 	</assets>

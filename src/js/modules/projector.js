@@ -3,9 +3,19 @@ const Projector = {
 	init() {
 		// fast references
 		this.doc = $(document);
-		this.cvs = window.find(`.column-canvas .design`);
-		this.ctx = this.cvs[0].getContext("2d", { willReadFrequently: true });
-		this.pEl = this.cvs.parent();
+		// canvas area
+		this.canvas = {};
+		this.canvas.cvs = window.find(`.column-canvas .design`);
+		this.canvas.ctx = this.canvas.cvs[0].getContext("2d", { willReadFrequently: true });
+		this.canvas.pEl = this.canvas.cvs.parent();
+		// prev iew area
+		this.preview = {};
+		this.preview.cvs = window.find(`.column-canvas .player`);
+		this.preview.ctx = this.preview.cvs[0].getContext("2d", { willReadFrequently: true });
+		this.preview.pEl = this.preview.cvs.parent();
+		// currently active "view"
+		this.view = this.canvas;
+
 		// publicly used swap canvas
 		this.swap = createCanvas(1, 1);
 		// calc available dimensions
@@ -21,11 +31,13 @@ const Projector = {
 		switch (event.type) {
 			// native events
 			case "window.resize":
-				Self.aW = +Self.pEl.prop("offsetWidth");
-				Self.aH = +Self.pEl.prop("offsetHeight");
+				if (event.view) Self.view = Self[event.view];
+
+				Self.aW = +Self.view.pEl.prop("offsetWidth");
+				Self.aH = +Self.view.pEl.prop("offsetHeight");
 				Self.cX = Self.aW / 2;
 				Self.cY = Self.aH / 2;
-				Self.cvs.prop({ width: Self.aW, height: Self.aH });
+				Self.view.cvs.prop({ width: Self.aW, height: Self.aH });
 
 				if (!event.noRender) Self.render();
 				break;
@@ -96,8 +108,8 @@ const Projector = {
 		// available dimensions
 		this.aX = 0;
 		this.aY = 0;
-		this.aW = this.pEl.prop("offsetWidth");
-		this.aH = this.pEl.prop("offsetHeight");
+		this.aW = this.view.pEl.prop("offsetWidth");
+		this.aH = this.view.pEl.prop("offsetHeight");
 		// center
 		this.cX = this.aW / 2;
 		this.cY = this.aH / 2;
@@ -115,34 +127,34 @@ const Projector = {
 			oX = File.oX,
 			oY = File.oY;
 		// reset canvas
-		this.cvs.prop({ width: this.aW, height: this.aH });
+		this.view.cvs.prop({ width: this.aW, height: this.aH });
 
-		this.ctx.save();
-		// this.ctx.scale(scale, scale);
-		this.ctx.translate(oX, oY);
+		this.view.ctx.save();
+		// this.view.ctx.scale(scale, scale);
+		this.view.ctx.translate(oX, oY);
 
 		// drop shadow
-		this.ctx.save();
-		this.ctx.shadowOffsetX = 0;
-		this.ctx.shadowOffsetY = 1;
-		this.ctx.shadowBlur = 5;
-		this.ctx.shadowColor = "#555";
-		this.ctx.fillRect(0, 0, w, h);
-		this.ctx.restore();
+		this.view.ctx.save();
+		this.view.ctx.shadowOffsetX = 0;
+		this.view.ctx.shadowOffsetY = 1;
+		this.view.ctx.shadowBlur = 5;
+		this.view.ctx.shadowColor = "#555";
+		this.view.ctx.fillRect(0, 0, w, h);
+		this.view.ctx.restore();
 
 		if (!File.opaque) {
 			// layer: checkers
-			this.drawCheckers(this.ctx, { w, h, size: 12 });
+			this.drawCheckers(this.view.ctx, { w, h, size: 12 });
 		} else {
 			// file bg-color
-			this.ctx.fillStyle = File.bgColor;
-			this.ctx.fillRect(0, 0, w, h);
+			this.view.ctx.fillStyle = File.bgColor;
+			this.view.ctx.fillRect(0, 0, w, h);
 		}
 
-		// this.ctx.putImageData(this.frame, 0, 0);
-		this.ctx.imageSmoothingEnabled = false;
-		this.ctx.drawImage(File.cvs[0], 0, 0, w, h);
-		this.ctx.restore();
+		// this.view.ctx.putImageData(this.frame, 0, 0);
+		this.view.ctx.imageSmoothingEnabled = false;
+		this.view.ctx.drawImage(File.cvs[0], 0, 0, w, h);
+		this.view.ctx.restore();
 
 		if (!opt.noEmit) {
 			let events = ["projector-update"];
