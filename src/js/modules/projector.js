@@ -43,7 +43,7 @@ const Projector = {
 			case "switch-view":
 				if (event.view) Self.view = Self[event.view];
 				Self.view.cvs.prop({ width: Self.aW, height: Self.aH });
-				Self.render();
+				Self.file.render();
 				break;
 		}
 	},

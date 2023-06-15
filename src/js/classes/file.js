@@ -104,7 +104,7 @@ class File {
 		karaqu.emit("file-parsed", { file: this });
 	}
 
-	frameHistory(index, preview) {
+	frameHistory(index) {
 		let width = this.oW,
 			height = this.oH,
 			tau = Math.PI * 2;
@@ -113,7 +113,7 @@ class File {
 			// reset canvas
 			brush.cvs.prop({ width, height });
 			// paint up until frame index
-			if (!preview) brush.ctx.fillStyle = brush.color;
+			brush.ctx.fillStyle = brush.color;
 			[...brush.frames.slice(0, index)].map(f => {
 				if (f) {
 					brush.ctx.beginPath();
@@ -122,32 +122,6 @@ class File {
 				}
 			});
 		});
-	}
-
-	render(opt={}) {
-		let APP = kalli,
-			Proj = Projector,
-			width = this.oW,
-			height = this.oH;
-		// reset canvas
-		this.cvs.prop({ width, height });
-
-		// render frames history
-		if (opt.frame) this.frameHistory(opt.frame, true);
-
-		// apply image to canvas
-		// this.ctx.drawImage(this.image, 0, 0, width, height);
-		// frames history
-		this.ctx.globalCompositeOperation = "source-over";
-		this.brushes.map(brush => {
-			this.ctx.drawImage(brush.cvs[0], 0, 0, width, height);
-		});
-		this.ctx.globalCompositeOperation = "source-in";
-
-		// apply image to canvas
-		this.ctx.drawImage(this.image, 0, 0, width, height);
-
-		Proj.render();
 	}
 
 	render2(opt={}) {
@@ -159,20 +133,48 @@ class File {
 		this.cvs.prop({ width, height });
 
 		// render frames history
-		if (opt.frame) this.frameHistory(opt.frame-1);
+		if (opt.frame) this.frameHistory(opt.frame);
 
 		// apply image to canvas
-		this.ctx.drawImage(this.image, 0, 0, width, height);
+		// this.ctx.drawImage(this.image, 0, 0, width, height);
+		
 
-		this.ctx.save();
-		// frames history
-		this.ctx.globalCompositeOperation = "source-atop";
-		this.brushes.map(brush => {
-			this.ctx.drawImage(brush.cvs[0], 0, 0, width, height);
-		});
-		this.ctx.restore();
+		Proj.render();
+	}
 
-		if (opt.frame) {
+	render(opt={}) {
+		let APP = kalli,
+			Proj = Projector,
+			width = this.oW,
+			height = this.oH,
+			isPreview = Proj.view == Proj.preview,
+			frameIndex = isPreview ? opt.frame : opt.frame-1;
+		// reset canvas
+		this.cvs.prop({ width, height });
+
+		// render frames history
+		if (opt.frame) this.frameHistory(frameIndex);
+
+		if (isPreview) {
+			// frames history
+			this.ctx.globalCompositeOperation = "source-over";
+			this.brushes.map(brush => {
+				this.ctx.drawImage(brush.cvs[0], 0, 0, width, height);
+			});
+			this.ctx.globalCompositeOperation = "source-in";
+			// apply image to canvas
+			this.ctx.drawImage(this.image, 0, 0, width, height);
+		} else {
+			// apply image to canvas
+			this.ctx.drawImage(this.image, 0, 0, width, height);
+			// frames history
+			this.ctx.globalCompositeOperation = "source-atop";
+			this.brushes.map(brush => {
+				this.ctx.drawImage(brush.cvs[0], 0, 0, width, height);
+			});
+		}
+
+		if (opt.frame && !isPreview) {
 			APP.canvas.dispatch({ type: "edit-frame-index", index: opt.frame });
 			// save refererce to frame index
 			this.frameIndex = opt.frame;
