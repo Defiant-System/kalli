@@ -12,7 +12,7 @@
 
 		// bind event handlers
 		this.els.area.on("mousedown", this.move);
-		this.els.area.on("wheel", this.dispatch);
+		// this.els.area.on("wheel", this.dispatch);
 	},
 	dispatch(event) {
 		let APP = kalli,

@@ -4,6 +4,8 @@ let Test = {
 
 		return;
 
+		return setTimeout(() => APP.els.content.find(".icon-eye-on:nth(0)").trigger("click"), 350);
+
 		// return setTimeout(() => APP.els.content.find(".icon-maxi").trigger("click"), 350);
 		// return setTimeout(() => window.find(".tbl-row:nth(0) .row-color").trigger("click"), 350);
 

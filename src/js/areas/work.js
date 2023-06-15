@@ -24,6 +24,8 @@
 				// update buttons
 				event.el.parent().find(".active").removeClass("active");
 				event.el.addClass("active");
+				// notify area of switch
+				APP[event.el.data("arg")].dispatch({ type: "switch-init-event" });
 				// updat work area
 				APP.els.content
 					.removeClass("show-canvas show-preview show-code")
