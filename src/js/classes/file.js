@@ -104,7 +104,7 @@ class File {
 		karaqu.emit("file-parsed", { file: this });
 	}
 
-	frameHistory(index) {
+	frameHistory(index, preview) {
 		let width = this.oW,
 			height = this.oH,
 			tau = Math.PI * 2;
@@ -113,7 +113,7 @@ class File {
 			// reset canvas
 			brush.cvs.prop({ width, height });
 			// paint up until frame index
-			brush.ctx.fillStyle = brush.color;
+			if (!preview) brush.ctx.fillStyle = brush.color;
 			[...brush.frames.slice(0, index)].map(f => {
 				if (f) {
 					brush.ctx.beginPath();
@@ -125,6 +125,32 @@ class File {
 	}
 
 	render(opt={}) {
+		let APP = kalli,
+			Proj = Projector,
+			width = this.oW,
+			height = this.oH;
+		// reset canvas
+		this.cvs.prop({ width, height });
+
+		// render frames history
+		if (opt.frame) this.frameHistory(opt.frame, true);
+
+		// apply image to canvas
+		// this.ctx.drawImage(this.image, 0, 0, width, height);
+		// frames history
+		this.ctx.globalCompositeOperation = "source-over";
+		this.brushes.map(brush => {
+			this.ctx.drawImage(brush.cvs[0], 0, 0, width, height);
+		});
+		this.ctx.globalCompositeOperation = "source-in";
+
+		// apply image to canvas
+		this.ctx.drawImage(this.image, 0, 0, width, height);
+
+		Proj.render();
+	}
+
+	render2(opt={}) {
 		let APP = kalli,
 			Proj = Projector,
 			width = this.oW,

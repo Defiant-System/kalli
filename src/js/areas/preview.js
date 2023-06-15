@@ -22,6 +22,8 @@
 				let top = Self.view.top || File.oY,
 					left = Self.view.left || File.oX;
 				File.dispatch({ type: "pan-canvas", top, left });
+				// switch projector "lens"
+				Proj.dispatch({ type: "switch-view", view: "preview" });
 				break;
 			case "switch-exit-event":
 				// remeber view info

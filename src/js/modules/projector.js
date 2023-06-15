@@ -31,8 +31,6 @@ const Projector = {
 		switch (event.type) {
 			// native events
 			case "window.resize":
-				if (event.view) Self.view = Self[event.view];
-
 				Self.aW = +Self.view.pEl.prop("offsetWidth");
 				Self.aH = +Self.view.pEl.prop("offsetHeight");
 				Self.cX = Self.aW / 2;
@@ -40,6 +38,12 @@ const Projector = {
 				Self.view.cvs.prop({ width: Self.aW, height: Self.aH });
 
 				if (!event.noRender) Self.render();
+				break;
+			// custom events
+			case "switch-view":
+				if (event.view) Self.view = Self[event.view];
+				Self.view.cvs.prop({ width: Self.aW, height: Self.aH });
+				Self.render();
 				break;
 		}
 	},
