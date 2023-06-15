@@ -16,7 +16,7 @@
 			el;
 		// console.log(event);
 		switch (event.type) {
-			case "switch-init-event":
+			case "switch-enter-event":
 				code = `
 <img id="hello" src="/res/images/hello_white.png" alt=""/>
 <script type="text/javascript">
@@ -31,6 +31,8 @@ LS.I({
 </script>`;
 				value = hljs.highlight(code, { language: "xml" }).value;
 				Self.els.codeArea.html(value);
+				break;
+			case "switch-exit-event":
 				break;
 		}
 	}

@@ -7,6 +7,8 @@
 		this.els = {
 			area: window.find(`.column-canvas .body[data-area="canvas"]`),
 		};
+		// defaults
+		this.view = {};
 		// default zoom-index
 		this.zoomIndex = 3;
 
@@ -19,6 +21,7 @@
 			Self = APP.canvas,
 			Proj = Projector,
 			File = Proj.file,
+			scale, top, left,
 			str;
 		// console.log(event);
 		switch (event.type) {
@@ -30,8 +33,9 @@
 				let dir = event.deltaY < 0 ? 1 : -1,
 					zoomY = event.layerY - File.oY,
 					zoomX = event.layerX - File.oX,
-					zoomIndex = Math.min(Math.max(Self.zoomIndex + dir, 0), ZOOM.length-1),
-					scale = ZOOM[Self.zoomIndex].level / 100;
+					zoomIndex = Math.min(Math.max(Self.zoomIndex + dir, 0), ZOOM.length-1);
+				
+				scale = ZOOM[Self.zoomIndex].level / 100;
 				// call dispatch only if new value is other than current value (performance)
 				if (Self.zoomIndex !== zoomIndex) {
 					File.dispatch({ type: "scale-at", zoomY, zoomX, scale });
@@ -40,6 +44,21 @@
 				}
 				break;
 			// custom events
+			case "switch-enter-event":
+				// reset projector scale
+				scale = Self.view.scale || File.scale || 1;
+				File.dispatch({ type: "scale-at", scale });
+				// reset projector pan file
+				top = Self.view.top !== undefined ? Self.view.top : File.oY;
+				left = Self.view.left !== undefined ? Self.view.left : File.oX;
+				File.dispatch({ type: "pan-canvas", top, left });
+				break;
+			case "switch-exit-event":
+				// remeber view info
+				Self.view.scale = File.scale;
+				Self.view.top = File.oY;
+				Self.view.left = File.oX;
+				break;
 			case "update-zoom-index":
 				ZOOM.map((zoom, index) => {
 						let testScale = zoom.level / 100;

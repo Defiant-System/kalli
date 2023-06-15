@@ -226,6 +226,8 @@ class File {
 				Proj.file = this;
 				// render projector canvas
 				Proj.render({ noEmit: event.noEmit });
+				// update navigator
+				APP.navigator.dispatch({ type: "pan-view-rect", x: this.oX, y: this.oY });
 				// update "edit bubble"
 				APP.canvas.dispatch({ type: "edit-frame-index", index: this.frameIndex });
 				break;
