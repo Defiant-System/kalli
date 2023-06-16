@@ -4,6 +4,8 @@ class File {
 		// save reference to original FS file
 		this._file = fsFile;
 		// defaults
+		this._frameTotal = 0;
+		this._stopped = true;
 		this._opaque = true;
 		this.scale = 1;
 		this.width = 0;
@@ -30,6 +32,14 @@ class File {
 		Projector.render();
 		// return value
 		return this._opaque;
+	}
+
+	set frameTotal(val) {
+		this._frameTotal = val;
+	}
+
+	get frameTotal() {
+		return this._frameTotal;
 	}
 
 	get name() {
@@ -124,6 +134,26 @@ class File {
 		});
 	}
 
+	play(start) {
+		let fps = start.fps || 20;
+		let func = this.play.bind(this);
+		if (start.fps) this._stopped = false;
+		if (this._stopped) return;
+
+		let frame = this.frameIndex++;
+		if (frame >= this.frameTotal) {
+			// stop at the end
+			return this.stop();
+		}
+		this.render({ frame });
+
+		setTimeout(() => requestAnimationFrame(func), 1000 / fps);
+	}
+
+	stop() {
+		this._stopped = true;
+	}
+
 	render(opt={}) {
 		let APP = kalli,
 			Proj = Projector,
@@ -136,6 +166,9 @@ class File {
 
 		// render frames history
 		if (opt.frame !== undefined) this.frameHistory(frameIndex);
+
+		// update toolbar display
+		APP.toolbar.dispatch({ type: "set-display", index: frameIndex });
 
 		if (isPreview) {
 			// frames history

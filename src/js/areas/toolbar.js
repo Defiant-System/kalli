@@ -23,7 +23,7 @@
 		// console.log(event);
 		switch (event.type) {
 			case "set-display":
-				if (event.index !== undefined) Self.els.frameCurrent.html(event.index);
+				if (event.index !== undefined) Self.els.frameCurrent.html(event.index+1);
 				if (event.total !== undefined) Self.els.frameTotal.html(event.total);
 				break;
 			case "play":
@@ -32,6 +32,9 @@
 				el.removeClass("icon-play icon-stop")
 					.addClass(value)
 					.css({ "background-image": `url("~/icons/${value}.png")` });
+
+				if (el.hasClass("icon-play")) Projector.file.stop();
+				else Projector.file.play({ fps: 60 });
 				break;
 			case "prev-frame":
 				data = { cL: +APP.timeline.els.timeline.cssProp("--cL") };

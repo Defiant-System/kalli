@@ -114,6 +114,8 @@
 				});
 				// update full width detail
 				Self.els.timeline.css({ "--full": minL + maxW });
+				// update file frame total
+				event.detail.file.frameTotal = minL + maxW;
 				// add html string
 				Self.els.rightBody.find(".tbl-row").remove();
 				Self.els.rightBody.append(str.join(""));
