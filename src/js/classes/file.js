@@ -135,7 +135,7 @@ class File {
 		this.cvs.prop({ width, height });
 
 		// render frames history
-		if (opt.frame) this.frameHistory(frameIndex);
+		if (opt.frame !== undefined) this.frameHistory(frameIndex);
 
 		if (isPreview) {
 			// frames history
@@ -156,7 +156,7 @@ class File {
 			});
 		}
 
-		if (opt.frame && !isPreview) {
+		if (opt.frame !== undefined && !isPreview) {
 			APP.canvas.dispatch({ type: "edit-frame-index", index: opt.frame });
 			// save refererce to frame index
 			this.frameIndex = opt.frame;
