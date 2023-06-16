@@ -106,9 +106,13 @@ const kalli = {
 						let name = pEl.data("area");
 						Self[name].dispatch(event);
 					}
+					if (event.el.parents(".toolbar-group_").length) {
+						return Self.toolbar.dispatch(event);	
+					}
 				}
 		}
 	},
+	toolbar: @import "./areas/toolbar.js",
 	blankView: @import "./areas/blank-view.js",
 	work: @import "./areas/work.js",
 	code: @import "./areas/code.js",

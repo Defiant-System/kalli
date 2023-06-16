@@ -1,20 +1,21 @@
 <CaptionToolBar>
 	<Group width="9%">
 		<Options>
-			<Tool symbol="icon-undo" state="disabled"/>
-			<Tool symbol="icon-redo" state="disabled"/>
+			<Tool symbol="icon-undo" click="undo" state="disabled"/>
+			<Tool symbol="icon-redo" click="redo" state="disabled"/>
 		</Options>
 	</Group>
 	<Group width="37%" class="display">
 		<Field>
-			<span class="tempo">13/145</span>
+			<span class="fCurrent">13</span>
+			<span class="fTotal">145</span>
 		</Field>
 		<Options>
-			<Tool symbol="icon-rewind" state="disabled1"/>
-			<Tool symbol="icon-prev" state="disabled1"/>
-			<Tool symbol="icon-play" state="disabled1"/>
-			<Tool symbol="icon-next" state="disabled1"/>
-			<Tool symbol="icon-forward" state="disabled1"/>
+			<Tool symbol="icon-rewind" click="start-frame" state="disabled1"/>
+			<Tool symbol="icon-prev" click="prev-frame" state="disabled1"/>
+			<Tool symbol="icon-play" click="play" state="disabled1"/>
+			<Tool symbol="icon-next" click="next-frame" state="disabled1"/>
+			<Tool symbol="icon-forward" click="end-frame" state="disabled1"/>
 		</Options>
 	</Group>
 	<Group width="31%">
