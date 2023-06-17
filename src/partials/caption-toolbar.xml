@@ -1,15 +1,11 @@
 <CaptionToolBar>
-	<Group width="9%">
+	<Group width="67px">
 		<Options>
 			<Tool symbol="icon-undo" click="undo" state="disabled"/>
 			<Tool symbol="icon-redo" click="redo" state="disabled"/>
 		</Options>
 	</Group>
-	<Group width="37%" class="display">
-		<Field>
-			<span class="fCurrent">13</span>
-			<span class="fTotal">145</span>
-		</Field>
+	<Group class="controls">
 		<Options>
 			<Tool symbol="icon-rewind" click="start-frame" state="disabled1"/>
 			<Tool symbol="icon-prev" click="prev-frame" state="disabled1"/>
@@ -18,7 +14,11 @@
 			<Tool symbol="icon-forward" click="end-frame" state="disabled1"/>
 		</Options>
 	</Group>
-	<Group width="31%">
-		<Tool symbol="icon-gear"/>
+	<Group class="display">
+		<Field>
+			<span class="frameCurrent">13</span>
+			<span class="framesTotal">145</span>
+			<span class="fps">20</span>
+		</Field>
 	</Group>
 </CaptionToolBar>

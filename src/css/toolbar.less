@@ -1,40 +1,85 @@
 
-.display {
+.controls {
 	text-align: left;
+}
+
+.display {
+	top: -3px;
+	left: -11px;
+	width: 213px;
+	height: 29px;
+	border-radius: 4px;
+	background: #a50;
+
+	&:after {
+		content: "";
+		position: absolute;
+		top: 1px;
+		bottom: 3px;
+		left: 1px;
+		right: 1px;
+		z-index: 2;
+		pointer-events: none;
+		background: linear-gradient(180deg, rgba(230,230,255,.25) 0%, transparent 31%);
+		border-radius: 3px;
+	}
 
 	.toolbar-field_ {
-		width: 73px;
-    	text-align: center;
-		vertical-align: middle;
-    	display: inline-block;
-    	border-radius: 4px;
-    	margin-right: 4px;
-    	font-family: Monaco;
-    	font-size: 12px;
-    	text-shadow: 0 1px 0 rgba(0,0,0,.175);
-    	border: 0;
-    	background: #3355aa;
-    	box-shadow: inset 0 0 0 1px #112255aa,
-    				inset 0 2px 0 rgba(255,255,255,.3),
-    				inset 0 3px 3px rgba(255,255,255,.225),
-    				// inset 0 -2px 1px rgba(0,0,0,.2),
-    				0 1px 0 #eeeeffaa;
+		position: absolute;
+		top: -1px;
+		bottom: 0px;
+		left: 0;
+		z-index: 3;
+		font-size: 9px;
+		background: transparent;
+		margin-right: 4px;
+		color: #f0f0ff;
+		font-size: 15px;
+		font-family: Lucida Console;
+		text-transform: uppercase;
+		text-shadow: 0 1px 0 rgba(0,0,0,.175);
+		border: 0;
+		box-shadow: 0 0 0;
 
-    	span {
-    		&.fCurrent {
-    			color: #f0f0ff;
+		span {
+			position: absolute;
+			top: 2px;
+			width: 47px;
+			text-align: center;
 
-    			&:after {
-    				content: "/";
-    				color: #77b;
-    				display: inline-block;
-    				margin: 0 3px;
-    			}
-    		}
+			&:after {
+				position: absolute;
+				bottom: -11px;
+				left: 0;
+				right: 0;
+				text-align: center;
+				font-size: 11px;
+				opacity: .45;
+			}
 
-    		&.fTotal {
-    			color: #aae;
-    		}
-    	}
+			&.frameCurrent {
+				left: 11px;
+
+				&:after {
+					content: "Current";
+				}
+			}
+
+			&.framesTotal {
+				left: 93px;
+
+				&:after {
+					content: "Total";
+				}
+			}
+
+			&.fps {
+				left: 169px;
+
+				&:after {
+					content: "FPS";
+				}
+			}
+		}
 	}
 }
