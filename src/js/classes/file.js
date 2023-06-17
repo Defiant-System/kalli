@@ -202,10 +202,14 @@ class File {
 			});
 		}
 
-		if (opt.frame !== undefined && !isPreview) {
-			APP.canvas.dispatch({ type: "edit-frame-index", index: opt.frame });
-			// save refererce to frame index
-			this.frameIndex = opt.frame;
+		if (opt.frame !== undefined) {
+			if (!isPreview) {
+				APP.canvas.dispatch({ type: "edit-frame-index", index: opt.frame });
+			}
+			if (this._stopped) {
+				// save refererce to frame index
+				this.frameIndex = opt.frame;
+			}
 		}
 		
 		// render file / image
