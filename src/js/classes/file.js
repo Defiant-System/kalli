@@ -4,6 +4,7 @@ class File {
 		// save reference to original FS file
 		this._file = fsFile;
 		// defaults
+		this._fps = 10;
 		this._frameTotal = 0;
 		this._stopped = true;
 		this._opaque = true;
@@ -42,6 +43,14 @@ class File {
 		return this._frameTotal;
 	}
 
+	set fps(val) {
+		this._fps = val;
+	}
+
+	get fps() {
+		return this._fps;
+	}
+
 	get name() {
 		return this._file.base;
 	}
@@ -65,6 +74,9 @@ class File {
 		let xNode = this._file.data.selectSingleNode(`//Project/timeline`);
 		this.cursorTop = xNode.getAttribute("cursorTop") || 1;
 		this.cursorLeft = xNode.getAttribute("cursorLeft") || 0;
+
+		// set file FPS
+		this._fps = xNode.getAttribute("fps") || 20;
 
 		// prepare brushes
 		this.brushes = xNode.selectNodes(`./brush`).map(xBrush => {
@@ -135,7 +147,7 @@ class File {
 	}
 
 	play(start) {
-		let fps = start.fps || 20;
+		let fps = start.fps || this._fps;
 		let func = this.play.bind(this);
 		if (start.fps) this._stopped = false;
 		if (this._stopped) return;
@@ -147,6 +159,7 @@ class File {
 		}
 		this.render({ frame });
 
+		this._fps = fps;
 		setTimeout(() => requestAnimationFrame(func), 1000 / fps);
 	}
 

@@ -161,7 +161,7 @@
 					full: event.full !== undefined ? event.full : +Self.els.timeline.cssProp("--full"),
 				};
 				// update toolbar display
-				APP.toolbar.dispatch({ type: "set-display", index: data.cL, total: data.full });
+				APP.toolbar.dispatch({ type: "set-display", index: data.cL, total: data.full, fps: Proj.file.fps });
 				// update timeline area
 				Self.els.timeline.css({ "--cT": data.cT, "--cL": data.cL });
 				Self.els.leftBody.find(".active").removeClass("active");

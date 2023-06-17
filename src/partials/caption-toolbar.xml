@@ -16,9 +16,9 @@
 	</Group>
 	<Group class="display">
 		<Field>
-			<span class="frameCurrent">13</span>
-			<span class="framesTotal">145</span>
-			<span class="fps">20</span>
+			<span class="frameCurrent">0</span>
+			<span class="framesTotal">0</span>
+			<span class="fps">0</span>
 		</Field>
 	</Group>
 </CaptionToolBar>
