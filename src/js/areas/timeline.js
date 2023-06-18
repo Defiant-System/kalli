@@ -89,9 +89,12 @@
 				str = [];
 				// find out start & end of animation
 				let minL = 1e3,
-					maxW = 0;
+					maxW = 0,
+					fullW = 0;
 				brushes.map(b => { minL = Math.min(b.frames.findIndex(e => !!e), minL); });
-				brushes.map(b => { maxW = Math.max(b.frames.length-minL, maxW); });
+				brushes.map(b => { maxW = Math.max(b.frames.findLastIndex(e => e !== 0) - minL + 1, maxW); });
+				brushes.map(b => { fullW = Math.max(b.frames.length, fullW); });
+
 				str.push(`<div class="tbl-row parent-row">`);
 				str.push(`<span class="frames" style="--l: ${minL}; --w: ${maxW};"></span>`);
 				str.push(`</div>`);
@@ -104,7 +107,7 @@
 					// iterate frames
 					b.frames.map((f, x) => {
 						if (f && l === false) l = x;
-						if ((!f && l && w === false) || x === fl) w = x - l;
+						if ((!f && l !== false && w === false) || x === fl) w = x - l;
 						if (l !== false && w !== false) {
 							str.push(`<span class="frames" style="--l: ${l}; --w: ${w}; --color: ${b.color};"></span>`);
 							l = false;
@@ -114,14 +117,14 @@
 					str.push(`</div>`);
 				});
 				// update full width detail
-				Self.els.timeline.css({ "--full": minL + maxW });
+				Self.els.timeline.css({ "--full": fullW });
 				// update file frame total
-				event.detail.file.frameTotal = minL + maxW;
+				event.detail.file.frameTotal = fullW;
 				// add html string
 				Self.els.rightBody.find(".tbl-row").remove();
 				Self.els.rightBody.append(str.join(""));
 				// frame counters
-				str = [...Array(parseInt((minL + maxW) / 10, 10) + 1)].map(a => `<li></li>`);
+				str = [...Array(parseInt(fullW / 10, 10) + 1)].map(a => `<li></li>`);
 				Self.els.frameCount.append(str.join(""));
 				// auto focus on frame "1,0", if not specified in file
 				data = {
