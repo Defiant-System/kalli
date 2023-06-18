@@ -51,7 +51,7 @@
 			width: 47px;
 			text-align: center;
 
-			&:after {
+			&:before {
 				position: absolute;
 				bottom: -11px;
 				left: 0;
@@ -64,24 +64,31 @@
 			&.frameCurrent {
 				left: 11px;
 
-				&:after {
+				&:before {
 					content: "Current";
 				}
 			}
 
 			&.framesTotal {
-				left: 93px;
+				left: 87px;
 
-				&:after {
+				&:before {
 					content: "Total";
 				}
 			}
 
 			&.fps {
-				left: 169px;
+				left: 159px;
+
+				&:before {
+					content: "FPS";
+				}
 
 				&:after {
-					content: "FPS";
+					content: attr(data-real);
+					font-size: 10px;
+					opacity: .5;
+					margin-left: 3px;
 				}
 			}
 		}

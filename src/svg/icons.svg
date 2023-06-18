@@ -14,7 +14,7 @@
 		<path class="st0" d="M1,7.4c0,1.6,0.7,3.1,1.8,4.1l0.9-1C2.9,9.7,2.4,8.6,2.4,7.4c0-2.3,1.8-4.1,4.1-4.1c1.1,0,2.2,0.5,2.9,1.2L7.9,6H12V1.9 l-1.6,1.6c-1-1-2.4-1.6-3.9-1.6C3.5,1.9,1,4.4,1,7.4z"/>
 	</svg>
 
-	<svg id="icon-rewind" viewBox="0 0 13 13">
+	<svg id="icon-prev" viewBox="0 0 13 13">
 		<style type="text/css">
 			.st0{fill:#333;}
 		</style>
@@ -22,7 +22,7 @@
 		<path class="st0" d="M12,10.4V2.6c0-0.3-0.2-0.5-0.4-0.3l-5,3.9c-0.2,0.1-0.2,0.5,0,0.6l5,3.9C11.7,10.9,12,10.7,12,10.4z"/>
 	</svg>
 
-	<svg id="icon-prev" viewBox="0 0 13 13">
+	<svg id="icon-rewind" viewBox="0 0 13 13">
 		<style type="text/css">
 			.st0{fill:#333;}
 		</style>
@@ -31,7 +31,7 @@
 			C4,10.5,3.7,10.8,3.4,10.8z"/>
 	</svg>
 
-	<svg id="icon-next" viewBox="0 0 13 13">
+	<svg id="icon-forward" viewBox="0 0 13 13">
 		<style type="text/css">
 			.st0{fill:#333;}
 		</style>
@@ -40,7 +40,7 @@
 			C9,2.5,9.3,2.2,9.6,2.2z"/>
 	</svg>
 
-	<svg id="icon-forward" viewBox="0 0 13 13">
+	<svg id="icon-next" viewBox="0 0 13 13">
 		<style type="text/css">
 			.st0{fill:#333;}
 		</style>

@@ -30,7 +30,7 @@
 			case "set-display":
 				if (event.index !== undefined) Self.els.frameCurrent.html(event.index+1);
 				if (event.total !== undefined) Self.els.framesTotal.html(event.total);
-				if (event.fps !== undefined) Self.els.fps.html(event.fps);
+				if (event.fps !== undefined) Self.els.fps.html(event.fps).data({ real: event.fps });
 				break;
 			case "play":
 				el = Self.els.btnPlay.find("> span.tool-icon_");

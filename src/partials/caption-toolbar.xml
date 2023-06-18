@@ -18,7 +18,7 @@
 		<Field>
 			<span class="frameCurrent">0</span>
 			<span class="framesTotal">0</span>
-			<span class="fps">0</span>
+			<span class="fps" data-real="0">0</span>
 		</Field>
 	</Group>
 </CaptionToolBar>

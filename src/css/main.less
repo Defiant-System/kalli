@@ -504,7 +504,7 @@ content {
 							.tbl-row {
 								padding: 2px 3px 2px 5px;
 
-								&:hover {
+								&:not(.locked):hover {
 									.icon-trashcan {
 										display: block;
 									}
@@ -569,6 +569,8 @@ content {
 
 								.icon-trashcan {
 									display: none;
+									filter: brightness(1.5) drop-shadow(0 1px 0 rgba(0,0,0,.15));
+									top: 1px;
 								}
 
 								.row-color {

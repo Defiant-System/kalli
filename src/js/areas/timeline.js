@@ -75,7 +75,8 @@
 				str.push(`</div>`);
 				// left column
 				brushes.map((b, y) => {
-					str.push(`<div class="tbl-row brush-row">`);
+					let isLocked = brushes.length === 1 ? "locked" : "";
+					str.push(`<div class="tbl-row brush-row ${isLocked}">`);
 					str.push(`	<b class="row-color" data-click="show-timeline-row-colors" style="--color: ${b.color}"></b>`);
 					str.push(`	<i class="icon-eye-on" data-click="toggle-visibility"></i>`);
 					str.push(`	<span>${b.name}</span>`);
@@ -196,6 +197,9 @@
 				Self.els.rightBody.find(`.tbl-row:nth(${el.index()})`).remove();
 				// remove row from "left list"
 				el.remove();
+
+				let rows = Self.els.leftBody.find(`.tbl-row .icon-trashcan`);
+				if (rows.length === 1) rows.parents(".tbl-row").addClass("locked");
 				break;
 			case "show-timeline-row-colors":
 				APP.colorpicker.dispatch({ type: "focus-color-field", el: event.el });
