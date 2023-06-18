@@ -61,6 +61,14 @@
 				Self.view.top = File.oY;
 				Self.view.left = File.oX;
 				break;
+			case "select-tool":
+				console.log(event);
+				break;
+			case "toggle-play":
+			case "prev-frame":
+			case "next-frame":
+				console.log(event);
+				break;
 			case "update-zoom-index":
 				ZOOM.map((zoom, index) => {
 						let testScale = zoom.level / 100;

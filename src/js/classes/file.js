@@ -134,7 +134,7 @@ class File {
 		// pan canvas, if any
 		let top = xWork ? +xWork.getAttribute("top") : false,
 			left = xWork ? +xWork.getAttribute("left") : false,
-			area = xWork ? xWork.getAttribute("area") : false;
+			area = xWork ? xWork.getAttribute("area") : "canvas";
 		if (!!top || !!left) this.dispatch({ type: "pan-canvas", top, left });
 
 		// auto select area

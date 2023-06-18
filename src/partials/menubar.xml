@@ -12,6 +12,19 @@
 		<Menu type="divider"/>
 		<Menu name="Close file" click="close-file"/>
 	</Menu>
+	<Menu name="Edit">
+		<Menu name="Tools&#8230;">
+			<Menu name="Move" click="select-tool" arg="move" hotkey="m"/>
+			<Menu name="Resize" click="select-tool" arg="resize" hotkey="r"/>
+			<Menu type="divider"/>
+			<Menu name="Zoom In" click="select-tool" arg="zoom-in" hotkey="z"/>
+			<Menu name="Zoom Out" click="select-tool" arg="zoom-out" hotkey="shift+z"/>
+		</Menu>
+		<Menu type="divider"/>
+		<Menu name="Play / Pause" click="toggle-play" hotkey=" "/>
+		<Menu name="Previous Frame" click="prev-frame" hotkey="left"/>
+		<Menu name="Next Frame" click="next-frame" hotkey="right"/>
+	</Menu>
 	<Menu name="Help">
 		<Menu name="Help" click="open-help"/>
 		<Menu type="divider"/>

@@ -7,11 +7,19 @@
 	</Group>
 	<Group class="controls">
 		<Options>
-			<Tool symbol="icon-rewind" click="start-frame" state="disabled1"/>
-			<Tool symbol="icon-prev" click="prev-frame" state="disabled1"/>
-			<Tool symbol="icon-play" click="play" state="disabled1"/>
-			<Tool symbol="icon-next" click="next-frame" state="disabled1"/>
-			<Tool symbol="icon-forward" click="end-frame" state="disabled1"/>
+			<Tool symbol="icon-tool-move" click="select-tool" arg="move" state="disabled"/>
+			<Tool symbol="icon-tool-resize" click="select-tool" arg="resize" state="disabled"/>
+			<Tool symbol="icon-zoom-plus" click="select-tool" arg="zoom-in" state="disabled"/>
+			<Tool symbol="icon-zoom-minus" click="select-tool" arg="zoom-out" state="disabled"/>
+		</Options>
+	</Group>
+	<Group>
+		<Options>
+			<Tool symbol="icon-rewind" click="start-frame" state="disabled"/>
+			<Tool symbol="icon-prev" click="prev-frame" state="disabled"/>
+			<Tool symbol="icon-play" click="play" state="disabled"/>
+			<Tool symbol="icon-next" click="next-frame" state="disabled"/>
+			<Tool symbol="icon-forward" click="end-frame" state="disabled"/>
 		</Options>
 	</Group>
 	<Group class="display">

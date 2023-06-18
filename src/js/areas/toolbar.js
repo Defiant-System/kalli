@@ -9,6 +9,12 @@
 			frameCurrent: window.find(`.display .toolbar-field_ .frameCurrent`),
 			framesTotal: window.find(`.display .toolbar-field_ .framesTotal`),
 			fps: window.find(`.display .toolbar-field_ .fps`),
+
+			btnMove: window.find(`.toolbar-tool_[data-arg="move"]`),
+			btnResize: window.find(`.toolbar-tool_[data-arg="resize"]`),
+			btnZoomIn: window.find(`.toolbar-tool_[data-arg="zoom-in"]`),
+			btnZoomOut: window.find(`.toolbar-tool_[data-arg="zoom-out"]`),
+
 			btnPlay: window.find(`.toolbar-tool_[data-click="play"]`),
 			btnRewind: window.find(`.toolbar-tool_[data-click="start-frame"]`),
 			btnPrev: window.find(`.toolbar-tool_[data-click="prev-frame"]`),
@@ -64,10 +70,10 @@
 				APP.timeline.dispatch({ type: "focus-frame", ...data });
 				break;
 			case "enable-toolbar":
-				Object.keys(Self.els).map(key => Self.els[key].addClass("tool-disabled_"));
+				Object.keys(Self.els).map(key => Self.els[key].removeClass("tool-disabled_"));
 				break;
 			case "disable-toolbar":
-				Object.keys(Self.els).map(key => Self.els[key].removeClass("tool-disabled_"));
+				Object.keys(Self.els).map(key => Self.els[key].addClass("tool-disabled_"));
 				break;
 		}
 	},

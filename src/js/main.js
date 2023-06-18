@@ -49,6 +49,7 @@ const kalli = {
 				break;
 			case "window.keystroke":
 				// forward event
+				Self.canvas.dispatch(event);
 				Self.timeline.dispatch(event);
 				break;
 			case "open.file":
@@ -66,6 +67,8 @@ const kalli = {
 			case "close-file":
 				// show blank view
 				Self.els.content.addClass("show-blank-view");
+				// enable toolbars
+				Self.toolbar.dispatch({ type: "disable-toolbar" });
 				break;
 			case "show-blank-view":
 				// show blank view
@@ -94,11 +97,18 @@ const kalli = {
 				Self.els.content
 					.removeClass("show-blank-view")
 					.addClass("show-canvas");
-				// TODO: update toolbar
+				// enable toolbars
+				Self.toolbar.dispatch({ type: "enable-toolbar" });
 				break;
 			case "open-help":
 				karaqu.shell("fs -u '~/help/index.md'");
 				break;
+			// proxy events
+			case "select-tool":
+			case "toggle-play":
+			case "prev-frame":
+			case "next-frame":
+				return Self.canvas.dispatch(event);
 			default:
 				if (event.el) {
 					let pEl = event.el.parents(`div[data-area]`);

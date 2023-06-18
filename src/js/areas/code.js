@@ -21,11 +21,11 @@
 				value = hljs.highlight(code, { language: "xml" }).value;
 				Self.els.codeArea.html(value);
 				// ensable toolbar
-				APP.toolbar.dispatch({ type: "enable-toolbar" });
+				APP.toolbar.dispatch({ type: "isable-toolbar" });
 				break;
 			case "switch-exit-event":
 				// disable toolbar
-				APP.toolbar.dispatch({ type: "disable-toolbar" });
+				APP.toolbar.dispatch({ type: "enable-toolbar" });
 				break;
 		}
 	}
