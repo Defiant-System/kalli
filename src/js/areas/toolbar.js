@@ -38,12 +38,9 @@
 				el.removeClass("icon-play icon-stop")
 					.addClass(value)
 					.css({ "background-image": `url("~/icons/${value}.png")` });
-
+				// start / stop animation
 				if (el.hasClass("icon-play")) Projector.file.stop();
-				else {
-					let fps = Projector.file.fps || 30;
-					Projector.file.play({ fps });
-				}
+				else Projector.file.play();
 				break;
 			case "prev-frame":
 				data = { cL: +APP.timeline.els.timeline.cssProp("--cL") };

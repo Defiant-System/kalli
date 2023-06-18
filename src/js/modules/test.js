@@ -2,9 +2,12 @@
 let Test = {
 	init(APP) {
 
-		return setTimeout(() => APP.els.content.find(`.button[data-arg="code"]`).trigger("click"), 350);
+		setTimeout(() => window.find(`.toolbar-tool_[data-click="play"]`).trigger("click"), 350);
+		// setTimeout(() => window.find(`.toolbar-tool_[data-click="play"]`).trigger("click"), 2000);
+
 		return;
 
+		// return setTimeout(() => APP.els.content.find(`.button[data-arg="code"]`).trigger("click"), 350);
 		// return setTimeout(() => APP.els.content.find(`.button[data-arg="canvas"]`).trigger("click"), 850);
 		// return setTimeout(() => APP.els.content.find(".icon-eye-on:nth(0)").trigger("click"), 350);
 

@@ -4,13 +4,25 @@ class File {
 		// save reference to original FS file
 		this._file = fsFile;
 		// defaults
-		this._fps = 10;
 		this._frameTotal = 0;
-		this._stopped = true;
+		// this._stopped = true;
 		this._opaque = true;
 		this.scale = 1;
 		this.width = 0;
 		this.height = 0;
+
+		// FPS control for animation
+		let that = this;
+		this.fpsCtrl = new karaqu.FpsControl({
+			el: window.find(`.column-canvas .head`),
+			fps: 30,
+			callback() {
+				let frame = that.frameIndex++;
+				// stop at the end
+				if (frame >= that.frameTotal) return that.stop();
+				that.render({ frame });
+			}
+		});
 
 		// file canvas
 		let { cvs, ctx } = createCanvas(1, 1);
@@ -44,11 +56,11 @@ class File {
 	}
 
 	set fps(val) {
-		this._fps = val;
+		this.fpsCtrl.fps = val;
 	}
 
 	get fps() {
-		return this._fps;
+		return this.fpsCtrl.fps;
 	}
 
 	get name() {
@@ -76,7 +88,7 @@ class File {
 		this.cursorLeft = xNode.getAttribute("cursorLeft") || 0;
 
 		// set file FPS
-		this._fps = xNode.getAttribute("fps") || 20;
+		this.fps = xNode.getAttribute("fps") || this.fpsCtrl.fps;
 
 		// prepare brushes
 		this.brushes = xNode.selectNodes(`./brush`).map(xBrush => {
@@ -146,25 +158,12 @@ class File {
 		});
 	}
 
-	play(start) {
-		let fps = start.fps || this._fps;
-		let func = this.play.bind(this);
-		if (start.fps) this._stopped = false;
-		if (this._stopped) return;
-
-		let frame = this.frameIndex++;
-		if (frame >= this.frameTotal) {
-			// stop at the end
-			return this.stop();
-		}
-		this.render({ frame });
-
-		this._fps = fps;
-		setTimeout(() => requestAnimationFrame(func), 1000 / fps);
+	play() {
+		this.fpsCtrl.start();
 	}
 
 	stop() {
-		this._stopped = true;
+		this.fpsCtrl.stop();
 	}
 
 	render(opt={}) {
@@ -206,7 +205,7 @@ class File {
 			if (!isPreview) {
 				APP.canvas.dispatch({ type: "edit-frame-index", index: frameIndex });
 			}
-			if (this._stopped) {
+			if (this.fpsCtrl._stopped) {
 				// save refererce to frame index
 				this.frameIndex = opt.frame;
 			}
