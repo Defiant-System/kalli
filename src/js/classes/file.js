@@ -5,7 +5,6 @@ class File {
 		this._file = fsFile;
 		// defaults
 		this._frameTotal = 0;
-		// this._stopped = true;
 		this._opaque = true;
 		this.scale = 1;
 		this.width = 0;
@@ -65,6 +64,14 @@ class File {
 
 	get name() {
 		return this._file.base;
+	}
+
+	play() {
+		this.fpsCtrl.start();
+	}
+
+	stop() {
+		this.fpsCtrl.stop();
 	}
 
 	async parseImage() {
@@ -148,22 +155,16 @@ class File {
 			brush.cvs.prop({ width, height });
 			// paint up until frame index
 			brush.ctx.fillStyle = brush.color;
-			[...brush.frames.slice(0, index)].map(f => {
-				if (f) {
-					brush.ctx.beginPath();
-					brush.ctx.arc(...f, 0, tau);
-					brush.ctx.fill();
-				}
-			});
+			if (index > 0) {
+				[...brush.frames.slice(0, index)].map(f => {
+					if (f) {
+						brush.ctx.beginPath();
+						brush.ctx.arc(...f, 0, tau);
+						brush.ctx.fill();
+					}
+				});
+			}
 		});
-	}
-
-	play() {
-		this.fpsCtrl.start();
-	}
-
-	stop() {
-		this.fpsCtrl.stop();
 	}
 
 	render(opt={}) {
@@ -211,7 +212,7 @@ class File {
 			}
 			APP.timeline.dispatch({ type: "move-play-head", index: opt.frame });
 		}
-		
+
 		// render file / image
 		if (opt.reset) Proj.reset(this);
 		Proj.render();
