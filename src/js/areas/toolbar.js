@@ -67,8 +67,10 @@
 				APP.timeline.dispatch({ type: "focus-frame", ...data });
 				break;
 			case "enable-toolbar":
+				Object.keys(Self.els).map(key => Self.els[key].addClass("tool-disabled_"));
 				break;
 			case "disable-toolbar":
+				Object.keys(Self.els).map(key => Self.els[key].removeClass("tool-disabled_"));
 				break;
 		}
 	},
