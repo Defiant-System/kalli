@@ -2,6 +2,7 @@
 let Test = {
 	init(APP) {
 
+		return setTimeout(() => APP.els.content.find(`.button[data-arg="code"]`).trigger("click"), 350);
 		return;
 
 		// return setTimeout(() => APP.els.content.find(`.button[data-arg="canvas"]`).trigger("click"), 850);

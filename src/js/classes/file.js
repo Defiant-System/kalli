@@ -204,12 +204,13 @@ class File {
 
 		if (opt.frame !== undefined) {
 			if (!isPreview) {
-				APP.canvas.dispatch({ type: "edit-frame-index", index: opt.frame });
+				APP.canvas.dispatch({ type: "edit-frame-index", index: frameIndex });
 			}
 			if (this._stopped) {
 				// save refererce to frame index
 				this.frameIndex = opt.frame;
 			}
+			APP.timeline.dispatch({ type: "move-play-head", index: opt.frame });
 		}
 		
 		// render file / image

@@ -66,6 +66,10 @@
 				data = { cL: +APP.timeline.els.timeline.cssProp("--full") };
 				APP.timeline.dispatch({ type: "focus-frame", ...data });
 				break;
+			case "enable-toolbar":
+				break;
+			case "disable-toolbar":
+				break;
 		}
 	},
 	doDisplayFPS(event) {

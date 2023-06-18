@@ -169,6 +169,9 @@
 				// update projector
 				Proj.file.render({ frame: data.cL });
 				break;
+			case "move-play-head":
+				Self.els.timeline.css({ "--cL": event.index });
+				break;
 			case "go-to-frame-index":
 				rW = parseInt(Self.els.timeline.cssProp("--frW"), 10);
 				offset = event.offset(".tbl-head");
