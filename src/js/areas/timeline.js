@@ -91,7 +91,7 @@
 				let minL = 1e3,
 					maxW = 0;
 				brushes.map(b => { minL = Math.min(b.frames.findIndex(e => !!e), minL); });
-				brushes.map(b => { maxW = Math.max(b.frames.length-minL-1, maxW); });
+				brushes.map(b => { maxW = Math.max(b.frames.length-minL, maxW); });
 				str.push(`<div class="tbl-row parent-row">`);
 				str.push(`<span class="frames" style="--l: ${minL}; --w: ${maxW};"></span>`);
 				str.push(`</div>`);

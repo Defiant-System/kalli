@@ -60,7 +60,7 @@
 				APP.timeline.dispatch({ type: "focus-frame", ...data });
 				break;
 			case "end-frame":
-				data = { cL: +APP.timeline.els.timeline.cssProp("--full") };
+				data = { cL: +APP.timeline.els.timeline.cssProp("--full") - 1 };
 				APP.timeline.dispatch({ type: "focus-frame", ...data });
 				break;
 			case "enable-toolbar":
