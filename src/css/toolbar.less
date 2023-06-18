@@ -1,6 +1,15 @@
 
-.controls {
-	text-align: left;
+.undo-redo {
+	width: 67px;
+}
+
+.tools-left {
+	width: calc(46% - 80px);
+	text-align: right;
+
+	> div:last-child {
+		margin-right: 0;
+	}
 }
 
 .display {
@@ -8,6 +17,7 @@
 	left: 0;
 	width: 213px;
 	height: 29px;
+	margin: 0 17px;
 	border-radius: 4px;
 	background: #90a;
 
@@ -93,4 +103,13 @@
 			}
 		}
 	}
+}
+
+.tools-right {
+	width: calc(36% - 21px);
+	text-align: left;
+}
+
+.tools-gear {
+	width: 47px;
 }
