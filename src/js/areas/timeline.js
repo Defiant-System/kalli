@@ -226,20 +226,40 @@
 				let el = $(event.target),
 					cEl = Self.els.cursor,
 					type = el.hasClass("frames") ? "move" : "select",
+					full = +Self.els.timeline.cssProp("--full"),
 					rW = parseInt(Self.els.timeline.cssProp("--frW"), 10),
 					rH = parseInt(Self.els.timeline.cssProp("--rowH"), 10),
+					min = { x: 0, y: 0 },
+					max = { x: 0, y: Self.els.rightBody.find(".tbl-row").length },
 					offset = {
+						rW, rH,
 						y: parseInt(event.layerY / rH, 10),
 						x: parseInt(event.layerX / rW, 10),
-					};
+					},
+					click = {
+						y: event.clientY,
+						x: event.clientX,
+					},
+					max_ = Math.max,
+					min_ = Math.min;
 
-				if (type === "select") cEl.removeClass("hidden");
-				else el.addClass("selected");
+				if (type === "select") {
+					cEl.removeClass("hidden");
+				} else {
+					el.addClass("selected");
+					offset.top = el.parent().prevAll(".tbl-row").length - 1;
+					offset.left = parseInt(el.cssProp("--l"), 10);
+
+					let maxLeft = full,
+						prevSibling = el.prevAll(".frames:first"),
+						nextSibling = el.nextAll(".frames:first");
+					if (prevSibling.length) min.x = Math.max(min.x, parseInt(prevSibling.cssProp("--l"), 10) + parseInt(prevSibling.cssProp("--w"), 10));
+					if (nextSibling.length) maxLeft = Math.min(maxLeft, parseInt(nextSibling.cssProp("--l"), 10));
+					max.x = maxLeft - parseInt(el.cssProp("--w"), 10);
+				}
 
 				// prepare drag object
-				Self.drag = {
-					el,
-				};
+				Self.drag = { el, type, max, min, click, offset, max_, min_ };
 
 				// prevent mouse from triggering mouseover
 				APP.els.content.addClass("no-cursor");
@@ -247,6 +267,11 @@
 				APP.els.doc.on("mousemove mouseup", Self.doFrames);
 				break;
 			case "mousemove":
+				if (Drag.type === "move") {
+					let left = Drag.offset.left + parseInt((event.clientX - Drag.click.x) / Drag.offset.rW, 10);
+					left = Drag.min_(Drag.max_(left, Drag.min.x), Drag.max.x);
+					Drag.el.css({ "--l": left });
+				}
 				break;
 			case "mouseup":
 				// reset view
