@@ -109,7 +109,7 @@
 						if (f && l === false) l = x;
 						if ((!f && l !== false && w === false) || x === fl) w = x - l;
 						if (l !== false && w !== false) {
-							str.push(`<span class="frames" style="--l: ${l}; --w: ${w}; --color: ${b.color};"></span>`);
+							str.push(`<span class="frames selected" style="--l: ${l}; --w: ${w}; --color: ${b.color};"></span>`);
 							l = false;
 							w = false;
 						}

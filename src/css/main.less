@@ -199,6 +199,22 @@ content {
 											inset -1px -1px 0px rgba(0,0,0,.075);
 							}
 
+							&[data-tool="move"] {
+								cursor: move;
+							}
+
+							&[data-tool="resize"] {
+								cursor: crosshair;
+							}
+
+							&[data-tool="zoom-in"] {
+								cursor: zoom-in;
+							}
+
+							&[data-tool="zoom-out"] {
+								cursor: zoom-out;
+							}
+
 							div.brush {
 								position: absolute;
 								top: var( --top );
@@ -778,6 +794,19 @@ content {
 								pointer-events: none;
 								border-radius: 3px;
 								opacity: .65;
+
+								&.selected {
+									&:after {
+										content: "";
+										position: absolute;
+										top: -1px;
+										left: -1px;
+										right: -1px;
+										bottom: -1px;
+										border-radius: 4px;
+										box-shadow: 0 0 0 2px #55ffff70;
+									}
+								}
 							}
 
 							.cursor {

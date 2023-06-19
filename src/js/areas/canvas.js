@@ -62,8 +62,11 @@
 				Self.view.left = File.oX;
 				break;
 			case "select-tool":
-				console.log(event);
-				break;
+				// ui/ux tool
+				Self.tool = event.arg;
+				Self.els.area.data({ tool: event.arg });
+				// forward event to toolbar
+				return APP.toolbar.dispatch(event);
 			case "toggle-play":
 			case "prev-frame":
 			case "next-frame":

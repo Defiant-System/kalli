@@ -5,6 +5,7 @@
 	init() {
 		// fast references
 		this.els = {
+			el: window.find(".win-caption-toolbar_"),
 			display: window.find(".toolbar-group_.display"),
 			frameCurrent: window.find(`.display .toolbar-field_ .frameCurrent`),
 			framesTotal: window.find(`.display .toolbar-field_ .framesTotal`),
@@ -74,6 +75,10 @@
 				break;
 			case "disable-toolbar":
 				Object.keys(Self.els).map(key => Self.els[key].addClass("tool-disabled_"));
+				break;
+			case "select-tool":
+				el = Self.els.el.find(`.toolbar-tool_[data-click="select-tool"][data-arg="${event.arg}"]`);
+				if (el.length) return true;
 				break;
 		}
 	},

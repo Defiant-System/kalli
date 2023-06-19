@@ -2,6 +2,7 @@
 let Test = {
 	init(APP) {
 
+		setTimeout(() => window.find(`.toolbar-tool_[data-arg="move"]`).trigger("click"), 350);
 		// setTimeout(() => window.find(`.toolbar-tool_[data-click="play"]`).trigger("click"), 350);
 		// setTimeout(() => window.find(`.toolbar-tool_[data-click="play"]`).trigger("click"), 2000);
 
