@@ -7,6 +7,7 @@
 		this.els = {
 			timeline: window.find(".row-timeline"),
 			playhead: window.find(".row-timeline .play-head"),
+			cursor: window.find(".row-timeline .right .cursor"),
 			frameCount: window.find(".row-timeline .frame-count ul"),
 			leftBody: window.find(".row-timeline .left .tbl-body"),
 			rightBody: window.find(".row-timeline .right .tbl-body"),
@@ -17,6 +18,7 @@
 		};
 		
 		// bind event handlers
+		this.els.rightBody.on("mousedown", this.doFrames);
 		this.els.playhead.on("mousedown", this.doHead);
 
 		// subscribe to internal events
@@ -109,7 +111,7 @@
 						if (f && l === false) l = x;
 						if ((!f && l !== false && w === false) || x === fl) w = x - l;
 						if (l !== false && w !== false) {
-							str.push(`<span class="frames selected" style="--l: ${l}; --w: ${w}; --color: ${b.color};"></span>`);
+							str.push(`<span class="frames" style="--l: ${l}; --w: ${w}; --color: ${b.color};"></span>`);
 							l = false;
 							w = false;
 						}
@@ -148,6 +150,7 @@
 				Self.els.rScrBar.css({ height }).toggleClass("hidden", hScroll !== height);
 				Self.els.bScrBar.css({ width }).toggleClass("hidden", wScroll !== width);
 				break;
+
 			case "select-frame":
 				rW = parseInt(Self.els.timeline.cssProp("--frW"), 10);
 				rH = parseInt(Self.els.timeline.cssProp("--rowH"), 10);
@@ -158,6 +161,7 @@
 					cL: parseInt(offset.x / rW, 10),
 				});
 				break;
+
 			case "focus-frame":
 				data = {
 					cT: event.cT !== undefined ? event.cT : +Self.els.timeline.cssProp("--cT"),
@@ -206,6 +210,51 @@
 				break;
 			case "show-timeline-row-colors":
 				APP.colorpicker.dispatch({ type: "focus-color-field", el: event.el });
+				break;
+		}
+	},
+	doFrames(head) {
+		let APP = kalli,
+			Self = APP.timeline,
+			Drag = Self.drag;
+		// console.log(event);
+		switch (event.type) {
+			case "mousedown":
+				// prevent default behaviour
+				event.preventDefault();
+				// drag info
+				let el = $(event.target),
+					cEl = Self.els.cursor,
+					type = el.hasClass("frames") ? "move" : "select",
+					rW = parseInt(Self.els.timeline.cssProp("--frW"), 10),
+					rH = parseInt(Self.els.timeline.cssProp("--rowH"), 10),
+					offset = {
+						y: parseInt(event.layerY / rH, 10),
+						x: parseInt(event.layerX / rW, 10),
+					};
+
+				if (type === "select") cEl.removeClass("hidden");
+				else el.addClass("selected");
+
+				// prepare drag object
+				Self.drag = {
+					el,
+				};
+
+				// prevent mouse from triggering mouseover
+				APP.els.content.addClass("no-cursor");
+				// bind event handlers
+				APP.els.doc.on("mousemove mouseup", Self.doFrames);
+				break;
+			case "mousemove":
+				break;
+			case "mouseup":
+				// reset view
+				Drag.el.removeClass("selected");
+				// remove class
+				APP.els.content.removeClass("no-cursor");
+				// unbind event handlers
+				APP.els.doc.off("mousemove mouseup", Self.doFrames);
 				break;
 		}
 	},
