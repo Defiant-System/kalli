@@ -484,6 +484,7 @@ content {
 			--full: 10;
 			--cT: 0; // cursor top
 			--cL: 0; // cursor left
+			--cW: 1; // cursor width
 
 			.area {
 				margin: 0 19px 19px 0;
@@ -800,6 +801,7 @@ content {
 
 								&.selected {
 									cursor: ew-resize;
+									z-index: 3;
 
 									&:after {
 										content: "";
@@ -818,7 +820,7 @@ content {
 								position: absolute;
 								top: calc( calc( var( --cT ) * var( --rowH ) ) - 1px );
 								left: calc( calc( var( --cL ) * var( --frW ) ) - 1px );
-								width: calc( var( --frW ) + 1px );
+								width: calc( calc( var( --cW ) * var( --frW ) ) + 1px );
 								height: calc( var( --rowH ) + 1px );
 								// z-index: 2;
 								pointer-events: none;

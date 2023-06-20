@@ -248,7 +248,15 @@
 					min_ = Math.min;
 
 				if (type === "select") {
-					cEl.removeClass("hidden");
+					cEl.removeClass("hidden")
+						.css({
+							"--cT": offset.y,
+							"--cL": offset.x,
+							"--cW": 1,
+						});
+
+					offset.width = parseInt(cEl.cssProp("--cW"), 10);
+					offset.left = parseInt(offset.x, 10);
 				} else {
 					el.addClass("selected");
 					offset.top = el.parent().prevAll(".tbl-row").length - 1;
@@ -269,7 +277,7 @@
 				}
 
 				// prepare drag object
-				Self.drag = { el, type, brushes, src, max, min, click, offset, max_, min_ };
+				Self.drag = { el, cEl, type, brushes, src, max, min, click, offset, max_, min_ };
 
 				// prevent mouse from triggering mouseover
 				APP.els.content.addClass("no-cursor");
@@ -277,20 +285,32 @@
 				APP.els.doc.on("mousemove mouseup", Self.doFrames);
 				break;
 			case "mousemove":
-				if (Drag.type === "move") {
+				if (Drag.type === "select") {
+					let left = Drag.offset.x,
+						width = parseInt((event.clientX - Drag.click.x) / Drag.offset.rW, 10);
+					
+					if (width === 0) width = 1;
+					else if (width < 0) {
+						width *= -1;
+						left -= width - 1;
+					}
+					// cursor dim
+					Drag.cEl.css({ "--cL": left, "--cW": width });
+				} else {
 					let left = Drag.offset.left + parseInt((event.clientX - Drag.click.x) / Drag.offset.rW, 10);
 					Drag.left = Drag.min_(Drag.max_(left, Drag.min.x), Drag.max.x);
 					Drag.el.css({ "--l": Drag.left });
 				}
 				break;
 			case "mouseup":
-				if (Drag.type === "move") {
+				if (Drag.type === "select") {
+					Drag.cEl.addClass("hidden");
+				} else {
 					// re-calculate parent-row "frames"
 					let frames = Drag.brushes[Drag.src.b].frames,
 						cut = frames.splice(Drag.src.i, Drag.src.l);
 					// paste cut frames
 					frames.splice(Drag.left, 0, ...cut);
-
 					// update timeline UI
 					Self.dispatch({ type: "update-parent-row" });
 				}
