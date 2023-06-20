@@ -28,6 +28,7 @@
 		let APP = kalli,
 			Self = APP.timeline,
 			Proj = Projector,
+			brushes,
 			offset,
 			data,
 			full,
@@ -67,8 +68,8 @@
 			case "file-parsed":
 				str = [];
 				// plot frames on timeline
-				let brushes = event.detail.file.brushes,
-					bgColor = event.detail.file.bgColor,
+				brushes = event.detail.file.brushes;
+				let bgColor = event.detail.file.bgColor,
 					opaque = event.detail.file.opaque ? "" : "icon-eye-off";
 				str.push(`<div class="tbl-row">`);
 				str.push(`	<b class="row-color" data-click="show-timeline-row-colors" style="--color: ${bgColor}"></b>`);
@@ -89,16 +90,9 @@
 				Self.els.leftBody.html(str.join(""));
 
 				str = [];
-				// find out start & end of animation
-				let minL = 1e3,
-					maxW = 0,
-					fullW = 0;
-				brushes.map(b => { minL = Math.min(b.frames.findIndex(e => !!e), minL); });
-				brushes.map(b => { maxW = Math.max(b.frames.findLastIndex(e => e !== 0) - minL + 1, maxW); });
-				brushes.map(b => { fullW = Math.max(b.frames.length, fullW); });
-
+				data = Self.dispatch({ type: "get-animation-dims" });
 				str.push(`<div class="tbl-row parent-row">`);
-				str.push(`<span class="frames" style="--l: ${minL}; --w: ${maxW};"></span>`);
+				str.push(`<span class="frames" style="--l: ${data.minL}; --w: ${data.maxW};"></span>`);
 				str.push(`</div>`);
 				// iterate brushes
 				brushes.map((b, y) => {
@@ -119,14 +113,14 @@
 					str.push(`</div>`);
 				});
 				// update full width detail
-				Self.els.timeline.css({ "--full": fullW });
+				Self.els.timeline.css({ "--full": data.fullW });
 				// update file frame total
-				event.detail.file.frameTotal = fullW;
+				event.detail.file.frameTotal = data.fullW;
 				// add html string
 				Self.els.rightBody.find(".tbl-row").remove();
 				Self.els.rightBody.append(str.join(""));
 				// frame counters
-				str = [...Array(parseInt(fullW / 10, 10) + 1)].map(a => `<li></li>`);
+				str = [...Array(parseInt(data.fullW / 10, 10) + 1)].map(a => `<li></li>`);
 				Self.els.frameCount.append(str.join(""));
 				// auto focus on frame "1,0", if not specified in file
 				data = {
@@ -150,18 +144,26 @@
 				Self.els.rScrBar.css({ height }).toggleClass("hidden", hScroll !== height);
 				Self.els.bScrBar.css({ width }).toggleClass("hidden", wScroll !== width);
 				break;
-
-			case "select-frame":
-				rW = parseInt(Self.els.timeline.cssProp("--frW"), 10);
-				rH = parseInt(Self.els.timeline.cssProp("--rowH"), 10);
-				offset = event.offset(".tbl-body");
-				Self.dispatch({
-					type: "focus-frame",
-					cT: parseInt(offset.y / rH, 10),
-					cL: parseInt(offset.x / rW, 10),
-				});
+			case "get-animation-dims":
+				brushes = event.brushes || Proj.file.brushes;
+				// find out start & end of animation
+				data = {
+					minL: 1e3,
+					maxW: 0,
+					fullW: 0,
+				};
+				brushes.map(b => { data.minL = Math.min(b.frames.findIndex(e => !!e), data.minL); });
+				brushes.map(b => { data.maxW = Math.max(b.frames.findLastIndex(e => e !== 0) - data.minL + 1, data.maxW); });
+				brushes.map(b => { data.fullW = Math.max(b.frames.length, data.fullW); });
+				// update file frame total (if file is available)
+				if (Proj.file) Proj.file.frameTotal = data.fullW;
+				// return info
+				return data;
+			case "update-parent-row":
+				data = Self.dispatch({ type: "get-animation-dims" });
+				el = Self.els.timeline.find(".right .tbl-row.parent-row .frames");
+				el.css({ "--l": data.minL, "--w": data.maxW });
 				break;
-
 			case "focus-frame":
 				data = {
 					cT: event.cT !== undefined ? event.cT : +Self.els.timeline.cssProp("--cT"),
@@ -240,6 +242,8 @@
 						y: event.clientY,
 						x: event.clientX,
 					},
+					brushes = Projector.file.brushes,
+					src = {},
 					max_ = Math.max,
 					min_ = Math.min;
 
@@ -249,6 +253,12 @@
 					el.addClass("selected");
 					offset.top = el.parent().prevAll(".tbl-row").length - 1;
 					offset.left = parseInt(el.cssProp("--l"), 10);
+					offset.width = parseInt(el.cssProp("--w"), 10);
+
+					// source info for mouseup event
+					src.b = offset.top;
+					src.i = offset.left;
+					src.l = offset.width;
 
 					let maxLeft = full,
 						prevSibling = el.prevAll(".frames:first"),
@@ -259,7 +269,7 @@
 				}
 
 				// prepare drag object
-				Self.drag = { el, type, max, min, click, offset, max_, min_ };
+				Self.drag = { el, type, brushes, src, max, min, click, offset, max_, min_ };
 
 				// prevent mouse from triggering mouseover
 				APP.els.content.addClass("no-cursor");
@@ -269,12 +279,21 @@
 			case "mousemove":
 				if (Drag.type === "move") {
 					let left = Drag.offset.left + parseInt((event.clientX - Drag.click.x) / Drag.offset.rW, 10);
-					left = Drag.min_(Drag.max_(left, Drag.min.x), Drag.max.x);
-					Drag.el.css({ "--l": left });
+					Drag.left = Drag.min_(Drag.max_(left, Drag.min.x), Drag.max.x);
+					Drag.el.css({ "--l": Drag.left });
 				}
 				break;
 			case "mouseup":
-				// TODO: re-calculate parent-row "frames"
+				if (Drag.type === "move") {
+					// re-calculate parent-row "frames"
+					let frames = Drag.brushes[Drag.src.b].frames,
+						cut = frames.splice(Drag.src.i, Drag.src.l);
+					// paste cut frames
+					frames.splice(Drag.left, 0, ...cut);
+
+					// update timeline UI
+					Self.dispatch({ type: "update-parent-row" });
+				}
 				// reset view
 				Drag.el.removeClass("selected");
 				// remove class
