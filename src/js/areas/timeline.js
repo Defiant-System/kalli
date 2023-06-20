@@ -274,6 +274,7 @@
 				}
 				break;
 			case "mouseup":
+				// TODO: re-calculate parent-row "frames"
 				// reset view
 				Drag.el.removeClass("selected");
 				// remove class
