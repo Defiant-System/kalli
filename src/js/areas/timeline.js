@@ -144,6 +144,12 @@
 				Self.els.rScrBar.css({ height }).toggleClass("hidden", hScroll !== height);
 				Self.els.bScrBar.css({ width }).toggleClass("hidden", wScroll !== width);
 				break;
+			case "splice-frames":
+				el = Self.els.rightBody.find(`.tbl-row:nth(${event.data.src.y}) .frames[style*="--l: ${event.data.src.x};"]`);
+				console.log( el[0] );
+				break;
+			case "merge-frames":
+				break;
 			case "get-animation-dims":
 				brushes = event.brushes || Proj.file.brushes;
 				// find out start & end of animation
@@ -305,6 +311,13 @@
 			case "mouseup":
 				if (Drag.type === "select") {
 					Drag.cEl.addClass("hidden");
+
+					let data = {
+						src: { y: 1, x: 4 },
+						cut: { x: 2, w: 2 },
+					};
+					Self.dispatch({ type: "splice-frames", data });
+
 				} else {
 					// re-calculate parent-row "frames"
 					let frames = Drag.brushes[Drag.src.b].frames,
