@@ -2,7 +2,7 @@
 let Test = {
 	init(APP) {
 
-		// return;
+		return;
 
 		return setTimeout(() => {
 				// let cursor = { row: 1, left: 9, width: 26 };
