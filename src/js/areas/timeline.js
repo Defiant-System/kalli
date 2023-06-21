@@ -152,41 +152,42 @@
 
 				switch (true) {
 					case (data.cut.x > data.src.x && (data.cut.x + data.cut.w) < (data.src.x + data.src.w)):
-						// middle
+						// CUT: at middle
+						// left stump
 						l = data.src.x;
 						w = data.cut.x - data.src.x;
 						el.css({ "--l": l, "--w": w });
-
+						// middle stump
 						clone = el.before(el.clone(true));
 						l = data.cut.x;
 						w = data.cut.w;
 						clone.css({ "--l": l, "--w": w }).addClass("selected");
-
+						// right stump
 						clone = el.before(el.clone(true));
 						l = data.cut.x + data.cut.w;
 						w = data.src.x + data.src.w - l;
 						clone.css({ "--l": l, "--w": w });
 						break;
 					case (data.cut.x > data.src.x):
-						// after
+						// CUT: at end
 						clone = el.after(el.clone(true));
-				
+						// right stump
 						l = data.src.x;
 						w = data.cut.x - data.src.x;
 						el.css({ "--l": l, "--w": w });
-
+						// left stump
 						l = data.cut.x;
 						w = data.cut.w;
 						clone.css({ "--l": l, "--w": w }).addClass("selected");
 						break;
 					case (data.cut.x == data.src.x):
-						// before
+						// CUT: at start
 						clone = el.before(el.clone(true));
-
+						// left stump
 						l = data.cut.x;
 						w = data.cut.w;
 						clone.css({ "--l": l, "--w": w }).addClass("selected");
-				
+						// right stump
 						l = data.src.x + data.cut.w;
 						w = data.src.w - data.cut.w;
 						el.css({ "--l": l, "--w": w });
@@ -307,6 +308,7 @@
 					min_ = Math.min;
 
 				if (type === "select") {
+					if (offset.y === 0 || offset.y > max.y-1) return false;
 					cEl.removeClass("hidden")
 						.css({
 							"--cT": offset.y,
