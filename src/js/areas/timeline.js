@@ -122,7 +122,7 @@
 				Self.els.rightBody.find(".tbl-row").remove();
 				Self.els.rightBody.append(str.join(""));
 				// frame counters
-				str = [...Array(parseInt(data.fullW / 10, 10) + 1)].map(a => `<li></li>`);
+				str = [...Array(parseInt(data.fullW / 10, 10))].map(a => `<li></li>`);
 				Self.els.frameCount.append(str.join(""));
 				// auto focus on frame "1,0", if not specified in file
 				data = {
@@ -149,7 +149,7 @@
 			case "splice-frames":
 				data = event.data;
 				el = Self.els.rightBody.find(`.tbl-row:nth(${data.src.y}) .frames[style*="--l: ${data.src.x};"]`);
-
+				// cut types
 				switch (true) {
 					case (data.cut.x > data.src.x && (data.cut.x + data.cut.w) < (data.src.x + data.src.w)):
 						// CUT: at middle
@@ -193,10 +193,60 @@
 						el.css({ "--l": l, "--w": w });
 						break;
 				}
-
 				break;
 			case "merge-frames":
-				// TODO
+				Self.els.rightBody.find(".tbl-row:not(.parent-row)").map(rowEl => {
+					$(rowEl).find(".frames").map(fr => {
+						let fEl = $(fr),
+							fl = +fEl.cssProp("--l"),
+							fw = +fEl.cssProp("--w"),
+							nextSibling = fEl.nextAll(".frames:first"),
+							prevSibling = fEl.prevAll(".frames:first"),
+							sl, sw;
+						// check if next sibling is merge candidate
+						if (nextSibling.length) {
+							sl = +nextSibling.cssProp("--l");
+							sw = +nextSibling.cssProp("--w");
+							if (fl + fw === sl) {
+								// merge elements
+								fEl.css({ "--w": fw + sw }).removeClass("selected");
+								// remove stump element
+								nextSibling.remove();
+							}
+						}
+						// check if previous sibling is merge candidate
+						if (prevSibling.length) {
+							sl = +prevSibling.cssProp("--l");
+							sw = +prevSibling.cssProp("--w");
+							if (fl === sl + sw) {
+								// merge elements
+								fEl.css({ "--l": fl - sw, "--w": fw + sw }).removeClass("selected");
+								// remove stump element
+								prevSibling.remove();
+							}
+						}
+					});
+				});
+				break;
+			case "select-frames":
+				let cursor = event.cursor;
+				Self.els.rightBody.find(`.tbl-row:nth(${cursor.row}) .frames`).map(fr => {
+					let fEl = $(fr),
+						x = +fEl.cssProp("--l"),
+						w = +fEl.cssProp("--w");
+					// collision detection style check
+					if ((x + w > cursor.left) && x < cursor.left + cursor.width) {
+						let src = { y: cursor.row, x, w },
+							cut = {};
+						cut.x = Math.max(cursor.left, x);
+						cut.w = Math.min(cursor.left + cursor.width, x + w) - cut.x;
+						data = { src, cut };
+					}
+				});
+				if (data) {
+					// auto splice frames
+					Self.dispatch({ type: "splice-frames", data });
+				}
 				break;
 			case "delete-frames":
 				// TODO
@@ -307,6 +357,11 @@
 					max_ = Math.max,
 					min_ = Math.min;
 
+				// reset previously selected frames, if any
+				Self.dispatch({ type: "merge-frames" });
+				// reset previously selected frames, if any
+				// Self.els.rightBody.find(".frames.selected").removeClass("selected");
+
 				if (type === "select") {
 					// only brush frame/lanes are selectable
 					if (offset.y === 0 || offset.y > max.y-1) return false;
@@ -349,7 +404,8 @@
 				break;
 			case "mousemove":
 				if (Drag.type === "select") {
-					let left = Drag.offset.x,
+					let row = Drag.offset.y,
+						left = Drag.offset.x,
 						width = parseInt((event.clientX - Drag.click.x) / Drag.offset.rW, 10);
 					
 					if (width === 0) width = 1;
@@ -357,6 +413,7 @@
 						width *= -1;
 						left -= width - 1;
 					}
+					Drag.cursor = { row, left, width };
 					// cursor dim
 					Drag.cEl.css({ "--cL": left, "--cW": width });
 				} else {
@@ -368,13 +425,10 @@
 			case "mouseup":
 				if (Drag.type === "select") {
 					Drag.cEl.addClass("hidden");
-
-					let data = {
-						src: { y: 1, x: 4 },
-						cut: { x: 2, w: 2 },
-					};
-					Self.dispatch({ type: "splice-frames", data });
-
+					if (Drag.cursor) {
+						// select / splice frames
+						Self.dispatch({ type: "select-frames", cursor: Drag.cursor });
+					}
 				} else {
 					// re-calculate parent-row "frames"
 					let frames = Drag.brushes[Drag.src.b].frames,
