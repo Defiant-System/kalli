@@ -2,15 +2,19 @@
 let Test = {
 	init(APP) {
 
-		return;
+		// return;
 
 		return setTimeout(() => {
 				// let cursor = { row: 1, left: 9, width: 26 };
 				// let cursor = { row: 1, left: 9, width: 6 };
 				// let cursor = { row: 1, left: 3, width: 16 };
-				let cursor = { row: 1, left: 5, width: 3 };
+				let cursor = { row: 1, left: 3, width: 3 };
 				// let cursor = { row: 1, left: 2, width: 4 };
 				APP.timeline.dispatch({ type: "select-frames", cursor });
+
+
+				setTimeout(() => APP.timeline.dispatch({ type: "delete-frames" }), 100);
+
 			}, 350);
 
 

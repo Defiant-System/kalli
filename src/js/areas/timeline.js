@@ -47,6 +47,11 @@
 				};
 				// moves cursor
 				switch (event.char) {
+					case "del":
+					case "backspace":
+						// delete frames, if selected
+						Self.dispatch({ type: "delete-frames" });
+						break;
 					case "up":
 						data.cT = Math.max(1, data.cT - 1);
 						Self.dispatch({ type: "focus-frame", ...data });
@@ -249,7 +254,17 @@
 				}
 				break;
 			case "delete-frames":
-				// TODO
+				el = Self.els.rightBody.find(`.tbl-row .frames.selected`);
+				let bIndex = el.parent().prevAll(".tbl-row").length - 1,
+					frames = Proj.file.brushes[bIndex].frames,
+					i = +el.cssProp("--l"),
+					il = i + +el.cssProp("--w");
+				// empty frames
+				for (; i<il; i++) frames[i] = 0;
+				// delete frames if any selected
+				el.remove();
+				// update timeline UI
+				Self.dispatch({ type: "update-parent-row" });
 				break;
 			case "tween-frames":
 				// TODO
