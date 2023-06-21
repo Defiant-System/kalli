@@ -2,7 +2,30 @@
 let Test = {
 	init(APP) {
 
-		setTimeout(() => window.find(`.toolbar-tool_[data-arg="move"]`).trigger("click"), 350);
+		return setTimeout(() => {
+				let data;
+				// after
+				data = {
+					src: { y: 1, x: 4, w: 8 },
+					cut: { x: 6, w: 6 },
+				};
+
+				// before
+				data = {
+					src: { y: 1, x: 4, w: 8 },
+					cut: { x: 4, w: 3 },
+				};
+
+				// middle
+				data = {
+					src: { y: 1, x: 4, w: 8 },
+					cut: { x: 6, w: 3 },
+				};
+
+				APP.timeline.dispatch({ type: "splice-frames", data });
+			}, 350);
+
+		// setTimeout(() => window.find(`.toolbar-tool_[data-arg="move"]`).trigger("click"), 350);
 		// setTimeout(() => window.find(`.toolbar-tool_[data-click="play"]`).trigger("click"), 350);
 		// setTimeout(() => window.find(`.toolbar-tool_[data-click="play"]`).trigger("click"), 2000);
 
@@ -26,7 +49,11 @@ let Test = {
 		// 	// highlight code view
 		// 	hljs.highlightAll();
 		// }, 340);
+		
 
+		
+	},
+	zoom() {
 		return setTimeout(() => {
 
 			setTimeout(() =>
@@ -76,8 +103,5 @@ let Test = {
 
 			// APP.work.els.workArea.find(".zoom").trigger("click");
 		}, 350);
-
-		// return setTimeout(() => $(`.def-desktop_`).trigger("mousedown").trigger("mouseup"), 350);
-		
 	}
 };

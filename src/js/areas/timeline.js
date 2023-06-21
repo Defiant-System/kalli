@@ -34,7 +34,9 @@
 			full,
 			value,
 			rW, rH,
+			x, y, l, w,
 			str,
+			clone,
 			el;
 		// console.log(event);
 		switch (event.type) {
@@ -145,10 +147,61 @@
 				Self.els.bScrBar.css({ width }).toggleClass("hidden", wScroll !== width);
 				break;
 			case "splice-frames":
-				el = Self.els.rightBody.find(`.tbl-row:nth(${event.data.src.y}) .frames[style*="--l: ${event.data.src.x};"]`);
-				console.log( el[0] );
+				data = event.data;
+				el = Self.els.rightBody.find(`.tbl-row:nth(${data.src.y}) .frames[style*="--l: ${data.src.x};"]`);
+
+				switch (true) {
+					case (data.cut.x > data.src.x && (data.cut.x + data.cut.w) < (data.src.x + data.src.w)):
+						// middle
+						l = data.src.x;
+						w = data.cut.x - data.src.x;
+						el.css({ "--l": l, "--w": w });
+
+						clone = el.before(el.clone(true));
+						l = data.cut.x;
+						w = data.cut.w;
+						clone.css({ "--l": l, "--w": w }).addClass("selected");
+
+						clone = el.before(el.clone(true));
+						l = data.cut.x + data.cut.w;
+						w = data.src.x + data.src.w - l;
+						clone.css({ "--l": l, "--w": w });
+						break;
+					case (data.cut.x > data.src.x):
+						// after
+						clone = el.after(el.clone(true));
+				
+						l = data.src.x;
+						w = data.cut.x - data.src.x;
+						el.css({ "--l": l, "--w": w });
+
+						l = data.cut.x;
+						w = data.cut.w;
+						clone.css({ "--l": l, "--w": w }).addClass("selected");
+						break;
+					case (data.cut.x == data.src.x):
+						// before
+						clone = el.before(el.clone(true));
+
+						l = data.cut.x;
+						w = data.cut.w;
+						clone.css({ "--l": l, "--w": w }).addClass("selected");
+				
+						l = data.src.x + data.cut.w;
+						w = data.src.w - data.cut.w;
+						el.css({ "--l": l, "--w": w });
+						break;
+				}
+
 				break;
 			case "merge-frames":
+				// TODO
+				break;
+			case "delete-frames":
+				// TODO
+				break;
+			case "tween-frames":
+				// TODO
 				break;
 			case "get-animation-dims":
 				brushes = event.brushes || Proj.file.brushes;
