@@ -358,9 +358,7 @@
 					min_ = Math.min;
 
 				// reset previously selected frames, if any
-				Self.dispatch({ type: "merge-frames" });
-				// reset previously selected frames, if any
-				// Self.els.rightBody.find(".frames.selected").removeClass("selected");
+				// Self.dispatch({ type: "merge-frames" });
 
 				if (type === "select") {
 					// only brush frame/lanes are selectable
@@ -429,7 +427,7 @@
 						// select / splice frames
 						Self.dispatch({ type: "select-frames", cursor: Drag.cursor });
 					}
-				} else {
+				} else if (Drag.left) {
 					// re-calculate parent-row "frames"
 					let frames = Drag.brushes[Drag.src.b].frames,
 						cut = frames.splice(Drag.src.i, Drag.src.l);
@@ -437,6 +435,8 @@
 					frames.splice(Drag.left, 0, ...cut);
 					// update timeline UI
 					Self.dispatch({ type: "update-parent-row" });
+					// merge frames, if any
+					Self.dispatch({ type: "merge-frames" });
 				}
 				// reset view
 				Drag.el.removeClass("selected");
