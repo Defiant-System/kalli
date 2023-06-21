@@ -157,16 +157,16 @@
 						l = data.src.x;
 						w = data.cut.x - data.src.x;
 						el.css({ "--l": l, "--w": w });
-						// middle stump
-						clone = el.before(el.clone(true));
-						l = data.cut.x;
-						w = data.cut.w;
-						clone.css({ "--l": l, "--w": w }).addClass("selected");
 						// right stump
-						clone = el.before(el.clone(true));
+						clone = el.after(el.clone(true));
 						l = data.cut.x + data.cut.w;
 						w = data.src.x + data.src.w - l;
 						clone.css({ "--l": l, "--w": w });
+						// middle stump
+						clone = el.after(el.clone(true));
+						l = data.cut.x;
+						w = data.cut.w;
+						clone.css({ "--l": l, "--w": w }).addClass("selected");
 						break;
 					case (data.cut.x > data.src.x):
 						// CUT: at end
@@ -308,7 +308,9 @@
 					min_ = Math.min;
 
 				if (type === "select") {
+					// only brush frame/lanes are selectable
 					if (offset.y === 0 || offset.y > max.y-1) return false;
+					// show cursor elemeent
 					cEl.removeClass("hidden")
 						.css({
 							"--cT": offset.y,
