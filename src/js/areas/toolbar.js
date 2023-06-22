@@ -23,6 +23,9 @@
 			btnForward: window.find(`.toolbar-tool_[data-click="end-frame"]`),
 		};
 
+		// subscribe to internal events
+		karaqu.on("file-parsed", this.dispatch);
+
 		// bind event handler
 		this.els.display.on("mousedown", ".fps", this.doDisplayFPS);
 	},
@@ -34,6 +37,12 @@
 			el;
 		// console.log(event);
 		switch (event.type) {
+			// subscribed events
+			case "file-parsed":
+				// auto-select canvas tool
+				Self.els.btnMove.trigger("click");
+				break;
+			// custom events
 			case "set-display":
 				if (event.index !== undefined) Self.els.frameCurrent.html(event.index+1);
 				if (event.total !== undefined) Self.els.framesTotal.html(event.total);
