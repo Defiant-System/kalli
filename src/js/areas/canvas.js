@@ -62,6 +62,10 @@
 				Self.view.left = File.oX;
 				break;
 			case "select-tool":
+				// event trigger by shortcut - update toolbar
+				if (!event.el) {
+					APP.toolbar.dispatch({ type: "activate-tool", arg: event.arg });
+				}
 				// ui/ux tool
 				Self.tool = event.arg;
 				Self.els.area.data({ tool: event.arg });
@@ -116,13 +120,15 @@
 				event.preventDefault();
 
 				let el = $(event.target);
-				switch (true) {
-					// pan canvas
-					case el.hasClass("design"): return Self.pan(event);
-					// resize brush
-					case el.hasClass("brush") && event.shiftKey: return Self.resize(event);
-					// move brush; handled in this function
-					default:
+
+				switch (Self.tool) {
+					case "move":
+						if (el.hasClass("design")) return Self.pan(event);
+						// else fall through
+						break;
+					case "resize": return Self.resize(event);
+					case "zoom-in":
+					case "zoom-out": break;
 				}
 
 				let Proj = Projector,
