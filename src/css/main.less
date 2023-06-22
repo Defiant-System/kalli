@@ -716,6 +716,7 @@ content {
 								width: 1px;
 								overflow: visible;
 								z-index: 19;
+								pointer-events: none;
 								background: #f90;
 
 								span {
@@ -727,6 +728,7 @@ content {
 									background: lighten(@boxFace, 7%);
 									border: 1px solid rgba(0,0,0,.25);
 									cursor: ew-resize;
+									pointer-events: all;
 
 									&:before {
 										content: "";

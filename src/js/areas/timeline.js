@@ -10,6 +10,7 @@
 			cursor: window.find(".row-timeline .right .cursor"),
 			frameCount: window.find(".row-timeline .frame-count ul"),
 			leftBody: window.find(".row-timeline .left .tbl-body"),
+			rightHead: window.find(".row-timeline .right .tbl-head"),
 			rightBody: window.find(".row-timeline .right .tbl-body"),
 			rScrTrack: window.find(".row-timeline .bg-scrollbar.right .scroll-track"),
 			rScrBar: window.find(".row-timeline .bg-scrollbar.right .scroll-bar"),
@@ -19,7 +20,7 @@
 		
 		// bind event handlers
 		this.els.rightBody.on("mousedown", this.doFrames);
-		this.els.playhead.on("mousedown", this.doHead);
+		this.els.rightHead.on("mousedown", this.doHead);
 
 		// subscribe to internal events
 		karaqu.on("file-parsed", this.dispatch);
@@ -307,14 +308,6 @@
 			case "move-play-head":
 				Self.els.timeline.css({ "--cL": event.index });
 				break;
-			case "go-to-frame-index":
-				rW = parseInt(Self.els.timeline.cssProp("--frW"), 10);
-				offset = event.offset(".tbl-head");
-				value = parseInt(offset.x / rW, 10);
-				Self.dispatch({ type: "focus-frame", cL: value });
-				// update projector
-				Proj.file.render({ frame: value });
-				break;
 			case "toggle-visibility":
 				value = event.el.hasClass("icon-eye-off");
 				event.el.toggleClass("icon-eye-off", value);
@@ -340,7 +333,7 @@
 				break;
 		}
 	},
-	doFrames(head) {
+	doFrames(event) {
 		let APP = kalli,
 			Self = APP.timeline,
 			Drag = Self.drag;
@@ -372,12 +365,13 @@
 					max_ = Math.max,
 					min_ = Math.min;
 
-				// reset previously selected frames, if any
-				// Self.dispatch({ type: "merge-frames" });
-
 				if (type === "select") {
 					// only brush frame/lanes are selectable
 					if (offset.y === 0 || offset.y > max.y-1) return false;
+
+					// reset previously selected frames, if any
+					Self.dispatch({ type: "merge-frames" });
+					
 					// show cursor elemeent
 					cEl.removeClass("hidden")
 						.css({
@@ -462,7 +456,7 @@
 				break;
 		}
 	},
-	doHead(head) {
+	doHead(event) {
 		let APP = kalli,
 			Self = APP.timeline,
 			Drag = Self.drag;
@@ -471,49 +465,53 @@
 			case "mousedown":
 				// prevent default behaviour
 				event.preventDefault();
+
 				// prepare drag object
-				let el = Self.els.playhead,
+				let target = $(event.target),
+					el = Self.els.playhead,
 					Proj = Projector,
 					file = Proj.file;
+
+				if (target.hasClass("frame-count")) {
+					let rW = parseInt(Self.els.timeline.cssProp("--frW"), 10),
+						value = parseInt(event.offsetX / rW, 10);
+					// update cursor left
+					Self.els.timeline.css({ "--cL": value });
+				}
+
 				// drag object
 				Self.drag = {
 					el,
 					file,
 					clickX: +el.prop("offsetLeft") - event.clientX,
 					frW: parseInt(Self.els.timeline.cssProp("--frW"), 10),
-					min: { x: 0 },
-					max: {
-						x: +el.parent().prop("offsetWidth") - +el.prop("offsetWidth"),
-						// w: Proj.aW - Proj.file.width,
-						// h: Proj.aH - Proj.file.height,
+					limit: {
+						low: 0,
+						high: +el.parent().prop("offsetWidth") - +el.prop("offsetWidth"),
 					},
 					_max: Math.max,
 					_min: Math.min,
 					_floor: Math.floor,
 				};
-
+				
 				// prevent mouse from triggering mouseover
 				APP.els.content.addClass("no-cursor");
 				// bind event handlers
 				APP.els.doc.on("mousemove mouseup", Self.doHead);
 				break;
 			case "mousemove":
-				let left = Drag._min(Drag._max(event.clientX + Drag.clickX, Drag.min.x), Drag.max.x),
+				let left = Drag._min(Drag._max(event.clientX + Drag.clickX, Drag.limit.low), Drag.limit.high),
 					frame = parseInt( left / Self.drag.frW, 10 );
 				// for performance
 				if (Drag.index === frame) return;
 				// save value on drag object
 				Drag.index = frame;
-				// moves navigator view rectangle
-				Drag.el.css({ left: Drag._floor((Drag.index + .5) * Drag.frW) - 1 });
 				// update cursor left
 				Self.els.timeline.css({ "--cL": frame });
 				// update file 
 				Drag.file.render({ frame });
 				break;
 			case "mouseup":
-				// playhead obeys cursor left
-				Drag.el.css({ left: "" });
 				// remove class
 				APP.els.content.removeClass("no-cursor");
 				// unbind event handlers
