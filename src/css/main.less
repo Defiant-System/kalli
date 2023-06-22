@@ -199,12 +199,12 @@ content {
 											inset -1px -1px 0px rgba(0,0,0,.075);
 							}
 
-							&[data-tool="move"] {
+							&[data-tool="move"] .brush {
 								cursor: move;
 							}
 
-							&[data-tool="resize"] {
-								cursor: crosshair;
+							&[data-tool="resize"] .brush {
+								cursor: nwse-resize;
 							}
 
 							&[data-tool="zoom-in"] {
@@ -225,7 +225,7 @@ content {
 								border-radius: 50%;
 								opacity: .65;
 								z-index: 2;
-								cursor: move;
+								// cursor: move;
 							}
 
 							canvas.design {

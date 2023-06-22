@@ -68,9 +68,13 @@
 				// forward event to toolbar
 				return APP.toolbar.dispatch(event);
 			case "toggle-play":
+				APP.toolbar.els.btnPlay.trigger("click");
+				break;
 			case "prev-frame":
+				APP.timeline.dispatch({ type: "window.keystroke", char: "left" });
+				break;
 			case "next-frame":
-				console.log(event);
+				APP.timeline.dispatch({ type: "window.keystroke", char: "right" });
 				break;
 			case "update-zoom-index":
 				ZOOM.map((zoom, index) => {

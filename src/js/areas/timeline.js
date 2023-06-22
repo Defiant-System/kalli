@@ -53,6 +53,9 @@
 						// delete frames, if selected
 						Self.dispatch({ type: "delete-frames" });
 						break;
+					case "space":
+						APP.toolbar.els.btnPlay.trigger("click");
+						break;
 					case "up":
 						data.cT = Math.max(1, data.cT - 1);
 						Self.dispatch({ type: "focus-frame", ...data });

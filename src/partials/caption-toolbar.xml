@@ -7,10 +7,10 @@
 	</Group>
 	<Group class="tools-left">
 		<Options>
-			<Tool symbol="icon-tool-move" click="select-tool" arg="move" state="disabled"/>
-			<Tool symbol="icon-tool-resize" click="select-tool" arg="resize" state="disabled"/>
-			<Tool symbol="icon-zoom-plus" click="select-tool" arg="zoom-in" state="disabled"/>
-			<Tool symbol="icon-zoom-minus" click="select-tool" arg="zoom-out" state="disabled"/>
+			<Tool symbol="icon-tool-move" click="select-tool" arg="move" title="M" state="disabled"/>
+			<Tool symbol="icon-tool-resize" click="select-tool" arg="resize" title="R" state="disabled"/>
+			<Tool symbol="icon-zoom-plus" click="select-tool" arg="zoom-in" title="Z" state="disabled"/>
+			<Tool symbol="icon-zoom-minus" click="select-tool" arg="zoom-out" title="Shift+Z" state="disabled"/>
 		</Options>
 	</Group>
 	<Group class="display">

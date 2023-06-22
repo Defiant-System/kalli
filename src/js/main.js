@@ -49,7 +49,6 @@ const kalli = {
 				break;
 			case "window.keystroke":
 				// forward event
-				Self.canvas.dispatch(event);
 				Self.timeline.dispatch(event);
 				break;
 			case "open.file":
