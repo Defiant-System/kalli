@@ -3,7 +3,7 @@
 	<assets>
 		<img opaque="1" bgColor="#ddd" src="img/karaqu.png"/>
 	</assets>
-	<timeline cursorTop="1" cursorLeft="0">
+	<timeline cursorTop="1" cursorLeft="4">
 		<brush color="#3399ff" name="Brush 1" frames="[0,0,0,0,[35,35,20],0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,[150,50,30],0,0,0,0,0,0,0,0,0,0,0,0,0,0]"/>
 	</timeline>
 </Project>

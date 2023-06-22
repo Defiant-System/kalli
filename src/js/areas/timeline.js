@@ -303,7 +303,7 @@
 				Self.els.leftBody.find(".active").removeClass("active");
 				Self.els.leftBody.find(`.tbl-row:nth(${data.cT})`).addClass("active");
 				// update projector
-				Proj.file.render({ frame: data.cL });
+				Proj.file.render({ frame: +data.cL });
 				break;
 			case "move-play-head":
 				Self.els.timeline.css({ "--cL": event.index });
@@ -371,7 +371,7 @@
 
 					// reset previously selected frames, if any
 					Self.dispatch({ type: "merge-frames" });
-					
+
 					// show cursor elemeent
 					cEl.removeClass("hidden")
 						.css({
@@ -477,6 +477,8 @@
 						value = parseInt(event.offsetX / rW, 10);
 					// update cursor left
 					Self.els.timeline.css({ "--cL": value });
+					// update file 
+					file.render({ frame: value });
 				}
 
 				// drag object

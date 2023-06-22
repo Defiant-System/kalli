@@ -139,7 +139,7 @@ class File {
 
 		// auto select area
 		if (area) APP.work.els.workArea.find(`.foot .button[data-arg="${area}"]`).trigger("click");
-		else this.render({ reset: true, frame: this.cursorLeft });
+		else this.render({ reset: true, frame: +this.cursorLeft });
 
 		// emit event
 		karaqu.emit("file-parsed", { file: this });
@@ -173,7 +173,7 @@ class File {
 			width = this.oW,
 			height = this.oH,
 			isPreview = Proj.view == Proj.preview,
-			frameIndex = isPreview ? opt.frame : opt.frame-1;
+			frameIndex = isPreview ? opt.frame+1 : opt.frame;
 		// reset canvas
 		this.cvs.prop({ width, height });
 
@@ -181,7 +181,7 @@ class File {
 		if (opt.frame !== undefined) this.frameHistory(frameIndex);
 
 		// update toolbar display
-		APP.toolbar.dispatch({ type: "set-display", index: frameIndex });
+		APP.toolbar.dispatch({ type: "set-display", index: opt.frame });
 
 		if (isPreview) {
 			// frames history
@@ -270,7 +270,7 @@ class File {
 
 				if (!event.noRender) {
 					// render file
-					this.render({ frame: this.cursorLeft });
+					this.render({ frame: +this.cursorLeft });
 				}
 				break;
 			case "pan-canvas":
