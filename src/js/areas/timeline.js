@@ -371,6 +371,8 @@
 
 					// reset previously selected frames, if any
 					Self.dispatch({ type: "merge-frames" });
+					// remove "selected" class, if any
+					Self.els.rightBody.find(".selected").removeClass("selected");
 
 					// show cursor elemeent
 					cEl.removeClass("hidden")
@@ -400,7 +402,6 @@
 					if (nextSibling.length) maxLeft = Math.min(maxLeft, parseInt(nextSibling.cssProp("--l"), 10));
 					max.x = maxLeft - parseInt(el.cssProp("--w"), 10);
 				}
-
 				// prepare drag object
 				Self.drag = { el, cEl, type, brushes, src, max, min, click, offset, max_, min_ };
 
@@ -447,8 +448,6 @@
 					// merge frames, if any
 					Self.dispatch({ type: "merge-frames" });
 				}
-				// reset view
-				Drag.el.removeClass("selected");
 				// remove class
 				APP.els.content.removeClass("no-cursor");
 				// unbind event handlers
