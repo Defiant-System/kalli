@@ -119,7 +119,9 @@
 				// prevent default behaviour
 				event.preventDefault();
 
-				let el = $(event.target);
+				let Proj = Projector,
+					File = Proj.file,
+					el = $(event.target);
 
 				switch (Self.tool) {
 					case "move":
@@ -128,12 +130,19 @@
 						break;
 					case "resize": return Self.resize(event);
 					case "zoom-in":
-					case "zoom-out": break;
+					case "zoom-out":
+						let zoomY = event.layerY,
+							zoomX = event.layerX,
+							dir = Self.tool === "zoom-in" ? 1 : -1,
+							val = +APP.navigator.els.zoomSlider.val(),
+							index = Math.min(Math.max(val + dir, 0), ZOOM.length - 1),
+							scale = ZOOM[index].level / 100;
+
+						File.dispatch({ type: "scale-at", zoomY, zoomX, scale });
+						break;
 				}
 
-				let Proj = Projector,
-					File = Proj.file,
-					radius = +el.prop("offsetWidth") / 2,
+				let radius = +el.prop("offsetWidth") / 2,
 					x = +el.prop("offsetLeft"),
 					y = +el.prop("offsetTop"),
 					click = {
