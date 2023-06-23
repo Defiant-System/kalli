@@ -137,9 +137,8 @@
 							val = +APP.navigator.els.zoomSlider.val(),
 							index = Math.min(Math.max(val + dir, 0), ZOOM.length - 1),
 							scale = ZOOM[index].level / 100;
-
-						File.dispatch({ type: "scale-at", zoomY, zoomX, scale });
-						break;
+						// dispatch event
+						return File.dispatch({ type: "scale-at", zoomY, zoomX, scale });
 				}
 
 				let radius = +el.prop("offsetWidth") / 2,
