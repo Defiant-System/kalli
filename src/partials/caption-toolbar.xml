@@ -13,7 +13,7 @@
 			<Tool symbol="icon-zoom-minus" click="select-tool" arg="zoom-out" title="Shift+Z" state="disabled"/>
 		</Options>
 	</Group>
-	<Group class="display">
+	<Group center="1" class="display">
 		<Field>
 			<span class="frameCurrent">0</span>
 			<span class="framesTotal">0</span>

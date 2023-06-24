@@ -2,50 +2,66 @@
 let Test = {
 	init(APP) {
 
+		return;
+
 		// return setTimeout(() => {
 		// 	$(".menubar-group_:nth(0) .menubar-menu_:nth-child(4)").trigger("mousedown");
 		// }, 350);
 
-		return;
+		return setTimeout(() => {
+			APP.canvas.dispatch({ type: "select-tool", arg: "zoom-in" });
+
+			setTimeout(() => {
+				let el = APP.canvas.els.area.find(".brush"),
+					ev = {
+						type: "mousedown",
+						target: el[0],
+						layerY: 300,
+						layerX: 200,
+						preventDefault() {}
+					};
+				APP.canvas.move(ev);
+			}, 200);
+		}, 350);
 
 		return setTimeout(() => {
-				// let cursor = { row: 1, left: 9, width: 26 };
-				// let cursor = { row: 1, left: 9, width: 6 };
-				// let cursor = { row: 1, left: 3, width: 16 };
-				let cursor = { row: 1, left: 3, width: 3 };
-				// let cursor = { row: 1, left: 2, width: 4 };
-				APP.timeline.dispatch({ type: "select-frames", cursor });
+			// let cursor = { row: 1, left: 9, width: 26 };
+			// let cursor = { row: 1, left: 9, width: 6 };
+			// let cursor = { row: 1, left: 3, width: 16 };
+			let cursor = { row: 1, left: 3, width: 3 };
+			// let cursor = { row: 1, left: 2, width: 4 };
+			APP.timeline.dispatch({ type: "select-frames", cursor });
 
 
-				setTimeout(() => APP.timeline.dispatch({ type: "delete-frames" }), 100);
+			setTimeout(() => APP.timeline.dispatch({ type: "delete-frames" }), 100);
 
-			}, 350);
+		}, 350);
 
 
 		return setTimeout(() => {
-				let data;
-				// after
-				data = {
-					src: { y: 1, x: 4, w: 8 },
-					cut: { x: 6, w: 6 },
-				};
+			let data;
+			// after
+			data = {
+				src: { y: 1, x: 4, w: 8 },
+				cut: { x: 6, w: 6 },
+			};
 
-				// before
-				data = {
-					src: { y: 1, x: 4, w: 8 },
-					cut: { x: 4, w: 3 },
-				};
+			// before
+			data = {
+				src: { y: 1, x: 4, w: 8 },
+				cut: { x: 4, w: 3 },
+			};
 
-				// // middle
-				// data = {
-				// 	src: { y: 1, x: 4, w: 8 },
-				// 	cut: { x: 6, w: 3 },
-				// };
+			// // middle
+			// data = {
+			// 	src: { y: 1, x: 4, w: 8 },
+			// 	cut: { x: 6, w: 3 },
+			// };
 
-				APP.timeline.dispatch({ type: "splice-frames", data });
+			APP.timeline.dispatch({ type: "splice-frames", data });
 
-				setTimeout(() => APP.timeline.dispatch({ type: "merge-frames" }), 100);
-			}, 350);
+			setTimeout(() => APP.timeline.dispatch({ type: "merge-frames" }), 100);
+		}, 350);
 
 		// setTimeout(() => window.find(`.toolbar-tool_[data-arg="move"]`).trigger("click"), 350);
 		// setTimeout(() => window.find(`.toolbar-tool_[data-click="play"]`).trigger("click"), 350);
