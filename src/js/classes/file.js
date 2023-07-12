@@ -12,7 +12,7 @@ class File {
 
 		// FPS control for animation
 		let that = this;
-		this.fpsCtrl = new karaqu.FpsControl({
+		this.fpsCtrl = karaqu.FpsControl({
 			el: kalli.toolbar.els.fps, // shows real FPS value
 			fps: 60,
 			callback() {
