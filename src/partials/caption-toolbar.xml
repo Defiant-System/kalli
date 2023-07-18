@@ -1,4 +1,4 @@
-<CaptionToolBar>
+<CaptionToolBar has="display">
 	<Group class="undo-redo">
 		<Options>
 			<Tool symbol="icon-undo" click="undo" state="disabled"/>
