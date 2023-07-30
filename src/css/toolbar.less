@@ -19,18 +19,19 @@
 	height: 29px;
 	margin: 0 17px;
 	border-radius: 4px;
-	background: #90a;
+	background: #470050b5;
 
 	&:after {
 		content: "";
 		position: absolute;
 		top: 1px;
-		bottom: 3px;
+		bottom: 1px;
 		left: 1px;
 		right: 1px;
 		z-index: 2;
 		pointer-events: none;
-		background: linear-gradient(180deg, rgba(230,230,255,.3) 0%, transparent 31%);
+		background: radial-gradient(ellipse at bottom center, rgba(253,204,255,.25), transparent 80%),
+					linear-gradient(180deg, #9650aa 0%, #881e91 43%, #5f0f79 43%, #610e7c 100%);
 		border-radius: 3px;
 	}
 
