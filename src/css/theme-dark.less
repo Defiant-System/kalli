@@ -1,0 +1,100 @@
+
+&[data-theme="dark"] {
+	&.win-body-focused_ {
+		.blank-view {
+			color: #ddd;
+			text-shadow: 0 1px 0 rgba(0,0,0,.125);
+
+			h2 {
+				color: #ddd;
+			}
+
+			> div {
+				> h3 {
+					color: #ddd;
+				}
+			}
+
+			.block-recent,
+			.block-samples {
+				color: #bbb;
+
+				.sample {
+					&:after {
+						filter: hue-rotate(135deg) brightness(1.5) drop-shadow(0 1px 0 rgba(0,0,0,.5));
+					}
+				}
+			}
+		}
+
+		content {
+			&.page-view {
+				> .file {
+					.page {
+						outline-color: var( --grid-l1 );
+					}
+				}
+			}
+		}
+
+		.rulerw {
+			opacity: 1;
+		}
+	}
+
+	.blank-view {
+		background: transparent;
+		color: #999;
+		text-shadow: 0 0 0;
+
+		h2 {
+			color: #aaa;
+		}
+
+		> div {
+			> h3 {
+				color: #aaa;
+			}
+		}
+
+		.block-buttons {
+			.btn {
+				background: rgba(0,0,0,.25);
+				box-shadow: inset 0 1px 0 rgba(0,0,0,.075),
+							0 0 0 2px rgba(255,255,255,.35);
+
+				&:hover:not(.disabled_) {
+					box-shadow: 0 0 0 3px #489bf770,
+								0 0 0 2px #489bf7;
+				}
+				
+				i {
+					left: -1px;
+					opacity: .35;
+					filter: invert(1) brightness(2);
+				}
+			}
+		}
+
+		.block-recent,
+		.block-samples {
+			color: #888;
+
+			.recent-file,
+			.sample {
+				background-color: rgba(255,255,255,.15);
+
+				&:hover {
+					span {
+						color: #eee;
+					}
+				}
+
+				&:before {
+					// background-color: rgba(0,0,0,.25);
+					box-shadow: inset 0 1px 0 rgba(0,0,0,.075);
+				}
+			}
+		}
+	}
+}

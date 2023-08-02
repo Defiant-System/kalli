@@ -3,8 +3,15 @@
 @boxLayer: #454545;
 @boxFace: #636363;
 
-background: @boxBg;
+// removes ugly trace of border-radius for light theme
+&:not([data-theme="dark"]) { background: transparent; }
+// show overflowing popups
 overflow: visible;
+
+
+// for dark theme
+@import "theme-dark";
+
 
 
 content {
@@ -62,6 +69,8 @@ content {
 	}
 
 	&.show-canvas {
+		background: @boxBg;
+
 		.workarea .row-work .column-canvas {
 			.head,
 			.body {
