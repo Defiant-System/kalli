@@ -8,6 +8,7 @@
 			background: conic-gradient(#fff, #ccc, #eee, #aaa, #ccc, #aaa, #ccc, #eee, #aaa, #fff);
 			border-radius: 6px;
 			border: 2px solid #aaa;
+			border-color: #ddd #aaa #999 #aaa;
 		}
 		.st2{fill:none;stroke:#000;stroke-width:.5;}
 		.st3{fill:#111;}
