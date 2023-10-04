@@ -14,7 +14,7 @@
 		</Options>
 	</Group>
 	<Group class="display">
-		<Field>
+		<Field class="blank-display">
 			<span class="frameCurrent">0</span>
 			<span class="framesTotal">0</span>
 			<span class="fps" data-real="0">0</span>

@@ -80,9 +80,11 @@
 				APP.timeline.dispatch({ type: "focus-frame", ...data });
 				break;
 			case "enable-toolbar":
+				Self.els.display.find(".toolbar-field_").removeClass("blank-display");
 				Object.keys(Self.els).map(key => Self.els[key].removeClass("tool-disabled_"));
 				break;
 			case "disable-toolbar":
+				Self.els.display.find(".toolbar-field_").addClass("blank-display");
 				Object.keys(Self.els).map(key => Self.els[key].addClass("tool-disabled_"));
 				break;
 			case "activate-tool":
