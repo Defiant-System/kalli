@@ -142,7 +142,7 @@ class File {
 		else this.render({ reset: true, frame: +this.cursorLeft });
 
 		// emit event
-		karaqu.emit("file-parsed", { file: this });
+		window.emit("file-parsed", { file: this });
 	}
 
 	frameHistory(index) {

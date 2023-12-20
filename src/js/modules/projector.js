@@ -164,7 +164,7 @@ const Projector = {
 			let events = ["projector-update"];
 			if (opt.emit) events.push(opt.emit);
 			// emit event
-			events.map(type => karaqu.emit(type));
+			events.map(type => window.emit(type));
 		}
 	}
 };

@@ -24,8 +24,8 @@
 		this.els.zoomSlider.on("input", this.dispatch);
 
 		// subscribe to events
-		karaqu.on("file-parsed", this.dispatch);
-		karaqu.on("projector-update", this.dispatch);
+		window.on("file-parsed", this.dispatch);
+		window.on("projector-update", this.dispatch);
 	},
 	dispatch(event) {
 		let APP = kalli,

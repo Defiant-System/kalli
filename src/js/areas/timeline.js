@@ -23,7 +23,7 @@
 		this.els.rightHead.on("mousedown", this.doHead);
 
 		// subscribe to internal events
-		karaqu.on("file-parsed", this.dispatch);
+		window.on("file-parsed", this.dispatch);
 	},
 	dispatch(event) {
 		let APP = kalli,

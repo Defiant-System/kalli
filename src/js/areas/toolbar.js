@@ -24,7 +24,7 @@
 		};
 
 		// subscribe to internal events
-		karaqu.on("file-parsed", this.dispatch);
+		window.on("file-parsed", this.dispatch);
 
 		// bind event handler
 		this.els.display.on("mousedown", ".fps", this.doDisplayFPS);
