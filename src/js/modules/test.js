@@ -4,8 +4,11 @@ let Test = {
 
 		// return;
 
+		return setTimeout(() => {
+			APP.timeline.els.rightBody.scrollLeft(300);
+			// APP.timeline.dispatch({ type: "update-scrollbars" });
+		}, 500);
 		return setTimeout(() => APP.toolbar.els.btnResize.trigger("click"), 500);
-
 		return setTimeout(() => Projector.file.toBlob(), 500);
 
 		// return setTimeout(() => window.find(".tbl-row:nth(0) .row-color").trigger("click"), 500);
