@@ -219,7 +219,17 @@ class File {
 	}
 
 	toBlob() {
-		console.log(this.brushes);
+		let brushes = this.brushes.map(b => `<brush color="#ff9900" name="Brush" frames="${b.frames}"/>`),
+			str = `<Project>
+						<assets>
+							<img opaque="0" bgColor="#2ddbec" src="img/hello.png"/>
+						</assets>
+						<timeline>
+							${brushes.join("")}
+						</timeline>
+					</Project>`,
+			xDoc = $.xmlFromString(str);
+		console.log(xDoc.xml);
 	}
 
 	dispatch(event) {
