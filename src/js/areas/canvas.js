@@ -172,8 +172,8 @@
 				break;
 			case "mouseup":
 				let f = Drag.file.brushes[0].frames[Drag.file.frameIndex];
-				f[0] = (Drag.left - Drag.file.oX) / Drag.file.scale; // left
-				f[1] = (Drag.top - Drag.file.oY) / Drag.file.scale; // top
+				f[0] = +((Drag.left - Drag.file.oX) / Drag.file.scale).toFixed(1); // left
+				f[1] = +((Drag.top - Drag.file.oY) / Drag.file.scale).toFixed(1); // top
 
 				// remove class
 				APP.els.content.removeClass("no-cursor");
@@ -231,7 +231,7 @@
 				break;
 			case "mouseup":
 				let f = Drag.file.brushes[0].frames[Drag.file.frameIndex];
-				f[2] = Drag.radius / Drag.file.scale;
+				f[2] = +(Drag.radius / Drag.file.scale).toFixed(1);
 
 				// remove class
 				APP.els.content.removeClass("no-cursor");
