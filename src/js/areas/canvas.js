@@ -190,12 +190,14 @@
 		switch (event.type) {
 			// native events
 			case "mousedown":
+				let el = $(event.target);
+				if (!el.hasClass("brush")) return;
+
 				// prevent default behaviour
 				event.preventDefault();
 
 				let Proj = Projector,
 					File = Proj.file,
-					el = $(event.target),
 					x = +el.prop("offsetLeft"),
 					y = +el.prop("offsetTop"),
 					w = +el.prop("offsetWidth"),

@@ -29,6 +29,7 @@
 		let APP = kalli,
 			Self = APP.timeline,
 			Proj = Projector,
+			File = Proj.file,
 			brushes,
 			offset,
 			data,
@@ -48,6 +49,9 @@
 				};
 				// moves cursor
 				switch (event.char) {
+					case "a": // add frame to active row / brush
+						File.dispatch({ type: "add-frame", row: 0, col: File.frameIndex + 1 });
+						break;
 					case "del":
 					case "backspace":
 						// delete frames, if selected
@@ -99,48 +103,8 @@
 				});
 				// add html string
 				Self.els.leftBody.html(str.join(""));
-
-				str = [];
-				data = Self.dispatch({ type: "get-animation-dims" });
-				str.push(`<div class="tbl-row parent-row">`);
-				str.push(`<span class="frames" style="--l: ${data.minL}; --w: ${data.maxW};"></span>`);
-				str.push(`</div>`);
-				// iterate brushes
-				brushes.map((b, y) => {
-					str.push(`<div class="tbl-row">`);
-					let fl = b.frames.length-1,
-						l = false,
-						w = false;
-					// iterate frames
-					b.frames.map((f, x) => {
-						if (f && l === false) l = x;
-						if ((!f && l !== false && w === false) || x === fl) w = x - l;
-						if (l !== false && w !== false) {
-							str.push(`<span class="frames" style="--l: ${l}; --w: ${w}; --color: ${b.color};"></span>`);
-							l = false;
-							w = false;
-						}
-					});
-					str.push(`</div>`);
-				});
-				// update full width detail
-				Self.els.timeline.css({ "--full": data.fullW });
-				// update file frame total
-				event.detail.file.frameTotal = data.fullW;
-				// add html string
-				Self.els.rightBody.find(".tbl-row").remove();
-				Self.els.rightBody.append(str.join(""));
-				// frame counters
-				str = [...Array(parseInt(data.fullW / 10, 10))].map(a => `<li></li>`);
-				Self.els.frameCount.append(str.join(""));
-				// auto focus on frame "1,0", if not specified in file
-				data = {
-					cT: event.detail.file.cursorTop || 1,
-					cL: event.detail.file.cursorLeft || 0,
-				};
-				Self.dispatch({ type: "focus-frame", ...data });
-				// calculate scrollbars
-				Self.dispatch({ type: "update-scrollbars" });
+				// render brush row contents
+				Self.dispatch({ type: "render-brush-rows" });
 				break;
 			case "window.resize":
 			case "update-scrollbars":
@@ -292,6 +256,53 @@
 				data = Self.dispatch({ type: "get-animation-dims" });
 				el = Self.els.timeline.find(".right .tbl-row.parent-row .frames");
 				el.css({ "--l": data.minL, "--w": data.maxW });
+				break;
+			case "render-brush-rows":
+				str = [];
+				// plot frames on timeline
+				brushes = File.brushes;
+				data = Self.dispatch({ type: "get-animation-dims" });
+				str.push(`<div class="tbl-row parent-row">`);
+				str.push(`<span class="frames" style="--l: ${data.minL}; --w: ${data.maxW};"></span>`);
+				str.push(`</div>`);
+				// iterate brushes
+				brushes.map((b, y) => {
+					str.push(`<div class="tbl-row">`);
+					let fl = b.frames.length-1,
+						l = false,
+						w = false;
+					// iterate frames
+					b.frames.map((f, x) => {
+						if (f && l === false) l = x;
+						if ((!f && l !== false && w === false) || x === fl) w = x - l;
+						if (l !== false && w !== false) {
+							str.push(`<span class="frames" style="--l: ${l}; --w: ${w}; --color: ${b.color};"></span>`);
+							l = false;
+							w = false;
+						}
+					});
+					str.push(`</div>`);
+				});
+				// update full width detail
+				Self.els.timeline.css({ "--full": data.fullW });
+				// update file frame total
+				File.frameTotal = data.fullW;
+				// add html string
+				Self.els.rightBody.find(".tbl-row").remove();
+				Self.els.rightBody.append(str.join(""));
+				// frame counters
+				str = [...Array(parseInt(data.fullW / 10, 10))].map(a => `<li></li>`);
+				Self.els.frameCount.append(str.join(""));
+				// auto focus on frame "1,0", if not specified in file
+				data = {
+					cT: File.cursorTop || 1,
+					cL: File.cursorLeft || 0,
+				};
+				Self.dispatch({ type: "focus-frame", ...data });
+				// calculate scrollbars
+				Self.dispatch({ type: "update-scrollbars" });
+				// move timeline cursor, if "frame index" is passed
+				if (event.index) Self.els.timeline.css({ "--cL": event.index });
 				break;
 			case "focus-frame":
 				data = {

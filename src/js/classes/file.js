@@ -91,8 +91,8 @@ class File {
 
 		// set default frame index
 		let xNode = this._file.data.selectSingleNode(`//Project/timeline`);
-		this.cursorTop = xNode.getAttribute("cursorTop") || 1;
-		this.cursorLeft = xNode.getAttribute("cursorLeft") || 0;
+		this.cursorTop = +xNode.getAttribute("cursorTop") || 1;
+		this.cursorLeft = +xNode.getAttribute("cursorLeft") || 0;
 
 		// set file FPS
 		this.fps = xNode.getAttribute("fps") || this.fpsCtrl.fps;
@@ -235,6 +235,7 @@ class File {
 	dispatch(event) {
 		let APP = kalli,
 			Proj = Projector,
+			curr, prev, next,
 			oX, oY,
 			el;
 		//console.log(event);
@@ -305,6 +306,18 @@ class File {
 				APP.navigator.dispatch({ type: "pan-view-rect", x: this.oX, y: this.oY });
 				// update "edit bubble"
 				APP.canvas.dispatch({ type: "edit-frame-index", index: this.frameIndex });
+				break;
+			case "add-frame":
+				curr = this.brushes[event.row].frames[this.frameIndex];
+				this.brushes[event.row].frames[event.col] = [...curr];
+
+				this.frameIndex = event.col;
+				this.cursorLeft = event.col;
+				// // render file
+				// this.render({ frame: +this.cursorLeft });
+
+				// refresh brush frames in timeline
+				APP.timeline.dispatch({ type: "render-brush-rows", index: this.frameIndex });
 				break;
 		}
 	}
