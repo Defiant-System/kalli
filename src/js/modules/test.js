@@ -1,10 +1,12 @@
 
 let Test = {
 	init(APP) {
+
 		// return;
 
-		return setTimeout(() =>
-			Projector.file.toBlob(), 500);
+		return setTimeout(() => APP.toolbar.els.btnResize.trigger("click"), 500);
+
+		return setTimeout(() => Projector.file.toBlob(), 500);
 
 		// return setTimeout(() => window.find(".tbl-row:nth(0) .row-color").trigger("click"), 500);
 

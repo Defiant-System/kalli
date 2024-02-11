@@ -48,9 +48,22 @@ const kalli = {
 				Self.timeline.dispatch(event);
 				break;
 			case "window.keystroke":
-				// forward event
-				Self.timeline.dispatch(event);
+				switch (event.char) {
+					case "m": // move
+						Self.toolbar.els.btnMove.trigger("click");
+						break;
+					case "r": // resize
+						Self.toolbar.els.btnResize.trigger("click");
+						break;
+					case "z": // zoom
+						Self.toolbar.els.btnZoomIn.trigger("click");
+						break;
+					default:
+						// forward event
+						Self.timeline.dispatch(event);
+				}
 				break;
+
 			case "open.file":
 				// Files.open(event.path);
 				event.open({ responseType: "xml" })

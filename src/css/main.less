@@ -234,10 +234,10 @@ content {
 
 							div.brush {
 								position: absolute;
-								top: var( --top );
-								left: var( --left );
-								width: var( --radius );
-								height: var( --radius );
+								top: calc( var( --top ) - var( --radius ) );
+								left: calc( var( --left ) - var( --radius ) );
+								width: calc( var( --radius ) * 2 );
+								height: calc( var( --radius ) * 2 );
 								background: var( --bg );
 								border-radius: 50%;
 								opacity: .65;

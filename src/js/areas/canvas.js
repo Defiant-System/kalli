@@ -100,7 +100,7 @@
 						r *= File.scale.toFixed(2);
 						y = ((y * File.scale) + File.oY).toFixed(2);
 						x = ((x * File.scale) + File.oX).toFixed(2);
-						str.push(`<div class="brush" style="--bg: ${brush.color}; --top: ${y-r}px; --left: ${x-r}px; --radius: ${r*2}px;"></div>`);
+						str.push(`<div class="brush" style="--bg: ${brush.color}; --top: ${y}px; --left: ${x}px; --radius: ${r}px;"></div>`);
 					}
 				});
 				// add new brushes
@@ -162,8 +162,8 @@
 				Proj.doc.on("mousemove mouseup", Self.move);
 				break;
 			case "mousemove":
-				let top = event.clientY - Drag.click.y,
-					left = event.clientX - Drag.click.x;
+				let top = event.clientY - Drag.click.y + Drag.radius,
+					left = event.clientX - Drag.click.x + Drag.radius;
 				// move dragged object
 				Drag.el.css({ "--top": `${top}px`, "--left": `${left}px` });
 				// save values for "mouseup"
@@ -172,8 +172,8 @@
 				break;
 			case "mouseup":
 				let f = Drag.file.brushes[0].frames[Drag.file.frameIndex];
-				f[0] = (Drag.left + Drag.radius - Drag.file.oX) / Drag.file.scale; // left
-				f[1] = (Drag.top + Drag.radius - Drag.file.oY) / Drag.file.scale; // top
+				f[0] = (Drag.left - Drag.file.oX) / Drag.file.scale; // left
+				f[1] = (Drag.top - Drag.file.oY) / Drag.file.scale; // top
 
 				// remove class
 				APP.els.content.removeClass("no-cursor");
@@ -219,18 +219,18 @@
 				break;
 			case "mousemove":
 				let diff = event.clientY - Drag.click.y,
-					hd = diff >> 1,
-					top = Drag.offset.y + hd,
-					left = Drag.offset.x + hd,
-					radius = Drag.offset.h - diff;
+					radius = (Drag.offset.h - diff) * .5;
 				// resize object
 				Drag.el.css({
-					"--top": `${top}px`,
-					"--left": `${left}px`,
 					"--radius": `${radius}px`,
 				});
+				// save values for "mouseup"
+				Drag.radius = radius;
 				break;
 			case "mouseup":
+				let f = Drag.file.brushes[0].frames[Drag.file.frameIndex];
+				f[2] = Drag.radius / Drag.file.scale;
+
 				// remove class
 				APP.els.content.removeClass("no-cursor");
 				// unbind event handlers
