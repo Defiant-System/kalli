@@ -218,6 +218,10 @@ class File {
 		Proj.render();
 	}
 
+	toBlob() {
+		console.log(this.brushes);
+	}
+
 	dispatch(event) {
 		let APP = kalli,
 			Proj = Projector,

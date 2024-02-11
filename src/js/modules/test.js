@@ -1,8 +1,12 @@
 
 let Test = {
 	init(APP) {
+		// return;
 
-		return;
+		return setTimeout(() =>
+			Projector.file.toBlob(), 500);
+
+		// return setTimeout(() => window.find(".tbl-row:nth(0) .row-color").trigger("click"), 500);
 
 		// return setTimeout(() => {
 		// 	$(".menubar-group_:nth(0) .menubar-menu_:nth-child(4)").trigger("mousedown");
@@ -72,7 +76,6 @@ let Test = {
 		// return setTimeout(() => APP.els.content.find(".icon-eye-on:nth(0)").trigger("click"), 350);
 
 		// return setTimeout(() => APP.els.content.find(".icon-maxi").trigger("click"), 350);
-		// return setTimeout(() => window.find(".tbl-row:nth(0) .row-color").trigger("click"), 350);
 
 
 		// return setTimeout(() => {

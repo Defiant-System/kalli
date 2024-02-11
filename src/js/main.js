@@ -69,6 +69,10 @@ const kalli = {
 				// enable toolbars
 				Self.toolbar.dispatch({ type: "disable-toolbar" });
 				break;
+			case "save-file":
+			case "save-file-as":
+				Projector.file.toBlob();
+				break;
 			case "show-blank-view":
 				// show blank view
 				Self.els.content.addClass("show-blank-view");

@@ -43,7 +43,7 @@
 	open(fsFile) {
 		// create file
 		let file = new File(fsFile);
-
+		
 		// Projector.reset(file);
 	},
 	openLocal(url) {
