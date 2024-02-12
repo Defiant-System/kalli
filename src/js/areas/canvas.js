@@ -153,6 +153,7 @@
 					el,
 					proj: Proj,
 					file: File,
+					brushIndex: File.cursorTop - 1,
 					click,
 					radius,
 				};
@@ -171,7 +172,7 @@
 				Drag.left = left;
 				break;
 			case "mouseup":
-				let f = Drag.file.brushes[0].frames[Drag.file.frameIndex];
+				let f = Drag.file.brushes[Drag.brushIndex].frames[Drag.file.frameIndex];
 				f[0] = +((Drag.left - Drag.file.oX) / Drag.file.scale).toFixed(1); // left
 				f[1] = +((Drag.top - Drag.file.oY) / Drag.file.scale).toFixed(1); // top
 
@@ -211,6 +212,7 @@
 					el,
 					proj: Proj,
 					file: File,
+					brushIndex: File.cursorTop - 1,
 					click,
 					offset,
 				};
@@ -230,7 +232,7 @@
 				Drag.radius = radius;
 				break;
 			case "mouseup":
-				let f = Drag.file.brushes[0].frames[Drag.file.frameIndex];
+				let f = Drag.file.brushes[Drag.brushIndex].frames[Drag.file.frameIndex];
 				f[2] = +(Drag.radius / Drag.file.scale).toFixed(1);
 
 				// remove class
