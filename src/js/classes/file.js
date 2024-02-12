@@ -178,10 +178,7 @@ class File {
 		this.cvs.prop({ width, height });
 
 		// set value of frame index, if any
-		if (opt.frame) {
-			this.cursorLeft =
-			this.frameIndex = opt.frame;
-		}
+		if (opt.frame) this.cursorLeft = opt.frame;
 
 		// render frames history
 		if (opt.frame !== undefined) this.frameHistory(frameIndex);
