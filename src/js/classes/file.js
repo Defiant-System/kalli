@@ -224,8 +224,9 @@ class File {
 	toBlob() {
 		let brushes = this.brushes.map(b => `<brush color="#ff9900" name="Brush" frames="${JSON.stringify(b.frames)}"/>`),
 			str = `<Project>
+						<work area="canvas" top="${this.oY}" left="${this.oX}" scale="${this.scale}"/>
 						<assets>
-							<img opaque="0" bgColor="#2ddbec" src="img/hello.png"/>
+							<img opaque="0" bgColor="#2ddbec" src="img/karaqu.png"/>
 						</assets>
 						<timeline>
 							${brushes.join("")}
