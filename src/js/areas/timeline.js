@@ -37,6 +37,7 @@
 			value,
 			rW, rH,
 			x, y, l, w,
+			row, col,
 			str,
 			clone,
 			el;
@@ -50,7 +51,9 @@
 				// moves cursor
 				switch (event.char) {
 					case "a": // add frame to active row / brush
-						File.dispatch({ type: "add-frame", row: 0, col: File.frameIndex + 1 });
+						row = Self.els.leftBody.find(".tbl-row.active").index() - 1;
+						col = File.frameIndex + 1;
+						File.dispatch({ type: "add-frame", row, col });
 						break;
 					case "del":
 					case "backspace":
@@ -331,6 +334,15 @@
 				} else {
 					Proj.file.opaque = value;
 				}
+				break;
+			case "select-brush":
+				row = $(event.target).parents("?.tbl-row");
+				if (!row.hasClass("brush-row")) return;
+
+				Self.els.leftBody.find(".active").removeClass("active");
+				row.addClass("active");
+
+
 				break;
 			case "delete-row":
 				el = event.el.parent();
