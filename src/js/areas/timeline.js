@@ -318,7 +318,7 @@
 				// update timeline area
 				Self.els.timeline.css({ "--cT": data.cT, "--cL": data.cL });
 				Self.els.leftBody.find(".active").removeClass("active");
-				Self.els.leftBody.find(`.tbl-row:nth(${data.cT})`).addClass("active");
+				Self.els.leftBody.find(`.tbl-row:nth(${data.cT})`).addClass("active").scrollIntoView();
 				// update projector
 				Proj.file.render({ frame: +data.cL });
 				break;
