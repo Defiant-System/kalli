@@ -5,9 +5,10 @@ let Test = {
 		// return;
 
 		return setTimeout(() => {
-			APP.timeline.els.rightBody.scrollLeft(300);
-			// APP.timeline.dispatch({ type: "update-scrollbars" });
-		}, 500);
+			APP.timeline.els.timeline.find(`[data-scroll-hId="listh2"]`).scrollTo(381, 0);
+			APP.timeline.els.timeline.css({ "--sLeft": 379 });
+			APP.timeline.els.bScrBar.css({ left: 260 });
+		}, 800);
 		return setTimeout(() => APP.toolbar.els.btnResize.trigger("click"), 500);
 		return setTimeout(() => Projector.file.toBlob(), 500);
 

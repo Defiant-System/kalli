@@ -487,7 +487,8 @@
 
 				if (target.hasClass("frame-count")) {
 					let rW = parseInt(Self.els.timeline.cssProp("--frW"), 10),
-						value = parseInt(event.offsetX / rW, 10);
+						sL = parseInt(Self.els.timeline.cssProp("--sLeft"), 10),
+						value = parseInt((event.offsetX + sL) / rW, 10);
 					// update cursor left
 					Self.els.timeline.css({ "--cL": value });
 					// update file 
@@ -500,6 +501,7 @@
 					file,
 					clickX: +el.prop("offsetLeft") - event.clientX,
 					frW: parseInt(Self.els.timeline.cssProp("--frW"), 10),
+					sL: parseInt(Self.els.timeline.cssProp("--sLeft"), 10),
 					limit: {
 						low: 0,
 						high: +el.parent().prop("offsetWidth") - +el.prop("offsetWidth"),
@@ -516,7 +518,7 @@
 				break;
 			case "mousemove":
 				let left = Drag._min(Drag._max(event.clientX + Drag.clickX, Drag.limit.low), Drag.limit.high),
-					frame = parseInt( left / Self.drag.frW, 10 );
+					frame = parseInt((left + Drag.sL) / Drag.frW, 10);
 				// for performance
 				if (Drag.index === frame) return;
 				// save value on drag object
