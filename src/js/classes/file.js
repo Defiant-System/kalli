@@ -228,7 +228,7 @@ class File {
 						<assets>
 							<img opaque="0" bgColor="#2ddbec" src="img/karaqu.png"/>
 						</assets>
-						<timeline>
+						<timeline cursorTop="${this.cursorTop}" cursorLeft="${this.cursorLeft}">
 							${brushes.join("")}
 						</timeline>
 					</Project>`,
