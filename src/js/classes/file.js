@@ -226,7 +226,7 @@ class File {
 			str = `<Project>
 						<work area="canvas" top="${this.oY}" left="${this.oX}" scale="${this.scale}"/>
 						<assets>
-							<img opaque="0" bgColor="#2ddbec" src="img/karaqu.png"/>
+							<img opaque="${this.xImg.getAttribute("opaque")}" bgColor="${this.xImg.getAttribute("bgColor")}" src="${this.xImg.getAttribute("src")}"/>
 						</assets>
 						<timeline cursorTop="${this.cursorTop}" cursorLeft="${this.cursorLeft}">
 							${brushes.join("")}
