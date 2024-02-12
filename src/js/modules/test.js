@@ -2,13 +2,18 @@
 let Test = {
 	init(APP) {
 
-		// return;
+		return;
 
 		return setTimeout(() => {
 			APP.timeline.els.timeline.find(`[data-scroll-hId="listh2"]`).scrollTo(381, 0);
 			APP.timeline.els.timeline.css({ "--sLeft": 379 });
 			APP.timeline.els.bScrBar.css({ left: 260 });
+
+			let frame = 41;
+			APP.timeline.els.timeline.css({ "--cL": frame });
+			Projector.file.render({ frame });
 		}, 800);
+		
 		return setTimeout(() => APP.toolbar.els.btnResize.trigger("click"), 500);
 		return setTimeout(() => Projector.file.toBlob(), 500);
 
